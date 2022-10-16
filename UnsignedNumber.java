@@ -39,7 +39,8 @@ public class UnsignedNumber {
      * @param value Value to set.
      */
     public void set(int value){
-        this.value = value & this.amountToAnd;
+        this.value = value;
+        this.rollOver();
     }
 
     /**
@@ -47,8 +48,7 @@ public class UnsignedNumber {
      */
     public void increment(){
         this.value ++;
-
-        this.value = this.value & this.amountToAnd;
+        this.rollOver();
     }
 
     /**
@@ -56,7 +56,31 @@ public class UnsignedNumber {
      */
     public void decrement(){
         this.value --;
+        this.rollOver();
+    }
 
+    /**
+     * Add a number to the number. Will roll over depending on the number of bits initialized in the class.
+     * @param numberToAdd Number to add.
+     */
+    public void add(int numberToAdd){
+        this.value += numberToAdd;
+        this.rollOver();
+    }
+
+    /**
+     * Subtract a number. Will roll over depending on the number of bits initialized in the class.
+     * @param numberToSubtract
+     */
+    public void subtract(int numberToSubtract){
+        this.value -= numberToSubtract;
+        this.rollOver();
+    }
+
+    /**
+     * Rolls the number over when needed.
+     */
+    private void rollOver(){
         this.value = this.value & this.amountToAnd;
     }
 }
