@@ -2,7 +2,6 @@
  * Class that handles all the memory related things.<br>
  * Memory in entire address range.<br>
  * The three registers.<br>
- * Stack (which is within the memory).<br>
  * <table border="1">
  * <tr>
  *     <td> address range </td> <td> what is there</td>
@@ -31,12 +30,8 @@ public class Memory {
     private byte registerY;
 
     // counters
-    private short programCounter;
-    private byte stackPointer;
+    private UnsignedNumber programCounter;
 
-    // address of stack
-    private final short bottomStack = 0x0100;
-    private final short topStack = 0x01ff;
 
     /**
      * Initialize the Memory.
@@ -61,15 +56,12 @@ public class Memory {
 
         // program counter always starts at address 0xfffc
         // that's where it gets the address to the start of the program.
-        this.programCounter = (byte) 0xfffc;
+        this.programCounter = new UnsignedNumber(16,0xfffc);
 
         this.registerA = 0;
         this.registerX = 0;
         this.registerY = 0;
 
-        // initiate the stackpointer to a "random" number. That's what the real one did too. This is to force
-        // the programmer to actually set the stackpointer.
-        this.stackPointer = (byte) 0x69;
     }
 
     /**
@@ -77,76 +69,25 @@ public class Memory {
      * @param address Address to get.
      * @return Value of byte at that address.
      */
-    public byte getByteAtAddress(short address){
+    public byte getByteAtAddress(int address){
         return this.memory[address];
     }
 
     /**
-     * Set the byte at an address to a certain value. Has safety in it to ignore the stack range.
+     * Set the byte at an address to a certain value.
      * @param address Address to set.
      * @param value Value to set.
      */
-    public void setByteAtAddress(short address, byte value){
-        if(address < this.topStack && address > this.bottomStack){
-            return;
-        }
+    public void setByteAtAddress(int address, byte value){
         this.memory[address] = value;
-    }
-
-    /**
-     * Get the byte at a certain address in the stack.
-     * @param address Address within the stack to get.
-     * @return Value of byte at that address.
-     */
-    public byte getStackByteAtAddress(byte address){
-        return this.memory[this.bottomStack + address];
-    }
-
-    /**
-     * Set the byte in the stack at an address to a certain value.
-     * @param address address within stack to set.
-     * @param value Value to set to.
-     */
-    public void setStackByteAtAddress(byte address, byte value){
-        this.memory[this.bottomStack + address] = value;
-    }
-
-    /**
-     * Get the value of the stack pointer
-     * @return Value of the stack pointer.
-     */
-    public byte getStackPointer() {
-        return stackPointer;
-    }
-
-    /**
-     * Set the value of the stack pointer.
-     * @param value Value to set the stack pointer to.
-     */
-    public void setStackPointer(byte value){
-        this.stackPointer = value;
-    }
-
-    /**
-     * Increment the stack pointer by one.
-     */
-    public void incrementStackPointer(){
-        this.stackPointer ++;
-    }
-
-    /**
-     * Decrements the stack pointer by one.
-     */
-    public void decrementStackPointer(){
-        this.stackPointer --;
     }
 
     /**
      * Get the value of the program counter.
      * @return Value of the program counter.
      */
-    public short getProgramCounter(){
-        return this.programCounter;
+    public int getProgramCounter(){
+        return this.programCounter.get();
     }
 
     /**
@@ -154,7 +95,7 @@ public class Memory {
      * @param value value to set the program counter to.
      */
     public void setProgramCounter(short value){
-        this.programCounter = value;
+        this.programCounter.set(value);
     }
 
     /**
@@ -162,14 +103,14 @@ public class Memory {
      * @param amount amount to increment the program counter to.
      */
     public void incrementProgramCounter(int amount){
-        this.programCounter += amount;
+        this.programCounter.add(amount);
     }
 
     /**
      * Increments the program counter by one.
      */
     public void incrementProgramCounter(){
-        this.programCounter ++;
+        this.programCounter.increment();
     }
 
     /**
