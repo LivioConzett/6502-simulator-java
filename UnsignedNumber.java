@@ -30,7 +30,7 @@ public class UnsignedNumber {
      * Returns the value of the number.
      * @return The value of the number.
      */
-    public int getValue(){
+    public int get(){
         return this.value;
     }
 
@@ -38,7 +38,7 @@ public class UnsignedNumber {
      * Sets the value of the number. Will roll over depending on the number of bits initialized in the class.
      * @param value Value to set.
      */
-    public void setValue(int value){
+    public void set(int value){
         this.value = value & this.amountToAnd;
     }
 
