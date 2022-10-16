@@ -66,3 +66,74 @@ class FlagTests {
 
     }
 }
+
+class MemoryTest{
+
+    @Test
+    public void programCounterTest(){
+
+        Memory mem = new Memory();
+
+        assertEquals(0xfffc, mem.getProgramCounter());
+
+        mem.setProgramCounter((short)0x0);
+
+        assertEquals(0,mem.getProgramCounter());
+
+        mem.incrementProgramCounter(1);
+
+        assertEquals(1,mem.getProgramCounter());
+
+        mem.incrementProgramCounter(29);
+
+        assertEquals(30, mem.getProgramCounter());
+
+
+    }
+}
+
+class UnsignedNumberTest{
+
+    @Test
+    public void unsignedNumber(){
+
+        UnsignedNumber num = new UnsignedNumber(8);
+
+        assertEquals(0, num.get());
+
+        num.set(30);
+
+        assertEquals(30,num.get());
+
+        num.increment();
+
+        assertEquals(31, num.get());
+
+        num.decrement();
+
+        assertEquals(30,num.get());
+
+        num.add(34);
+
+        assertEquals(64,num.get());
+
+        num.subtract(11);
+
+        assertEquals(53,num.get());
+
+        num.set(0xfd);
+        num.add(4);
+
+        assertEquals(1,num.get());
+
+        num.set(0xff69);
+
+        assertEquals(0x69, num.get());
+
+        num.set(2);
+        num.subtract(3);
+
+        assertEquals(255,num.get());
+
+    }
+}

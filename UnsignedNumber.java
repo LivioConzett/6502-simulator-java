@@ -15,7 +15,7 @@ public class UnsignedNumber {
      */
     public UnsignedNumber(double numberOfBits, int value){
         this.value = value;
-        this.amountToAnd = (int) Math.pow(2.0,numberOfBits);
+        this.amountToAnd = (int) Math.pow(2.0,numberOfBits)-1;
     }
 
     /**
