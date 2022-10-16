@@ -2,6 +2,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
 
+class TestUtils{
+
+    public static int unsignByte(byte num){
+        int number = num;
+        return number & 0xff;
+    }
+
+}
+
 class FlagTests {
     @Test
     public void flagTests() {
@@ -76,7 +85,7 @@ class MemoryTest{
 
         assertEquals(0xfffc, mem.getProgramCounter());
 
-        mem.setProgramCounter((short)0x0);
+        mem.setProgramCounter(0x0);
 
         assertEquals(0,mem.getProgramCounter());
 
@@ -88,6 +97,14 @@ class MemoryTest{
 
         assertEquals(30, mem.getProgramCounter());
 
+        mem.setByteAtAddress(0x8484, (byte)0xd0);
+        mem.setByteAtAddress(0x8485, (byte)0x69);
+        mem.setProgramCounter(0x8484);
+
+        assertEquals(0xd0,TestUtils.unsignByte(mem.getCurrentByte()));
+
+        mem.incrementProgramCounter();
+        assertEquals(0x69,TestUtils.unsignByte(mem.getCurrentByte()));
 
     }
 }
@@ -135,5 +152,32 @@ class UnsignedNumberTest{
 
         assertEquals(255,num.get());
 
+    }
+}
+
+class StackTest{
+
+    @Test
+    public void stack(){
+        Memory mem = new Memory();
+
+        Stack stack = new Stack(new Memory());
+        UnsignedNumber test = new UnsignedNumber(8,0xff);
+
+        stack.setStackPointer(0xff);
+
+        stack.push((byte) 0xff);
+
+        assertEquals(0xfe,stack.getStackPointer());
+        assertEquals(0xff, TestUtils.unsignByte(stack.get(test)));
+
+        stack.push((byte) 0x1);
+        test.decrement();
+
+        assertEquals(0xfd,stack.getStackPointer());
+        assertEquals(0x1, stack.get(test));
+
+        assertEquals(0x1,stack.pull());
+        assertEquals(0xfe, stack.getStackPointer());
     }
 }

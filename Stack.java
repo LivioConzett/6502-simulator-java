@@ -48,10 +48,10 @@ public class Stack {
     }
 
     /**
-     * Set the value of the stack pointer.
+     * Set the value of the stack pointer. Despite taking an int, it works as an unsigned byte.
      * @param value Value to set the stack pointer to.
      */
-    public void setStackPointer(byte value){
+    public void setStackPointer(int value){
         this.stackPointer.set(value);
     }
 
@@ -80,12 +80,9 @@ public class Stack {
 
     /**
      * Increment the stackpointer, then pull the value from the stack.
-     * @param value Value to push to stack.
      */
-    public byte pull(byte value){
+    public byte pull(){
         this.incrementStackPointer();
         return this.get(this.stackPointer);
     }
-
-
 }

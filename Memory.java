@@ -74,6 +74,14 @@ public class Memory {
     }
 
     /**
+     * Get the byte at the current position of the program counter.
+     * @return Byte at address of program counter.
+     */
+    public byte getCurrentByte(){
+        return this.memory[this.programCounter.get()];
+    }
+
+    /**
      * Set the byte at an address to a certain value.
      * @param address Address to set.
      * @param value Value to set.
@@ -94,7 +102,7 @@ public class Memory {
      * Set the value of the program counter.
      * @param value value to set the program counter to.
      */
-    public void setProgramCounter(short value){
+    public void setProgramCounter(int value){
         this.programCounter.set(value);
     }
 
@@ -110,7 +118,7 @@ public class Memory {
      * Increments the program counter by one.
      */
     public void incrementProgramCounter(){
-        this.programCounter.increment();
+        this.incrementProgramCounter(1);
     }
 
     /**
