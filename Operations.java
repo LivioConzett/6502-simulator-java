@@ -61,6 +61,43 @@ public class Operations {
         return this.memory.getByteAtAddress(addr);
     }
 
+    /**
+     * Absolute Index addressing mode.<br>
+     * The two following bytes from the program counter hold the low and high byte of an address respectively.
+     * Add a value to that address and then gets the byte at that address.<br>
+     * @param addValue Value to add to the address.
+     * @return Byte at that address.
+     */
+    public byte addr_AbsoluteIndex(byte addValue){
+        this.memory.incrementProgramCounter();
+        byte low = this.memory.getCurrentByte();
+        this.memory.incrementProgramCounter();
+        byte high = this.memory.getCurrentByte();
+        short addr = Util.bytesToAddress(low,high);
+        addr = (short) (addr + Util.unsignByte(addValue));
+        return this.memory.getByteAtAddress(addr);
+    }
+
+    /**
+     * Absolute Index X addressing mode.<br>
+     * The two following bytes from the program counter hold the low and high byte of an address respectively.
+     * Add value of X register to that address and then gets the byte at that address.<br>
+     * @return Byte at that address.
+     */
+    public byte addr_AbsoluteIndex_X(){
+        return this.addr_AbsoluteIndex(this.memory.getRegisterX());
+    }
+
+    /**
+     * Absolute Index Y addressing mode.<br>
+     * The two following bytes from the program counter hold the low and high byte of an address respectively.
+     * Add value of Y register to that address and then gets the byte at that address.<br>
+     * @return Byte at that address.
+     */
+    public byte addr_AbsoluteIndex_Y(){
+        return this.addr_AbsoluteIndex(this.memory.getRegisterY());
+    }
+
 
 
     /**
