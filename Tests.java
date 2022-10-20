@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
 class UtilTests{
 
     @Test
@@ -15,6 +13,25 @@ class UtilTests{
 
         testByte = (byte) 255;
         Assertions.assertEquals(0xff, Util.unsignByte(testByte));
+    }
+
+    @Test
+    public void byteToAddressTest(){
+
+        byte low = 0x34;
+        byte high = 0x12;
+
+        Assertions.assertEquals(0x1234, Util.bytesToAddress(low,high));
+
+        low = (byte) 0xff;
+        high = (byte) 0xff;
+
+        Assertions.assertEquals(0xffff, Util.unsignShort(Util.bytesToAddress(low,high)));
+
+        low = (byte) 0x69;
+        high = (byte) 0x32;
+
+        Assertions.assertEquals(0x3269, Util.unsignShort(Util.bytesToAddress(low,high)));
     }
 }
 
