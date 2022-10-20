@@ -1,4 +1,6 @@
+import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class UtilTests{
@@ -157,4 +159,33 @@ class StackTest{
         Assertions.assertEquals(0x1, stack.pull());
         Assertions.assertEquals(0xfe, stack.getStackPointer());
     }
+}
+
+class AddressingModeTest{
+
+    private Memory memory;
+    private Flags flags;
+    private Stack stack;
+    private Operations op;
+    @BeforeEach
+    public void init(){
+        this.memory = new Memory();
+        this.flags = new Flags();
+        this.stack = new Stack(this.memory);
+        this.op = new Operations(this.memory,this.stack,this.flags);
+    }
+
+    @Test
+    public void immediateTest(){
+        this.memory.setProgramCounter((short) 0x01);
+        this.memory.setByteAtAddress((short) 0x02, (byte) 0x69);
+
+        Assertions.assertEquals((byte)0x69,this.op.addr_Immediate());
+        Assertions.assertEquals((short)0x02,this.memory.getProgramCounter());
+
+        this.memory.setByteAtAddress((short) 0x03, (byte) 0xff);
+        Assertions.assertEquals((byte)0xff,this.op.addr_Immediate());
+        Assertions.assertEquals((short)0x03,this.memory.getProgramCounter());
+    }
+
 }

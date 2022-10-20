@@ -23,8 +23,20 @@ public class Operations {
         this.flags = flags;
     }
 
-    // TODO: Addressiing methodes.
-    // TODO: Util function for unsigned byte. Get rid of the unsigned number class
+    // TODO: Addressing methods.
+
+    /**
+     * Immediate addressing mode.<br>
+     * Increments the program counter and returns the byte at that place.
+     * @return byte to work with
+     */
+    public byte addr_Immediate(){
+        this.memory.incrementProgramCounter();
+        return this.memory.getCurrentByte();
+    }
+
+
+
     /**
      * Add to accumulator with carry.
      */
