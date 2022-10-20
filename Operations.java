@@ -49,6 +49,18 @@ public class Operations {
         return this.memory.getByteAtAddress(addr);
     }
 
+    /**
+     * Zero Page addressing mode.<br>
+     * Increment the program counter. The byte at that position is the address on the Zero Page to get the byte from.
+     * @return Byte on the Zero Page.
+     */
+    public byte addr_ZeroPage(){
+        this.memory.incrementProgramCounter();
+        byte low = this.memory.getCurrentByte();
+        short addr = Util.bytesToAddress(low,(byte) 0x00);
+        return this.memory.getByteAtAddress(addr);
+    }
+
 
 
     /**

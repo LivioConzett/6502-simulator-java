@@ -33,9 +33,9 @@ public class Util {
      * @return short
      */
     public static short bytesToAddress(byte low, byte high){
-        int address = high;
+        int address = Util.unsignByte(high);
         address = address << 8;
-        address = address | low;
+        address = address | Util.unsignByte(low);
         return (short) address;
     }
 }
