@@ -7,7 +7,7 @@
 public class Stack {
 
     private Memory memory;
-    private UnsignedNumber stackPointer;
+    private byte stackPointer;
 
     // address of stack
     private final int bottomStack = 0x0100;
@@ -17,7 +17,7 @@ public class Stack {
         this.memory = memory;
         // initiate the stackpointer to a "random" number. That's what the real one did too. This is to force
         // the programmer to actually set the stackpointer.
-        this.stackPointer = new UnsignedNumber(8,0x69);
+        this.stackPointer = 0x69;
     }
 
 
@@ -26,8 +26,8 @@ public class Stack {
      * @param address Address within the stack to get.
      * @return Value of byte at that address.
      */
-    public byte get(UnsignedNumber address){
-        return this.memory.getByteAtAddress(this.bottomStack + address.get());
+    public byte get(byte address){
+        return this.memory.getByteAtAddress(this.bottomStack + Util.unsignByte(address));
     }
 
     /**
@@ -35,8 +35,8 @@ public class Stack {
      * @param address address within stack to set.
      * @param value Value to set to.
      */
-    public void set(UnsignedNumber address, byte value){
-        this.memory.setByteAtAddress(this.bottomStack + address.get(), value);
+    public void set(byte address, byte value){
+        this.memory.setByteAtAddress((short) (this.bottomStack + Util.unsignByte(address)), value);
     }
 
     /**
@@ -44,30 +44,28 @@ public class Stack {
      * @return Value of the stack pointer.
      */
     public int getStackPointer() {
-        return stackPointer.get();
+        return Util.unsignByte(this.stackPointer);
     }
 
     /**
      * Set the value of the stack pointer. Despite taking an int, it works as an unsigned byte.
      * @param value Value to set the stack pointer to.
      */
-    public void setStackPointer(int value){
-        this.stackPointer.set(value);
+    public void setStackPointer(byte value){
+        this.stackPointer = value;
     }
 
     /**
      * Increment the stack pointer by one.
      */
     public void incrementStackPointer(){
-        this.stackPointer.increment();
+        this.stackPointer ++;
     }
 
     /**
      * Decrements the stack pointer by one.
      */
-    public void decrementStackPointer(){
-        this.stackPointer.decrement();
-    }
+    public void decrementStackPointer(){ this.stackPointer --; }
 
     /**
      * Push a value onto the stack, then decrements the stackpointer.

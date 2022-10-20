@@ -22,7 +22,7 @@
 public class Memory {
 
     // entire addressable memory space 2^16
-    private byte[] memory;
+    private final byte[] memory;
 
     // registers
     private byte registerA;
@@ -30,7 +30,7 @@ public class Memory {
     private byte registerY;
 
     // counters
-    private UnsignedNumber programCounter;
+    private short programCounter;
 
 
     /**
@@ -42,7 +42,6 @@ public class Memory {
 
         // reset the rest.
         this.hardReset();
-
     }
 
     /**
@@ -56,7 +55,7 @@ public class Memory {
 
         // program counter always starts at address 0xfffc
         // that's where it gets the address to the start of the program.
-        this.programCounter = new UnsignedNumber(16,0xfffc);
+        this.programCounter = (short) 0xfffc;
 
         this.registerA = 0;
         this.registerX = 0;
@@ -78,7 +77,7 @@ public class Memory {
      * @return Byte at address of program counter.
      */
     public byte getCurrentByte(){
-        return this.memory[this.programCounter.get()];
+        return this.memory[Util.unsignShort(this.programCounter)];
     }
 
     /**
@@ -86,24 +85,24 @@ public class Memory {
      * @param address Address to set.
      * @param value Value to set.
      */
-    public void setByteAtAddress(int address, byte value){
-        this.memory[address] = value;
+    public void setByteAtAddress(short address, byte value){
+        this.memory[Util.unsignShort(address)] = value;
     }
 
     /**
      * Get the value of the program counter.
      * @return Value of the program counter.
      */
-    public int getProgramCounter(){
-        return this.programCounter.get();
+    public short getProgramCounter(){
+        return this.programCounter;
     }
 
     /**
      * Set the value of the program counter.
      * @param value value to set the program counter to.
      */
-    public void setProgramCounter(int value){
-        this.programCounter.set(value);
+    public void setProgramCounter(short value){
+        this.programCounter = value;
     }
 
     /**
@@ -111,7 +110,7 @@ public class Memory {
      * @param amount amount to increment the program counter to.
      */
     public void incrementProgramCounter(int amount){
-        this.programCounter.add(amount);
+        this.programCounter += amount;
     }
 
     /**

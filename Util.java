@@ -11,7 +11,15 @@ public class Util {
      * @return int of the unsinged byte
      */
     public static int unsignByte(byte signedByte) {
-        int number = signedByte;
-        return number & 0xff;
+        return (int) signedByte & 0xff;
+    }
+
+    /**
+     * Gets the unsigned value of a byte.
+     * @param signedShort short to unsign;
+     * @return int of the unsigned short
+     */
+    public static int unsignShort(short signedShort) {
+        return (int) signedShort & 0xffff;
     }
 }
