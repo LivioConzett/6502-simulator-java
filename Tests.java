@@ -167,6 +167,7 @@ class AddressingModeTest{
     private Flags flags;
     private Stack stack;
     private Operations op;
+
     @BeforeEach
     public void init(){
         this.memory = new Memory();
@@ -186,6 +187,26 @@ class AddressingModeTest{
         this.memory.setByteAtAddress((short) 0x03, (byte) 0xff);
         Assertions.assertEquals((byte)0xff,this.op.addr_Immediate());
         Assertions.assertEquals((short)0x03,this.memory.getProgramCounter());
+    }
+
+    @Test
+    public void absoluteTest(){
+        this.memory.setProgramCounter((short) 0x1000);
+        this.memory.setByteAtAddress((short) 0x1001, (byte) 0x34);
+        this.memory.setByteAtAddress((short) 0x1002, (byte) 0x12);
+        this.memory.setByteAtAddress((short) 0x1234,(byte) 0xf1);
+
+        Assertions.assertEquals((byte)0xf1,this.op.addr_Absolute());
+        Assertions.assertEquals((short)0x1002,this.memory.getProgramCounter());
+
+        this.memory.setProgramCounter((short) 0xfff0);
+
+        this.memory.setByteAtAddress((short) 0xfff1, (byte) 0x4b);
+        this.memory.setByteAtAddress((short) 0xfff2, (byte) 0xa1);
+        this.memory.setByteAtAddress((short) 0xa14b,(byte) 0x03);
+
+        Assertions.assertEquals((byte)0x03,this.op.addr_Absolute());
+        Assertions.assertEquals((short)0xfff2,this.memory.getProgramCounter());
     }
 
 }

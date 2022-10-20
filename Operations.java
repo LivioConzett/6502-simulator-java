@@ -23,8 +23,6 @@ public class Operations {
         this.flags = flags;
     }
 
-    // TODO: Addressing methods.
-
     /**
      * Immediate addressing mode.<br>
      * Increments the program counter and returns the byte at that place.
@@ -33,6 +31,22 @@ public class Operations {
     public byte addr_Immediate(){
         this.memory.incrementProgramCounter();
         return this.memory.getCurrentByte();
+    }
+
+    /**
+     * Absolute addressing mode.<br>
+     * The two following bytes from the program counter hold the low and high byte of an address respectively.
+     * Gets the byte at that address.<br>
+     * Program counter gets incremented twice.
+     * @return Byte at absolute address.
+     */
+    public byte addr_Absolute(){
+        this.memory.incrementProgramCounter();
+        byte low = this.memory.getCurrentByte();
+        this.memory.incrementProgramCounter();
+        byte high = this.memory.getCurrentByte();
+        short addr = Util.bytesToAddress(low,high);
+        return this.memory.getByteAtAddress(addr);
     }
 
 

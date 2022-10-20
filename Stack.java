@@ -27,7 +27,7 @@ public class Stack {
      * @return Value of byte at that address.
      */
     public byte get(byte address){
-        return this.memory.getByteAtAddress(this.bottomStack + Util.unsignByte(address));
+        return this.memory.getByteAtAddress((short) (this.bottomStack + Util.unsignByte(address)));
     }
 
     /**

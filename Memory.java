@@ -68,8 +68,8 @@ public class Memory {
      * @param address Address to get.
      * @return Value of byte at that address.
      */
-    public byte getByteAtAddress(int address){
-        return this.memory[address];
+    public byte getByteAtAddress(short address){
+        return this.memory[Util.unsignShort(address)];
     }
 
     /**
