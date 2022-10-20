@@ -1,14 +1,21 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
 
-class TestUtils{
+class UtilTests{
 
-    public static int unsignByte(byte num){
-        int number = num;
-        return number & 0xff;
+    @Test
+    public void unsignByteTest(){
+        byte testByte = -1;
+        Assertions.assertEquals(0xff, Util.unsignByte(testByte));
+
+        testByte = (byte) 30;
+        Assertions.assertEquals(30, Util.unsignByte(testByte));
+
+        testByte = (byte) 255;
+        Assertions.assertEquals(0xff, Util.unsignByte(testByte));
     }
-
 }
 
 class FlagTests {
@@ -101,10 +108,10 @@ class MemoryTest{
         mem.setByteAtAddress(0x8485, (byte)0x69);
         mem.setProgramCounter(0x8484);
 
-        assertEquals(0xd0,TestUtils.unsignByte(mem.getCurrentByte()));
+        assertEquals(0xd0,Util.unsignByte(mem.getCurrentByte()));
 
         mem.incrementProgramCounter();
-        assertEquals(0x69,TestUtils.unsignByte(mem.getCurrentByte()));
+        assertEquals(0x69,Util.unsignByte(mem.getCurrentByte()));
 
     }
 }
@@ -169,7 +176,7 @@ class StackTest{
         stack.push((byte) 0xff);
 
         assertEquals(0xfe,stack.getStackPointer());
-        assertEquals(0xff, TestUtils.unsignByte(stack.get(test)));
+        assertEquals(0xff, Util.unsignByte(stack.get(test)));
 
         stack.push((byte) 0x1);
         test.decrement();
