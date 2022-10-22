@@ -176,4 +176,17 @@ public class AddressingMode {
         return this.memory.getByteAtAddress(addr);
     }
 
+    /**
+     * Relative Addressing mode.<br>
+     * Increments the program counter and gets the byte at that position. That byte is the distance to jump
+     * from the program counter (positive or negative). Returns the new address.
+     * @return address.
+     */
+    public short relative(){
+        this.memory.incrementProgramCounter();
+        byte dif = this.memory.getCurrentByte();
+        System.out.println("d:"+dif);
+        return (short)(this.memory.getProgramCounter() + dif);
+    }
+
 }

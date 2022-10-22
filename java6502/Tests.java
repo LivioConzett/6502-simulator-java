@@ -380,6 +380,20 @@ class AddressingModeTest{
 
     }
 
+    @Test
+    public void relativAddressingTest(){
 
+        this.memory.setProgramCounter((short)0x0f3e);
+        this.memory.setByteAtAddress((short)0x0f3f,(byte)0x2e);
 
+        Assertions.assertEquals((short)0xf6d,this.addr.relative());
+        Assertions.assertEquals((short)0x0f3f,this.memory.getProgramCounter());
+
+        this.memory.setProgramCounter((short)0x0fff);
+        this.memory.setByteAtAddress((short)0x1000,(byte)-36);
+
+        Assertions.assertEquals((short)0xfdc,this.addr.relative());
+        Assertions.assertEquals((short)0x1000,this.memory.getProgramCounter());
+
+    }
 }
