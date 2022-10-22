@@ -6,12 +6,12 @@
 
 public class Stack {
 
-    private Memory memory;
+    private final Memory memory;
     private byte stackPointer;
 
     // address of stack
-    private final int bottomStack = 0x0100;
-    private final int topStack = 0x01ff;
+    private final static int bottomStack = 0x0100;
+    private final static int topStack = 0x01ff;
 
     public Stack(Memory memory){
         this.memory = memory;
@@ -27,7 +27,7 @@ public class Stack {
      * @return Value of byte at that address.
      */
     public byte get(byte address){
-        return this.memory.getByteAtAddress((short) (this.bottomStack + Util.unsignByte(address)));
+        return this.memory.getByteAtAddress((short) (bottomStack + Util.unsignByte(address)));
     }
 
     /**
@@ -36,7 +36,7 @@ public class Stack {
      * @param value Value to set to.
      */
     public void set(byte address, byte value){
-        this.memory.setByteAtAddress((short) (this.bottomStack + Util.unsignByte(address)), value);
+        this.memory.setByteAtAddress((short) (bottomStack + Util.unsignByte(address)), value);
     }
 
     /**
