@@ -41,7 +41,26 @@ public class Util {
         return (short) address;
     }
 
-    public static String toHex(){
-        return "";
+    /**
+     * Turns a bcd encoded byte into a "normal" byte.
+     * @param bcdNumber bcd encoded byte.
+     * @return "normalized" byte.
+     */
+    public static byte bcdToDec(byte bcdNumber){
+        int low = bcdNumber & 0xf;
+        int high = (bcdNumber & 0xf0)>>4;
+        return (byte) ((high * 10) + low);
+    }
+
+    /**
+     * Turn a "normal" number into a bcd encoded number.
+     * @param number "normal" number.
+     * @return bcd encuded number
+     */
+    public static byte decToBcd(byte number){
+        int high = number / 10;
+        int low = number - (high * 10);
+        byte result = (byte)(high << 4);
+        return (byte)(result | low);
     }
 }

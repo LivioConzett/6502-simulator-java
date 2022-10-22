@@ -7,7 +7,7 @@ package java6502;
  * @author Livio Conzett
  * @version 16.10.2022
  */
-public class Operations {
+public class InstructionSet {
 
     private final Memory memory;
     private final Stack stack;
@@ -19,7 +19,7 @@ public class Operations {
      * @param stack Stack object.
      * @param flags Flags object.
      */
-    public Operations(Memory memory, Stack stack, Flags flags){
+    public InstructionSet(Memory memory, Stack stack, Flags flags){
         this.memory = memory;
         this.stack = stack;
         this.flags = flags;

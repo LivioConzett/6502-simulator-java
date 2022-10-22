@@ -36,6 +36,19 @@ class UtilTests{
 
         Assertions.assertEquals(0x3269, Util.unsignShort(Util.bytesToAddress(low,high)));
     }
+
+    @Test
+    public void bcdTest(){
+
+        Assertions.assertEquals((byte)99,Util.bcdToDec((byte)0b10011001));
+        Assertions.assertEquals((byte)10,Util.bcdToDec((byte)0b00010000));
+        Assertions.assertEquals((byte)69,Util.bcdToDec((byte)0b01101001));
+
+        Assertions.assertEquals((byte)0b00010000,Util.decToBcd((byte)10));
+        Assertions.assertEquals((byte)0b10011001,Util.decToBcd((byte)99));
+        Assertions.assertEquals((byte)0b00100001,Util.decToBcd((byte)21));
+
+    }
 }
 
 class FlagTests {
@@ -394,6 +407,23 @@ class AddressingModeTest{
 
         Assertions.assertEquals((short)0xfdc,this.addr.relative());
         Assertions.assertEquals((short)0x1000,this.memory.getProgramCounter());
-
     }
+}
+
+class InstructionSetTests{
+
+    private Memory memory;
+    private Flags flags;
+    private InstructionSet is;
+    private Stack stack;
+
+    @BeforeEach
+    public void init(){
+        this.memory = new Memory();
+        this.stack = new Stack(this.memory);
+        this.flags = new Flags();
+        this.is = new InstructionSet(memory,stack,flags);
+    }
+
+
 }
