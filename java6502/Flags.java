@@ -16,7 +16,7 @@ package java6502;
  * </pre>
  * @author Livio Conzett
  */
-public class Flags {
+class Flags {
 
     private boolean negative;
     private boolean overFlow;

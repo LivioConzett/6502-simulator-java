@@ -5,7 +5,7 @@ package java6502;
  * @author Livio Conzett
  * @version 22.10.2022
  */
-public class AddressingMode {
+class AddressingMode {
     private final Memory memory;
 
     /**

@@ -7,5 +7,5 @@ package java6502;
  */
 public class Sim6502 {
 
-
+    
 }

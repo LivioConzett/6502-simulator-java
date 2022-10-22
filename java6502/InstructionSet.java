@@ -7,7 +7,7 @@ package java6502;
  * @author Livio Conzett
  * @version 16.10.2022
  */
-public class InstructionSet {
+class InstructionSet {
 
     private final Memory memory;
     private final Stack stack;

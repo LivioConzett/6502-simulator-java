@@ -6,7 +6,7 @@ package java6502;
  * @version 16.10.2022
  */
 
-public class Stack {
+class Stack {
 
     private final Memory memory;
     private byte stackPointer;
