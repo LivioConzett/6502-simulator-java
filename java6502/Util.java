@@ -63,4 +63,14 @@ public class Util {
         byte result = (byte)(high << 4);
         return (byte)(result | low);
     }
+
+    /**
+     * Tests if two bytes are like signed. i.e. if both numbers are negative or positive.
+     * @param one first number for comparison.
+     * @param two second number for comparison
+     * @return true if likely signed false if not
+     */
+    public static boolean areLikeSigned(byte one, byte two){
+        return (one >> 7) == (two >> 7);
+    }
 }

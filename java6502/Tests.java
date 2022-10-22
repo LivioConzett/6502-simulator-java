@@ -47,6 +47,16 @@ class UtilTests{
         Assertions.assertEquals((byte)0b00010000,Util.decToBcd((byte)10));
         Assertions.assertEquals((byte)0b10011001,Util.decToBcd((byte)99));
         Assertions.assertEquals((byte)0b00100001,Util.decToBcd((byte)21));
+    }
+
+    @Test
+    public void likeSignedTest(){
+
+        Assertions.assertTrue(Util.areLikeSigned((byte)0b10011001,(byte)0b10000000));
+        Assertions.assertTrue(Util.areLikeSigned((byte)0b00011001,(byte)0b00100000));
+
+        Assertions.assertFalse(Util.areLikeSigned((byte)0b10011001,(byte)0b0010000));
+        Assertions.assertFalse(Util.areLikeSigned((byte)0b01011001,(byte)0b10000000));
 
     }
 }

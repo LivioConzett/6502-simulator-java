@@ -25,11 +25,14 @@ public class InstructionSet {
         this.flags = flags;
     }
 
-
     /**
      * Add to accumulator with carry.
      */
     public void ADC(byte number){
+        // clear the overflow bit
+        this.flags.setOverFlow(false);
+
+
         int sum = memory.getRegisterA() + number;
         this.flags.setZero(sum == 0);
 
