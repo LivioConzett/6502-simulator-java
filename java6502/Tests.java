@@ -326,5 +326,33 @@ class AddressingModeTest{
     }
 
 
+    @Test
+    public void indexedIndirectTest(){
+
+        this.memory.setProgramCounter((short)0x1234);
+        this.memory.setRegisterX((byte)0x09);
+
+        this.memory.setByteAtAddress((short)0x1235,(byte)0x05);
+        this.memory.setByteAtAddress((short)0x000e,(byte)0x45);
+        this.memory.setByteAtAddress((short)0x000f,(byte)0xff);
+        this.memory.setByteAtAddress((short)0xff45,(byte)0x69);
+
+        Assertions.assertEquals((byte)0x69,this.addr.indexedIndirect());
+        Assertions.assertEquals((short)0x1235,this.memory.getProgramCounter());
+
+        this.memory.setProgramCounter((short)0x4feb);
+        this.memory.setRegisterX((byte)0xf0);
+
+        this.memory.setByteAtAddress((short)0x4fec,(byte)0x15);
+        this.memory.setByteAtAddress((short)0x0005,(byte)0x30);
+        this.memory.setByteAtAddress((short)0x0006,(byte)0x08);
+        this.memory.setByteAtAddress((short)0x0830,(byte)0x7);
+
+        Assertions.assertEquals((byte)0x7,this.addr.indexedIndirect());
+        Assertions.assertEquals((short)0x4fec,this.memory.getProgramCounter());
+
+    }
+
+
 
 }

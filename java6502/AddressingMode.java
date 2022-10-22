@@ -145,4 +145,18 @@ public class AddressingMode {
         return this.zeroPageIndex(this.memory.getRegisterY());
     }
 
+    /**
+     * Indexed Indirect Addressing.<br>
+     * The following byte from the programcounter plus the x register is the zero page address of the low byte
+     * of an absolut address. The byte after that is the high byte. This returns the byte at that Absolute address.
+     * @return
+     */
+    public byte indexedIndirect(){
+        this.memory.incrementProgramCounter();
+        byte low = this.memory.getByteAtAddress((short)(this.memory.getCurrentByte() + this.memory.getRegisterX()));
+        byte high = this.memory.getByteAtAddress((short)(this.memory.getCurrentByte() + this.memory.getRegisterX() + 1));
+        short addr = Util.bytesToAddress(low,high);
+        return this.memory.getByteAtAddress(addr);
+    }
+
 }

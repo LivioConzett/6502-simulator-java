@@ -40,4 +40,8 @@ public class Util {
         address = address | Util.unsignByte(low);
         return (short) address;
     }
+
+    public static String toHex(){
+        return "";
+    }
 }
