@@ -20,7 +20,7 @@ public class AddressingMode {
      * Increments the program counter and returns the byte at that place.
      * @return byte to work with
      */
-    public byte addr_Immediate(){
+    public byte immediate(){
         this.memory.incrementProgramCounter();
         return this.memory.getCurrentByte();
     }
@@ -32,7 +32,7 @@ public class AddressingMode {
      * Program counter gets incremented twice.
      * @return Byte at absolute address.
      */
-    public byte addr_Absolute(){
+    public byte absolute(){
         this.memory.incrementProgramCounter();
         byte low = this.memory.getCurrentByte();
         this.memory.incrementProgramCounter();
@@ -46,7 +46,7 @@ public class AddressingMode {
      * Increment the program counter. The byte at that position is the address on the Zero Page to get the byte from.
      * @return Byte on the Zero Page.
      */
-    public byte addr_ZeroPage(){
+    public byte zeroPage(){
         this.memory.incrementProgramCounter();
         byte low = this.memory.getCurrentByte();
         short addr = Util.bytesToAddress(low,(byte) 0x00);
@@ -60,7 +60,7 @@ public class AddressingMode {
      * consecutive address.
      * @return address
      */
-    public short addr_IndirectAbsolute(){
+    public short indirectAbsolute(){
         this.memory.incrementProgramCounter();
         byte low = this.memory.getCurrentByte();
         this.memory.incrementProgramCounter();
@@ -78,7 +78,7 @@ public class AddressingMode {
      * @param addValue Value to add to the address.
      * @return Byte at that address.
      */
-    public byte addr_AbsoluteIndex(byte addValue){
+    public byte absoluteIndex(byte addValue){
         this.memory.incrementProgramCounter();
         byte low = this.memory.getCurrentByte();
         this.memory.incrementProgramCounter();
@@ -94,8 +94,8 @@ public class AddressingMode {
      * Add value of X register to that address and then gets the byte at that address.<br>
      * @return Byte at that address.
      */
-    public byte addr_AbsoluteIndex_X(){
-        return this.addr_AbsoluteIndex(this.memory.getRegisterX());
+    public byte absoluteIndex_X(){
+        return this.absoluteIndex(this.memory.getRegisterX());
     }
 
     /**
@@ -104,8 +104,8 @@ public class AddressingMode {
      * Add value of Y register to that address and then gets the byte at that address.<br>
      * @return Byte at that address.
      */
-    public byte addr_AbsoluteIndex_Y(){
-        return this.addr_AbsoluteIndex(this.memory.getRegisterY());
+    public byte absoluteIndex_Y(){
+        return this.absoluteIndex(this.memory.getRegisterY());
     }
 
 
