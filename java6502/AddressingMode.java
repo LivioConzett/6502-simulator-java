@@ -147,15 +147,32 @@ public class AddressingMode {
 
     /**
      * Indexed Indirect Addressing.<br>
-     * The following byte from the programcounter plus the x register is the zero page address of the low byte
+     * The following byte from the program counter plus the x register is the zero page address of the low byte
      * of an absolut address. The byte after that is the high byte. This returns the byte at that Absolute address.
-     * @return
+     * @return byte at the address.
      */
     public byte indexedIndirect(){
         this.memory.incrementProgramCounter();
-        byte low = this.memory.getByteAtAddress((short)(this.memory.getCurrentByte() + this.memory.getRegisterX()));
-        byte high = this.memory.getByteAtAddress((short)(this.memory.getCurrentByte() + this.memory.getRegisterX() + 1));
+        byte base = this.memory.getCurrentByte();
+        byte basePlus = (byte) (base + Util.unsignByte(this.memory.getRegisterX()));
+        byte low = this.memory.getByteAtAddress(basePlus);
+        byte high = this.memory.getByteAtAddress((short)(basePlus + 1));
         short addr = Util.bytesToAddress(low,high);
+        return this.memory.getByteAtAddress(addr);
+    }
+
+    /**
+     * Indirect Indexed Addressing.<br>
+     * The following byte from the program counter is the zero page address of the low byte
+     * of an absolut address. The byte after that is the high byte. This returns the byte at that Absolute address.
+     * Then it adds the byte in the y register to the Absolute address and returns the byte at the addresses place.
+     * @return byte at the address.
+     */
+    public byte indirectIndexed(){
+        this.memory.incrementProgramCounter();
+        byte low = this.memory.getByteAtAddress(this.memory.getCurrentByte());
+        byte high = this.memory.getByteAtAddress((short)(this.memory.getCurrentByte() + 1));
+        short addr = (short)((Util.bytesToAddress(low,high) + Util.unsignByte(this.memory.getRegisterY())));
         return this.memory.getByteAtAddress(addr);
     }
 
