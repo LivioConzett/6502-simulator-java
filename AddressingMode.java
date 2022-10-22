@@ -108,7 +108,39 @@ public class AddressingMode {
         return this.absoluteIndex(this.memory.getRegisterY());
     }
 
+    /**
+     * Zero Page Index addressing mode.<br>
+     * The following byte from the program counter holds the address on the Zero Page Memory.
+     * Add a value to that address and then gets the byte at that address.<br>
+     * @param addValue Value to add to the address.
+     * @return Byte at that address.
+     */
+    public byte zeroPageIndex(byte addValue){
+        this.memory.incrementProgramCounter();
+        byte low = this.memory.getCurrentByte();
+        short addr = Util.bytesToAddress(low,(byte)0x00);
+        addr = (short) (addr + Util.unsignByte(addValue));
+        return this.memory.getByteAtAddress(addr);
+    }
 
+    /**
+     * Zero Page Index X addressing mode.<br>
+     * The following byte from the program counter holds an address in the Zero Page Memory.
+     * Add value of X register to that address and then gets the byte at that address.<br>
+     * @return Byte at that address.
+     */
+    public byte zeroPageIndex_X(){
+        return this.zeroPageIndex(this.memory.getRegisterX());
+    }
 
+    /**
+     * Zero Page Index Y addressing mode.<br>
+     * The following byte from the program counter holds an address in the Zero Page Memory.
+     * Add value of Y register to that address and then gets the byte at that address.<br>
+     * @return Byte at that address.
+     */
+    public byte zeroPageIndex_Y(){
+        return this.zeroPageIndex(this.memory.getRegisterY());
+    }
 
 }
