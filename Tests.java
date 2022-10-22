@@ -1,4 +1,3 @@
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -177,11 +176,11 @@ class AddressingModeTest{
         this.memory.setProgramCounter((short) 0x01);
         this.memory.setByteAtAddress((short) 0x02, (byte) 0x69);
 
-        Assertions.assertEquals((byte)0x69,this.addr.addr_Immediate());
+        Assertions.assertEquals((byte)0x69,this.addr.immediate());
         Assertions.assertEquals((short)0x02,this.memory.getProgramCounter());
 
         this.memory.setByteAtAddress((short) 0x03, (byte) 0xff);
-        Assertions.assertEquals((byte)0xff,this.addr.addr_Immediate());
+        Assertions.assertEquals((byte)0xff,this.addr.immediate());
         Assertions.assertEquals((short)0x03,this.memory.getProgramCounter());
     }
 
@@ -192,7 +191,7 @@ class AddressingModeTest{
         this.memory.setByteAtAddress((short) 0x1002, (byte) 0x12);
         this.memory.setByteAtAddress((short) 0x1234,(byte) 0xf1);
 
-        Assertions.assertEquals((byte)0xf1,this.addr.addr_Absolute());
+        Assertions.assertEquals((byte)0xf1,this.addr.absolute());
         Assertions.assertEquals((short)0x1002,this.memory.getProgramCounter());
 
         this.memory.setProgramCounter((short) 0xfff0);
@@ -201,7 +200,7 @@ class AddressingModeTest{
         this.memory.setByteAtAddress((short) 0xfff2, (byte) 0xa1);
         this.memory.setByteAtAddress((short) 0xa14b,(byte) 0x03);
 
-        Assertions.assertEquals((byte)0x03,this.addr.addr_Absolute());
+        Assertions.assertEquals((byte)0x03,this.addr.absolute());
         Assertions.assertEquals((short)0xfff2,this.memory.getProgramCounter());
     }
 
@@ -211,21 +210,21 @@ class AddressingModeTest{
         this.memory.setByteAtAddress((short) 0x0021, (byte) 0x1f);
         this.memory.setByteAtAddress((short) 0x001f,(byte) 0xff);
 
-        Assertions.assertEquals((byte)0xff,this.addr.addr_ZeroPage());
+        Assertions.assertEquals((byte)0xff,this.addr.zeroPage());
         Assertions.assertEquals((short)0x0021,this.memory.getProgramCounter());
 
         this.memory.setProgramCounter((short) 0x00ff);
         this.memory.setByteAtAddress((short) 0x0100, (byte) 0xab);
         this.memory.setByteAtAddress((short) 0x00ab, (byte) 0xcd);
 
-        Assertions.assertEquals((byte)0xcd,this.addr.addr_ZeroPage());
+        Assertions.assertEquals((byte)0xcd,this.addr.zeroPage());
         Assertions.assertEquals((short)0x0100,this.memory.getProgramCounter());
 
         this.memory.setProgramCounter((short) 0x0fff);
         this.memory.setByteAtAddress((short) 0x1000, (byte) 0x30);
         this.memory.setByteAtAddress((short) 0x0030,(byte) 0xfe);
 
-        Assertions.assertEquals((byte)0xfe,this.addr.addr_ZeroPage());
+        Assertions.assertEquals((byte)0xfe,this.addr.zeroPage());
         Assertions.assertEquals((short)0x1000,this.memory.getProgramCounter());
     }
 
@@ -236,7 +235,7 @@ class AddressingModeTest{
         this.memory.setByteAtAddress((short) 0x1002, (byte) 0x12);
         this.memory.setByteAtAddress((short) 0x1237,(byte) 0xf1);
 
-        Assertions.assertEquals((byte)0xf1,this.addr.addr_AbsoluteIndex((byte)0x03));
+        Assertions.assertEquals((byte)0xf1,this.addr.absoluteIndex((byte)0x03));
         Assertions.assertEquals((short)0x1002,this.memory.getProgramCounter());
 
         this.memory.setProgramCounter((short) 0xfff0);
@@ -244,7 +243,7 @@ class AddressingModeTest{
         this.memory.setByteAtAddress((short) 0xfff2, (byte) 0xa1);
         this.memory.setByteAtAddress((short) 0xa24a,(byte) 0x03);
 
-        Assertions.assertEquals((byte)0x03,this.addr.addr_AbsoluteIndex((byte)0xff));
+        Assertions.assertEquals((byte)0x03,this.addr.absoluteIndex((byte)0xff));
         Assertions.assertEquals((short)0xfff2,this.memory.getProgramCounter());
 
         this.memory.setRegisterX((byte) 0x80);
@@ -254,7 +253,7 @@ class AddressingModeTest{
         this.memory.setByteAtAddress((short) 0x8082, (byte) 0x08);
         this.memory.setByteAtAddress((short) 0x0900,(byte) 0x44);
 
-        Assertions.assertEquals((byte)0x44,this.addr.addr_AbsoluteIndex_X());
+        Assertions.assertEquals((byte)0x44,this.addr.absoluteIndex_X());
         Assertions.assertEquals((short)0x8082,this.memory.getProgramCounter());
 
         this.memory.setRegisterY((byte) 0x92);
@@ -264,8 +263,30 @@ class AddressingModeTest{
         this.memory.setByteAtAddress((short) 0x0003, (byte) 0xfe);
         this.memory.setByteAtAddress((short) 0xfec4,(byte) 0x09);
 
-        Assertions.assertEquals((byte)0x09,this.addr.addr_AbsoluteIndex_Y());
+        Assertions.assertEquals((byte)0x09,this.addr.absoluteIndex_Y());
         Assertions.assertEquals((short)0x0003,this.memory.getProgramCounter());
+    }
+
+    @Test
+    public void indirectAbsoluteTest(){
+        this.memory.setProgramCounter((short) 0x1000);
+        this.memory.setByteAtAddress((short) 0x1001, (byte) 0x34);
+        this.memory.setByteAtAddress((short) 0x1002, (byte) 0x12);
+        this.memory.setByteAtAddress((short) 0x1234,(byte) 0xf1);
+        this.memory.setByteAtAddress((short) 0x1235, (byte) 0x23);
+
+        Assertions.assertEquals((short)0x23f1,this.addr.indirectAbsolute());
+        Assertions.assertEquals((short)0x1002,this.memory.getProgramCounter());
+
+        this.memory.setProgramCounter((short) 0x0238);
+        this.memory.setByteAtAddress((short) 0x0239, (byte) 0x00);
+        this.memory.setByteAtAddress((short) 0x023a, (byte) 0xff);
+        this.memory.setByteAtAddress((short) 0xff00,(byte) 0xff);
+        this.memory.setByteAtAddress((short) 0xff01, (byte) 0x00);
+
+        Assertions.assertEquals((short)0x00ff,this.addr.indirectAbsolute());
+        Assertions.assertEquals((short)0x023a,this.memory.getProgramCounter());
+        
     }
 
 }
