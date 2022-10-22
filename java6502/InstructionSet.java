@@ -32,11 +32,36 @@ public class InstructionSet {
         // clear the overflow bit
         this.flags.setOverFlow(false);
 
+        boolean likeSigned = Util.areLikeSigned(number,this.memory.getRegisterA());
 
-        int sum = memory.getRegisterA() + number;
-        this.flags.setZero(sum == 0);
+        if(this.flags.getDecimalMode()){
 
+            int bcd = Util.bcdToDec(number);
+            int ans = bcd + this.memory.getRegisterA() + this.flags.getCarryInt();
 
+            // set the carry flag if the ans is over 99 since we are in bcd mode.
+            this.flags.setCarry(ans > 99);
+            // cut off the overflow
+            this.memory.setRegisterA(Util.decToBcd((byte)(ans % 99)));
+        }
+        else{
+            int ans = Util.unsignByte(this.memory.getRegisterA()) +
+                        Util.unsignByte(number) +
+                        this.flags.getCarryInt();
+
+            // 255 is the highest number that can be saved in one byte.
+            this.flags.setCarry(ans > 255);
+            this.memory.setRegisterA((byte)ans);
+
+            if(likeSigned){
+                if(ans > 127 || ans < -128){
+                    this.flags.setOverFlow(true);
+                }
+            }
+        }
+
+        this.flags.setZero(this.memory.getRegisterA()==0);
+        this.flags.setNegative(this.memory.getRegisterA()<0);
     }
 
 }

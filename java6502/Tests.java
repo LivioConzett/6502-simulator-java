@@ -95,6 +95,7 @@ class FlagTests {
         flags.setNegative(true);
 
         Assertions.assertTrue(flags.getCarry());
+        Assertions.assertEquals(1,flags.getCarryInt());
         Assertions.assertTrue(flags.getZero());
         Assertions.assertTrue(flags.getInterruptDisable());
         Assertions.assertTrue(flags.getDecimalMode());
@@ -111,6 +112,7 @@ class FlagTests {
         flags.setNegative(false);
 
         Assertions.assertFalse(flags.getCarry());
+        Assertions.assertEquals(0,flags.getCarryInt());
         Assertions.assertFalse(flags.getZero());
         Assertions.assertFalse(flags.getInterruptDisable());
         Assertions.assertFalse(flags.getDecimalMode());
@@ -433,6 +435,65 @@ class InstructionSetTests{
         this.stack = new Stack(this.memory);
         this.flags = new Flags();
         this.is = new InstructionSet(memory,stack,flags);
+    }
+
+    @Test
+    public void adcTest(){
+
+        // -----------------------------------
+        this.memory.setRegisterA((byte)10);
+        this.flags.setDecimalMode(false);
+        this.flags.setCarry(false);
+
+        this.is.ADC((byte)7);
+
+        Assertions.assertEquals((byte)17,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getOverFlow());
+
+        // -----------------------------------
+        this.memory.setRegisterA((byte)120);
+        this.flags.setDecimalMode(false);
+        this.flags.setCarry(true);
+
+        this.is.ADC((byte)7);
+
+        Assertions.assertEquals((byte)-128,this.memory.getRegisterA());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getCarry());
+        Assertions.assertTrue(this.flags.getOverFlow());
+
+        // -----------------------------------
+        this.memory.setRegisterA((byte)255);
+        this.flags.setDecimalMode(false);
+        this.flags.setCarry(false);
+
+        this.is.ADC((byte)7);
+
+        Assertions.assertEquals((byte)6,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getOverFlow());
+
+        // -----------------------------------
+        this.memory.setRegisterA((byte)-1);
+        this.flags.setDecimalMode(false);
+        this.flags.setCarry(true);
+
+        this.is.ADC((byte)0);
+
+        Assertions.assertEquals((byte)0,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getOverFlow());
+
+
+
     }
 
 

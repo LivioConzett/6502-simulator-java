@@ -93,6 +93,16 @@ public class Flags {
     }
 
     /**
+     * Returns the carry flag as an int.
+     * @return 1 if true, 0 if false.
+     */
+    public int getCarryInt(){
+        if(this.carry){
+            return 1;
+        }
+        return 0;
+    }
+    /**
      * Set the zero flag.
      * @param zeroFlag Value of zero flag.
      */

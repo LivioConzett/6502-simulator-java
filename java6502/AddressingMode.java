@@ -185,7 +185,6 @@ public class AddressingMode {
     public short relative(){
         this.memory.incrementProgramCounter();
         byte dif = this.memory.getCurrentByte();
-        System.out.println("d:"+dif);
         return (short)(this.memory.getProgramCounter() + dif);
     }
 
