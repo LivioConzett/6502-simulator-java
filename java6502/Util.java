@@ -1,3 +1,5 @@
+package java6502;
+
 /**
  * Util functions
  * @author Livio Conzett

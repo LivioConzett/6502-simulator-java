@@ -1,3 +1,5 @@
+package java6502;
+
 /**
  * 8bit stack for the system.
  * @author Livio Conzett

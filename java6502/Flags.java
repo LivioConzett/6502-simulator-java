@@ -1,3 +1,5 @@
+package java6502;
+
 /**
  * Holds the processor flags.<br>
  * The flags are held in the Processor Status Register byte.

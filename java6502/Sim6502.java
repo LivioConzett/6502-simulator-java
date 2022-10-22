@@ -1,3 +1,5 @@
+package java6502;
+
 /**
  * Class that can simulate a 6502 processor system.
  * @author Livio Conzett

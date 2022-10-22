@@ -1,3 +1,5 @@
+package java6502;
+
 /**
  * Class that handles all the memory related things.<br>
  * Memory in entire address range.<br>

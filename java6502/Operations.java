@@ -1,3 +1,5 @@
+package java6502;
+
 /**
  * Class with all the CPU Operations. <br>
  * For more info on each of the Operations visit: <br>

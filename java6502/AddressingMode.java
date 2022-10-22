@@ -1,3 +1,5 @@
+package java6502;
+
 /**
  * This class handles the Addressing Modes for the Operations
  * @author Livio Conzett
