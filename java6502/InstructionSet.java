@@ -134,4 +134,14 @@ public class InstructionSet {
         this.memory.setProgramCounter(address.getAddress());
     }
 
+    /**
+     * Branch on result Equals to Zero<br>
+     * Branch to the address given if the zero flag is true
+     * @param address address to branch to.
+     */
+    public void BEQ(AddressingModeReturn address){
+        if(!this.flags.getZero()) return;
+        this.memory.setProgramCounter(address.getAddress());
+    }
+
 }

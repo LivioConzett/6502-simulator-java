@@ -255,4 +255,24 @@ class InstructionSetTests{
 
         Assertions.assertEquals((short)0xf300,this.memory.getProgramCounter());
     }
+
+    @Test
+    public void beqTest(){
+
+        this.memory.setProgramCounter((short)0x1234);
+        this.flags.setZero(false);
+        this.input.setAddress((short)0x6969);
+
+        this.is.BEQ(input);
+
+        Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
+
+        this.memory.setProgramCounter((short)0x1234);
+        this.flags.setZero(true);
+        this.input.setAddress((short)0x6969);
+
+        this.is.BEQ(input);
+
+        Assertions.assertEquals((short)0x6969,this.memory.getProgramCounter());
+    }
 }
