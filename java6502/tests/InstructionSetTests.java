@@ -377,4 +377,28 @@ class InstructionSetTests{
         Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
     }
 
+    @Test
+    public void brkTest(){
+
+        this.flags.reset();
+
+        this.memory.setByteAtAddress((short)0xfffe,(byte)0x34);
+        this.memory.setByteAtAddress((short)0xffff,(byte)0x12);
+        this.stack.setStackPointer((byte)0xff);
+
+        this.flags.setOverFlow(true);
+        this.flags.setCarry(true);
+
+        this.memory.setProgramCounter((short)0xaabb);
+
+        this.is.BRK();
+
+        Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
+        Assertions.assertEquals((byte)0xfc,this.stack.getStackPointer());
+        Assertions.assertEquals((byte)0xaa,this.memory.getByteAtAddress((short)0x01ff));
+        Assertions.assertEquals((byte)0xbc,this.memory.getByteAtAddress((short)0x01fe));
+        Assertions.assertEquals((byte)0x55,this.memory.getByteAtAddress((short)0x01fd));
+
+    }
+
 }

@@ -45,8 +45,8 @@ public class Stack {
      * Get the value of the stack pointer
      * @return Value of the stack pointer.
      */
-    public int getStackPointer() {
-        return Util.unsignByte(this.stackPointer);
+    public byte getStackPointer() {
+        return this.stackPointer;
     }
 
     /**
@@ -61,13 +61,15 @@ public class Stack {
      * Increment the stack pointer by one.
      */
     public void incrementStackPointer(){
-        this.stackPointer ++;
+        this.stackPointer = (byte)(Util.unsignByte(this.stackPointer) + 1);
     }
 
     /**
      * Decrements the stack pointer by one.
      */
-    public void decrementStackPointer(){ this.stackPointer --; }
+    public void decrementStackPointer(){
+        this.stackPointer = (byte)(Util.unsignByte(this.stackPointer) - 1);
+    }
 
     /**
      * Push a value onto the stack, then decrements the stackpointer.

@@ -187,4 +187,31 @@ public class InstructionSet {
         this.memory.setProgramCounter(address.getAddress());
     }
 
+    /**
+     * Break command.
+     */
+    public void BRK(){
+
+        this.memory.incrementProgramCounter();
+        byte[] address = Util.addressToBytes(this.memory.getProgramCounter());
+
+        // push the program-counter onto the stack
+        this.stack.push(address[1]);
+        this.stack.push(address[0]);
+
+        // set the break flag
+        this.flags.setBreakCommand(true);
+        this.flags.setInterruptDisable(true);
+
+        // push the whole status register onto the stack
+        this.stack.push(this.flags.getWholeRegister());
+
+        // reset the break flag since this doesn't actually exist.
+        // (don't know why)
+        this.flags.setBreakCommand(false);
+
+        this.memory.setProgramCounter(this.memory.getBreakAddress());
+
+    }
+
 }
