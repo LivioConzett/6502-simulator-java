@@ -38,6 +38,25 @@ class UtilTests{
     }
 
     @Test
+    public void addressToBytesTest(){
+        byte[] ans = Util.addressToBytes((short)0x1234);
+
+        Assertions.assertEquals((byte)0x34,ans[0]);
+        Assertions.assertEquals((byte)0x12,ans[1]);
+
+        ans = Util.addressToBytes((short)0x0069);
+
+        Assertions.assertEquals((byte)0x69,ans[0]);
+        Assertions.assertEquals((byte)0x00,ans[1]);
+
+        ans = Util.addressToBytes((short)0x7f00);
+
+        Assertions.assertEquals((byte)0x00,ans[0]);
+        Assertions.assertEquals((byte)0x7f,ans[1]);
+
+    }
+
+    @Test
     public void bcdTest(){
 
         Assertions.assertEquals((byte)99,Util.bcdToDec((byte)0b10011001));

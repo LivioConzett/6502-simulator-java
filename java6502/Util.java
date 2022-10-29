@@ -42,6 +42,20 @@ public class Util {
     }
 
     /**
+     * Splits up an address into a highbyte and a lowbyte.
+     * @param address address to split up into bytes.
+     * @return array of bytes {lowbyte,highbyte}
+     */
+    public static byte[] addressToBytes(short address){
+        byte[] bytes = {0,0};
+
+        bytes[0] = (byte)(address & 0b11111111);
+        bytes[1] = (byte)(address >> 8);
+
+        return bytes;
+    }
+
+    /**
      * Turns a bcd encoded byte into a "normal" byte.
      * @param bcdNumber bcd encoded byte.
      * @return "normalized" byte.
