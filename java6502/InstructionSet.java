@@ -28,9 +28,10 @@ public class InstructionSet {
     /**
      * Add to accumulator with carry.
      */
-    public void ADC(byte number){
+    public void ADC(AddressingModeReturn value){
         // clear the overflow bit
         this.flags.setOverFlow(false);
+        byte number = value.getValue();
 
         boolean likeSigned = Util.areLikeSigned(number,this.memory.getRegisterA());
 

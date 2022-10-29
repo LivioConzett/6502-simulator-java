@@ -1,10 +1,7 @@
 package java6502.tests;
 
 
-import java6502.Flags;
-import java6502.InstructionSet;
-import java6502.Memory;
-import java6502.Stack;
+import java6502.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +12,7 @@ class InstructionSetTests{
     private Flags flags;
     private InstructionSet is;
     private Stack stack;
+    private AddressingModeReturn input;
 
     @BeforeEach
     public void init(){
@@ -22,6 +20,7 @@ class InstructionSetTests{
         this.stack = new Stack(this.memory);
         this.flags = new Flags();
         this.is = new InstructionSet(memory,stack,flags);
+        this.input = new AddressingModeReturn();
     }
 
     @Test
@@ -31,8 +30,9 @@ class InstructionSetTests{
         this.memory.setRegisterA((byte)10);
         this.flags.setDecimalMode(false);
         this.flags.setCarry(false);
+        this.input.set((byte)7,(short)0x0);
 
-        this.is.ADC((byte)7);
+        this.is.ADC(input);
 
         Assertions.assertEquals((byte)17,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getNegative());
@@ -45,7 +45,7 @@ class InstructionSetTests{
         this.flags.setDecimalMode(false);
         this.flags.setCarry(true);
 
-        this.is.ADC((byte)7);
+        this.is.ADC(input);
 
         Assertions.assertEquals((byte)-128,this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getNegative());
@@ -58,7 +58,7 @@ class InstructionSetTests{
         this.flags.setDecimalMode(false);
         this.flags.setCarry(false);
 
-        this.is.ADC((byte)7);
+        this.is.ADC(input);
 
         Assertions.assertEquals((byte)6,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getNegative());
@@ -70,8 +70,9 @@ class InstructionSetTests{
         this.memory.setRegisterA((byte)-1);
         this.flags.setDecimalMode(false);
         this.flags.setCarry(true);
+        this.input.setValue((byte)0);
 
-        this.is.ADC((byte)0);
+        this.is.ADC(input);
 
         Assertions.assertEquals((byte)0,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getNegative());
