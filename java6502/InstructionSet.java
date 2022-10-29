@@ -144,4 +144,18 @@ public class InstructionSet {
         this.memory.setProgramCounter(address.getAddress());
     }
 
+    /**
+     * ANDs a value with the accumulator without saving the result.
+     * @param value value to AND the accumulator with.
+     */
+    public void BIT(AddressingModeReturn value){
+        int number = value.getValue();
+        int ans = number & this.memory.getRegisterA();
+
+        this.flags.setZero(ans == 0);
+        this.flags.setNegative(value.getValue() < 0);
+        this.flags.setOverFlow(((int)value.getValue() & 0b01000000) == 0b01000000);
+
+    }
+
 }

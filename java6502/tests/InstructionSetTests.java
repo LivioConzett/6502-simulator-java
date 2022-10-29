@@ -275,4 +275,45 @@ class InstructionSetTests{
 
         Assertions.assertEquals((short)0x6969,this.memory.getProgramCounter());
     }
+
+    @Test
+    public void bitTest(){
+
+        this.memory.setRegisterA((byte)0b01010101);
+        this.input.setValue((byte)0b01010001);
+
+        this.is.BIT(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getOverFlow());
+
+        this.memory.setRegisterA((byte)0b00010101);
+        this.input.setValue((byte)0b00000010);
+
+        this.is.BIT(input);
+
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getOverFlow());
+
+        this.memory.setRegisterA((byte)0b10100000);
+        this.input.setValue((byte)0b00100000);
+
+        this.is.BIT(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getOverFlow());
+
+        this.memory.setRegisterA((byte)0b10100000);
+        this.input.setValue((byte)0b10000000);
+
+        this.is.BIT(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getOverFlow());
+
+    }
 }
