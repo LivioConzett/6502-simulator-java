@@ -316,4 +316,26 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getOverFlow());
 
     }
+
+    @Test
+    public void bmiTest(){
+
+        this.memory.setProgramCounter((short)0x3333);
+        this.flags.setNegative(false);
+        this.input.setAddress((short)0x458e);
+
+        this.is.BMI(input);
+
+        Assertions.assertEquals((short)0x3333,this.memory.getProgramCounter());
+
+        this.memory.setProgramCounter((short)0x1234);
+        this.flags.setNegative(true);
+        this.input.setAddress((short)0x458e);
+
+        this.is.BMI(input);
+
+        Assertions.assertEquals((short)0x458e,this.memory.getProgramCounter());
+    }
+
+
 }

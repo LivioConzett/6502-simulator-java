@@ -135,7 +135,7 @@ public class InstructionSet {
     }
 
     /**
-     * Branch on result Equals to Zero<br>
+     * Branch on Result Equals to Zero<br>
      * Branch to the address given if the zero flag is true
      * @param address address to branch to.
      */
@@ -154,8 +154,17 @@ public class InstructionSet {
 
         this.flags.setZero(ans == 0);
         this.flags.setNegative(value.getValue() < 0);
-        this.flags.setOverFlow(((int)value.getValue() & 0b01000000) == 0b01000000);
+        this.flags.setOverFlow((value.getValue() & 0b01000000) == 0b01000000);
+    }
 
+    /**
+     * Branch on Result Minus<br>
+     * Branch to the address given if the negative flag is true.
+     * @param address address to branch to.
+     */
+    public void BMI(AddressingModeReturn address){
+        if(!this.flags.getNegative()) return;
+        this.memory.setProgramCounter(address.getAddress());
     }
 
 }
