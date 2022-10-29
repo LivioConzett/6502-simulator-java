@@ -64,4 +64,33 @@ public class InstructionSet {
         this.flags.setNegative(this.memory.getRegisterA()<0);
     }
 
+    /**
+     * ANDs a byte with the accumulator.
+     * @param number Byte to AND with accumulator
+     */
+    public void AND(byte number){
+        this.memory.setRegisterA((byte)(this.memory.getRegisterA() & number));
+        this.flags.setZero(this.memory.getRegisterA()==0);
+        this.flags.setNegative(this.memory.getRegisterA()<0);
+    }
+
+    /**
+     * Accumulator Shift Left<br>
+     * Shifts the Accumulator left
+     */
+    public void ASL(){
+        byte regA = this.memory.getRegisterA();
+
+        // if the number to shift left is negative, it has a 1 in the msb.
+        // if that is then shifted left it will overflow into the carry.
+        this.flags.setCarry(regA < 0);
+
+        int shift = regA << 1;
+        this.memory.setRegisterA((byte)shift);
+        this.flags.setZero(this.memory.getRegisterA()==0);
+        this.flags.setNegative(this.memory.getRegisterA()<0);
+
+
+    }
+
 }
