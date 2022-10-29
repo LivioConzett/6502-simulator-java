@@ -21,7 +21,7 @@ package java6502;
  * @author Livio Conzett
  * @version 16.10.2022
  */
-class Memory {
+public class Memory {
 
     // entire addressable memory space 2^16
     private final byte[] memory;

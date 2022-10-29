@@ -5,7 +5,7 @@ package java6502;
  * @author Livio Conzett
  * @version 20.10.2022
  */
-class Util {
+public class Util {
 
     /**
      * Gets the unsigned value of a byte.
