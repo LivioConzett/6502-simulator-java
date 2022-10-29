@@ -114,4 +114,14 @@ public class InstructionSet {
         this.flags.setNegative((byte)shift < 0);
     }
 
+    /**
+     * Branch on Carry Clear<br>
+     * Branch to the address given if the carry flag is false
+     * @param address address to branch to.
+     */
+    public void BCC(AddressingModeReturn address){
+        if(this.flags.getCarry()) return;
+        this.memory.setProgramCounter(address.getAddress());
+    }
+
 }

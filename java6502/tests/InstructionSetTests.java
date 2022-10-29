@@ -215,4 +215,25 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getCarry());
 
     }
+
+    @Test
+    public void bccTest(){
+
+        this.memory.setProgramCounter((short)0x0010);
+        this.flags.setCarry(true);
+        this.input.setAddress((short)0x0300);
+
+        this.is.BCC(input);
+
+        Assertions.assertEquals((short)0x0010,this.memory.getProgramCounter());
+
+        this.memory.setProgramCounter((short)0x0010);
+        this.flags.setCarry(false);
+        this.input.setAddress((short)0x0300);
+
+        this.is.BCC(input);
+
+        Assertions.assertEquals((short)0x0300,this.memory.getProgramCounter());
+
+    }
 }
