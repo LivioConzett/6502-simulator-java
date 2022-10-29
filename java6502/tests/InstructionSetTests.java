@@ -234,6 +234,25 @@ class InstructionSetTests{
         this.is.BCC(input);
 
         Assertions.assertEquals((short)0x0300,this.memory.getProgramCounter());
+    }
 
+    @Test
+    public void bcsTest(){
+
+        this.memory.setProgramCounter((short)0xf010);
+        this.flags.setCarry(false);
+        this.input.setAddress((short)0xf300);
+
+        this.is.BCS(input);
+
+        Assertions.assertEquals((short)0xf010,this.memory.getProgramCounter());
+
+        this.memory.setProgramCounter((short)0xf010);
+        this.flags.setCarry(true);
+        this.input.setAddress((short)0xf300);
+
+        this.is.BCS(input);
+
+        Assertions.assertEquals((short)0xf300,this.memory.getProgramCounter());
     }
 }

@@ -124,4 +124,14 @@ public class InstructionSet {
         this.memory.setProgramCounter(address.getAddress());
     }
 
+    /**
+     * Branch on Carry Set<br>
+     * Branch to the address given if the carry flag is true
+     * @param address address to branch to.
+     */
+    public void BCS(AddressingModeReturn address){
+        if(!this.flags.getCarry()) return;
+        this.memory.setProgramCounter(address.getAddress());
+    }
+
 }
