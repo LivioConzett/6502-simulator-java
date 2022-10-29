@@ -337,5 +337,25 @@ class InstructionSetTests{
         Assertions.assertEquals((short)0x458e,this.memory.getProgramCounter());
     }
 
+    @Test
+    public void bneTest(){
+
+        this.memory.setProgramCounter((short)0xfabcd);
+        this.flags.setZero(true);
+        this.input.setAddress((short)0x12ef);
+
+        this.is.BNE(input);
+
+        Assertions.assertEquals((short)0xfabcd,this.memory.getProgramCounter());
+
+        this.memory.setProgramCounter((short)0x1234);
+        this.flags.setZero(false);
+        this.input.setAddress((short)0x12ef);
+
+        this.is.BNE(input);
+
+        Assertions.assertEquals((short)0x12ef,this.memory.getProgramCounter());
+    }
+
 
 }
