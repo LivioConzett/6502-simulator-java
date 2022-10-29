@@ -116,4 +116,103 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getZero());
 
     }
+
+    @Test
+    public void aslAccumulatorTest(){
+
+        this.memory.setRegisterA((byte)0b00000001);
+        this.is.ASL();
+        Assertions.assertEquals((byte)0b00000010,this.memory.getRegisterA());
+
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getCarry());
+
+        this.memory.setRegisterA((byte)0b10000001);
+        this.is.ASL();
+        Assertions.assertEquals((byte)0b00000010,this.memory.getRegisterA());
+
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getCarry());
+
+        this.flags.setCarry(false);
+
+        this.memory.setRegisterA((byte)0b10000000);
+        this.is.ASL();
+        Assertions.assertEquals((byte)0b00000000,this.memory.getRegisterA());
+
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getCarry());
+
+        this.memory.setRegisterA((byte)0b01000000);
+        this.is.ASL();
+        Assertions.assertEquals((byte)0b10000000,this.memory.getRegisterA());
+
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getCarry());
+
+        this.memory.setRegisterA((byte)0b00000000);
+        this.is.ASL();
+        Assertions.assertEquals((byte)0b00000000,this.memory.getRegisterA());
+
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getCarry());
+
+    }
+
+    @Test
+    public void aslMemoryTest(){
+
+        this.memory.setByteAtAddress((short)0x0345,(byte)0b00000001);
+        this.input.set((byte)0b00000001,(short)0x0345);
+        this.is.ASL(input);
+        Assertions.assertEquals((byte)0b00000010,this.memory.getByteAtAddress((short)0x0345));
+
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getCarry());
+
+        this.memory.setByteAtAddress((short)0xf001,(byte)0b10000001);
+        this.input.set((byte)0b10000001,(short)0xf001);
+        this.is.ASL(input);
+        Assertions.assertEquals((byte)0b00000010,this.memory.getByteAtAddress((short)0xf001));
+
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getCarry());
+
+        this.flags.setCarry(false);
+
+        this.memory.setByteAtAddress((short)0x002,(byte)0b10000000);
+        this.input.set((byte)0b10000000,(short)0x002);
+        this.is.ASL(input);
+        Assertions.assertEquals((byte)0b00000000,this.memory.getByteAtAddress((short)0x002));
+
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getCarry());
+
+        this.memory.setByteAtAddress((short)0x3456,(byte)0b01000000);
+        this.input.set((byte)0b01000000,(short)0x3456);
+        this.is.ASL(input);
+        Assertions.assertEquals((byte)0b10000000,this.memory.getByteAtAddress((short)0x3456));
+
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getCarry());
+
+        this.memory.setByteAtAddress((short)0x1010,(byte)0b00000000);
+        this.input.set((byte)0b00000000,(short)0x1010);
+        this.is.ASL(input);
+        Assertions.assertEquals((byte)0b00000000,this.memory.getByteAtAddress((short)0x1010));
+
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getCarry());
+
+    }
 }

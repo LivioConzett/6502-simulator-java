@@ -1,5 +1,7 @@
 package java6502;
 
+import java.lang.reflect.AccessibleObject;
+
 /**
  * Class with all the CPU Operations. <br>
  * For more info on each of the Operations visit: <br>
@@ -92,8 +94,24 @@ public class InstructionSet {
         this.memory.setRegisterA((byte)shift);
         this.flags.setZero(this.memory.getRegisterA()==0);
         this.flags.setNegative(this.memory.getRegisterA()<0);
+    }
 
+    /**
+     * Accumulator Shift Left.<br>
+     * Shifts the value at a memory address to the left.
+     * @param address Address of the byte to shift left.
+     */
+    public void ASL(AddressingModeReturn address){
+        byte value = address.getValue();
 
+        // if the number to shift left is negative, it has a 1 in the msb.
+        // if that is then shifted left it will overflow into the carry.
+        this.flags.setCarry(value < 0);
+
+        int shift = value << 1;
+        this.memory.setByteAtAddress(address.getAddress(),(byte)shift);
+        this.flags.setZero((byte)shift == 0);
+        this.flags.setNegative((byte)shift < 0);
     }
 
 }
