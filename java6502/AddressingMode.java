@@ -22,9 +22,9 @@ public class AddressingMode {
      * Increments the program counter and returns the byte at that place.
      * @return byte to work with
      */
-    public byte immediate(){
+    public AddressingModeReturn immediate(){
         this.memory.incrementProgramCounter();
-        return this.memory.getCurrentByte();
+        return new AddressingModeReturn(this.memory.getCurrentByte(),this.memory.getProgramCounter());
     }
 
     /**
@@ -34,13 +34,13 @@ public class AddressingMode {
      * Program counter gets incremented twice.
      * @return Byte at absolute address.
      */
-    public byte absolute(){
+    public AddressingModeReturn absolute(){
         this.memory.incrementProgramCounter();
         byte low = this.memory.getCurrentByte();
         this.memory.incrementProgramCounter();
         byte high = this.memory.getCurrentByte();
         short addr = Util.bytesToAddress(low,high);
-        return this.memory.getByteAtAddress(addr);
+        return new AddressingModeReturn(this.memory.getByteAtAddress(addr),addr);
     }
 
     /**
@@ -48,11 +48,11 @@ public class AddressingMode {
      * Increment the program counter. The byte at that position is the address on the Zero Page to get the byte from.
      * @return Byte on the Zero Page.
      */
-    public byte zeroPage(){
+    public AddressingModeReturn zeroPage(){
         this.memory.incrementProgramCounter();
         byte low = this.memory.getCurrentByte();
         short addr = Util.bytesToAddress(low,(byte) 0x00);
-        return this.memory.getByteAtAddress(addr);
+        return new AddressingModeReturn(this.memory.getByteAtAddress(addr),addr);
     }
 
     /**
@@ -62,7 +62,7 @@ public class AddressingMode {
      * consecutive address.
      * @return address
      */
-    public short indirectAbsolute(){
+    public AddressingModeReturn indirectAbsolute(){
         this.memory.incrementProgramCounter();
         byte low = this.memory.getCurrentByte();
         this.memory.incrementProgramCounter();
@@ -70,7 +70,8 @@ public class AddressingMode {
         short addr = Util.bytesToAddress(low,high);
         low = this.memory.getByteAtAddress(addr);
         high = this.memory.getByteAtAddress((short) (addr +1));
-        return Util.bytesToAddress(low,high);
+        short finalAddr = Util.bytesToAddress(low,high);
+        return new AddressingModeReturn(this.memory.getByteAtAddress(finalAddr),finalAddr);
     }
 
     /**
@@ -80,14 +81,14 @@ public class AddressingMode {
      * @param addValue Value to add to the address.
      * @return Byte at that address.
      */
-    public byte absoluteIndex(byte addValue){
+    public AddressingModeReturn absoluteIndex(byte addValue){
         this.memory.incrementProgramCounter();
         byte low = this.memory.getCurrentByte();
         this.memory.incrementProgramCounter();
         byte high = this.memory.getCurrentByte();
         short addr = Util.bytesToAddress(low,high);
         addr = (short) (addr + Util.unsignByte(addValue));
-        return this.memory.getByteAtAddress(addr);
+        return new AddressingModeReturn(this.memory.getByteAtAddress(addr),addr);
     }
 
     /**
@@ -96,7 +97,7 @@ public class AddressingMode {
      * Add value of X register to that address and then gets the byte at that address.<br>
      * @return Byte at that address.
      */
-    public byte absoluteIndex_X(){
+    public AddressingModeReturn absoluteIndex_X(){
         return this.absoluteIndex(this.memory.getRegisterX());
     }
 
@@ -106,7 +107,7 @@ public class AddressingMode {
      * Add value of Y register to that address and then gets the byte at that address.<br>
      * @return Byte at that address.
      */
-    public byte absoluteIndex_Y(){
+    public AddressingModeReturn absoluteIndex_Y(){
         return this.absoluteIndex(this.memory.getRegisterY());
     }
 
@@ -117,12 +118,12 @@ public class AddressingMode {
      * @param addValue Value to add to the address.
      * @return Byte at that address.
      */
-    public byte zeroPageIndex(byte addValue){
+    public AddressingModeReturn zeroPageIndex(byte addValue){
         this.memory.incrementProgramCounter();
         byte low = this.memory.getCurrentByte();
         short addr = Util.bytesToAddress(low,(byte)0x00);
         addr = (short) (addr + Util.unsignByte(addValue));
-        return this.memory.getByteAtAddress(addr);
+        return new AddressingModeReturn(this.memory.getByteAtAddress(addr),addr);
     }
 
     /**
@@ -131,7 +132,7 @@ public class AddressingMode {
      * Add value of X register to that address and then gets the byte at that address.<br>
      * @return Byte at that address.
      */
-    public byte zeroPageIndex_X(){
+    public AddressingModeReturn zeroPageIndex_X(){
         return this.zeroPageIndex(this.memory.getRegisterX());
     }
 
@@ -141,7 +142,7 @@ public class AddressingMode {
      * Add value of Y register to that address and then gets the byte at that address.<br>
      * @return Byte at that address.
      */
-    public byte zeroPageIndex_Y(){
+    public AddressingModeReturn zeroPageIndex_Y(){
         return this.zeroPageIndex(this.memory.getRegisterY());
     }
 
@@ -151,14 +152,14 @@ public class AddressingMode {
      * of an absolut address. The byte after that is the high byte. This returns the byte at that Absolute address.
      * @return byte at the address.
      */
-    public byte indexedIndirect(){
+    public AddressingModeReturn indexedIndirect(){
         this.memory.incrementProgramCounter();
         byte base = this.memory.getCurrentByte();
         byte basePlus = (byte) (base + Util.unsignByte(this.memory.getRegisterX()));
         byte low = this.memory.getByteAtAddress(basePlus);
         byte high = this.memory.getByteAtAddress((short)(basePlus + 1));
         short addr = Util.bytesToAddress(low,high);
-        return this.memory.getByteAtAddress(addr);
+        return new AddressingModeReturn(this.memory.getByteAtAddress(addr),addr);
     }
 
     /**
@@ -168,12 +169,12 @@ public class AddressingMode {
      * Then it adds the byte in the y register to the Absolute address and returns the byte at the addresses place.
      * @return byte at the address.
      */
-    public byte indirectIndexed(){
+    public AddressingModeReturn indirectIndexed(){
         this.memory.incrementProgramCounter();
         byte low = this.memory.getByteAtAddress(this.memory.getCurrentByte());
         byte high = this.memory.getByteAtAddress((short)(this.memory.getCurrentByte() + 1));
         short addr = (short)((Util.bytesToAddress(low,high) + Util.unsignByte(this.memory.getRegisterY())));
-        return this.memory.getByteAtAddress(addr);
+        return new AddressingModeReturn(this.memory.getByteAtAddress(addr),addr);
     }
 
     /**
@@ -182,10 +183,11 @@ public class AddressingMode {
      * from the program counter (positive or negative). Returns the new address.
      * @return address.
      */
-    public short relative(){
+    public AddressingModeReturn relative(){
         this.memory.incrementProgramCounter();
         byte dif = this.memory.getCurrentByte();
-        return (short)(this.memory.getProgramCounter() + dif);
+        short addr = (short)(this.memory.getProgramCounter() + dif);
+        return new AddressingModeReturn(this.memory.getByteAtAddress(addr),addr);
     }
 
 }
