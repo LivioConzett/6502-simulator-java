@@ -27,6 +27,7 @@ public class InstructionSet {
 
     /**
      * Add to accumulator with carry.
+     * @param value AddressingModeReturn object with value to add to accumulator
      */
     public void ADC(AddressingModeReturn value){
         // clear the overflow bit
@@ -67,9 +68,10 @@ public class InstructionSet {
 
     /**
      * ANDs a byte with the accumulator.
-     * @param number Byte to AND with accumulator
+     * @param value AddressingModeReturn object with value to AND with accumulator
      */
-    public void AND(byte number){
+    public void AND(AddressingModeReturn value){
+        byte number = value.getValue();
         this.memory.setRegisterA((byte)(this.memory.getRegisterA() & number));
         this.flags.setZero(this.memory.getRegisterA()==0);
         this.flags.setNegative(this.memory.getRegisterA()<0);

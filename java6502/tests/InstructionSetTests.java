@@ -88,25 +88,29 @@ class InstructionSetTests{
         this.memory.setRegisterA((byte)0b00101010);
         this.flags.setZero(false);
         this.flags.setNegative(false);
+        this.input.setValue((byte)0b00101010);
 
-        this.is.AND((byte)0b00101010);
+        this.is.AND(input);
         Assertions.assertEquals((byte)0b00101010,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getNegative());
         Assertions.assertFalse(this.flags.getZero());
+        this.input.setValue((byte)0b00010101);
 
-        this.is.AND((byte)0b00010101);
+        this.is.AND(input);
         Assertions.assertEquals((byte)0b00000000,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getNegative());
         Assertions.assertTrue(this.flags.getZero());
-
+        this.input.setValue((byte)0b10001000);
         this.memory.setRegisterA((byte)0b11001000);
-        this.is.AND((byte)0b10001000);
+
+        this.is.AND(input);
         Assertions.assertEquals((byte)0b10001000,this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getNegative());
         Assertions.assertFalse(this.flags.getZero());
-
+        this.input.setValue((byte)0b10101010);
         this.memory.setRegisterA((byte)0b11111111);
-        this.is.AND((byte)0b10101010);
+
+        this.is.AND(input);
         Assertions.assertEquals((byte)0b10101010,this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getNegative());
         Assertions.assertFalse(this.flags.getZero());
