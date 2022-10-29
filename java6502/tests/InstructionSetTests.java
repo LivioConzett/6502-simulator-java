@@ -357,5 +357,24 @@ class InstructionSetTests{
         Assertions.assertEquals((short)0x12ef,this.memory.getProgramCounter());
     }
 
+    @Test
+    public void bplTest(){
+
+        this.memory.setProgramCounter((short)0x3333);
+        this.flags.setNegative(false);
+        this.input.setAddress((short)0x458e);
+
+        this.is.BPL(input);
+
+        Assertions.assertEquals((short)0x458e,this.memory.getProgramCounter());
+
+        this.memory.setProgramCounter((short)0x1234);
+        this.flags.setNegative(true);
+        this.input.setAddress((short)0x458e);
+
+        this.is.BPL(input);
+
+        Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
+    }
 
 }

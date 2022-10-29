@@ -177,4 +177,14 @@ public class InstructionSet {
         this.memory.setProgramCounter(address.getAddress());
     }
 
+    /**
+     * Branch on Result Plus<br>
+     * Branch to the address given if the negative flag is false.
+     * @param address address to branch to.
+     */
+    public void BPL(AddressingModeReturn address){
+        if(this.flags.getNegative()) return;
+        this.memory.setProgramCounter(address.getAddress());
+    }
+
 }
