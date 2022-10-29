@@ -40,7 +40,7 @@ public class Memory {
      */
     public Memory(){
         // initialize the memory to the max range of a 16bit address system.
-        this.memory = new byte[0xffff];
+        this.memory = new byte[0x10000];
 
         // reset the rest.
         this.hardReset();
@@ -168,5 +168,41 @@ public class Memory {
      */
     public byte getRegisterY(){
         return this.registerY;
+    }
+
+    /**
+     * Gets the address stored in the Non Maskable Interupt vector.<br>
+     * 0xfffa - 0xfffb
+     * @return address stored in 0xfffa - 0xfffb
+     */
+    public short getNMIAddress(){
+        byte highByte = this.getByteAtAddress((short)0xfffb);
+        byte lowByte = this.getByteAtAddress((short)0xfffa);
+
+        return Util.bytesToAddress(lowByte,highByte);
+    }
+
+    /**
+     * Gets the address stored in the Startup vector.<br>
+     * 0xfffc - 0xfffd
+     * @return address stored in 0xfffc - 0xfffd
+     */
+    public short getStartUpAddress(){
+        byte highByte = this.getByteAtAddress((short)0xfffd);
+        byte lowByte = this.getByteAtAddress((short)0xfffc);
+
+        return Util.bytesToAddress(lowByte,highByte);
+    }
+
+    /**
+     * Gets the address stored in the break vector.<br>
+     * 0xfffe - 0xffff
+     * @return address stored in 0xfffe - 0xffff
+     */
+    public short getBreakAddress(){
+        byte highByte = this.getByteAtAddress((short)0xffff);
+        byte lowByte = this.getByteAtAddress((short)0xfffe);
+
+        return Util.bytesToAddress(lowByte,highByte);
     }
 }

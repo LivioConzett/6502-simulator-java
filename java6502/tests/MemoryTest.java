@@ -37,5 +37,26 @@ class MemoryTest{
         Assertions.assertEquals(0x69, Util.unsignByte(mem.getCurrentByte()));
 
     }
+
+    @Test
+    public void specialVectorTest(){
+
+        Memory mem = new Memory();
+
+        mem.setByteAtAddress((short)0xfffa,(byte)0x34);
+        mem.setByteAtAddress((short)0xfffb,(byte)0x12);
+
+        mem.setByteAtAddress((short)0xfffc,(byte)0x78);
+        mem.setByteAtAddress((short)0xfffd,(byte)0x56);
+
+        mem.setByteAtAddress((short)0xfffe,(byte)0xcd);
+        mem.setByteAtAddress((short)0xffff,(byte)0xab);
+
+        Assertions.assertEquals((short)0x1234,mem.getNMIAddress());
+        Assertions.assertEquals((short)0x5678,mem.getStartUpAddress());
+        Assertions.assertEquals((short)0xabcd,mem.getBreakAddress());
+
+
+    }
 }
 
