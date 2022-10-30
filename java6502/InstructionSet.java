@@ -489,5 +489,14 @@ public class InstructionSet {
         this.memory.setByteAtAddress(address.getAddress(),shift);
     }
 
+    /**
+     * No Operator<br>
+     * Doesn't do anything.
+     */
+    public void NOP(){
+
+    }
+
+    
 
 }
