@@ -756,4 +756,47 @@ class InstructionSetTests{
 
     }
 
+    @Test
+    public void eorTest(){
+        AddressingModeReturn input = new AddressingModeReturn();
+        input.setValue((byte)0b00000000);
+        this.memory.setRegisterA((byte)0b01010101);
+
+        this.is.EOR(input);
+
+        Assertions.assertEquals((byte)0b01010101,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+
+        input.setValue((byte)0b10101010);
+        this.memory.setRegisterA((byte)0b01010101);
+
+        this.is.EOR(input);
+
+        Assertions.assertEquals((byte)0b11111111,this.memory.getRegisterA());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+
+        input.setValue((byte)0b11111111);
+        this.memory.setRegisterA((byte)0b11111111);
+
+        this.is.EOR(input);
+
+        Assertions.assertEquals((byte)0b00000000,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getZero());
+
+        input.setValue((byte)0b01000001);
+        this.memory.setRegisterA((byte)0b01000011);
+
+        this.is.EOR(input);
+
+        Assertions.assertEquals((byte)0b00000010,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+
+
+
+    }
+
 }

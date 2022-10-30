@@ -345,7 +345,18 @@ public class InstructionSet {
         this.memory.setRegisterY(ans);
     }
 
+    /**
+     * Exclusive or Memory with Accumulator<br>
+     * Result will be stored in Accumulator.
+     * @param value value to xor with Accumulator.
+     */
+    public void EOR(AddressingModeReturn value) {
+        byte ans = (byte)(this.memory.getRegisterA() ^ value.getValue());
 
+        this.flags.setNegative(ans < 0);
+        this.flags.setZero(ans == 0);
 
+        this.memory.setRegisterA(ans);
+    }
 
 }
