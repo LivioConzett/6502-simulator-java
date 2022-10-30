@@ -456,5 +456,20 @@ public class InstructionSet {
         this.memory.setRegisterY(value.getValue());
     }
 
+    /**
+     * Logical Shift Right<br>
+     * Shift the accumulator one bit to the right.
+     */
+    public void LSR(){
+        // if the lsb of the accumulator is a 1 then shifting it right will
+        // turn the carry to a one.
+        this.flags.setCarry((this.memory.getRegisterA() & 0b1) == 0b1);
+
+        byte shift = (byte)(this.memory.getRegisterA() >> 1);
+
+        this.flags.setZero(shift == 0);
+        this.flags.setNegative(false);
+        this.memory.setRegisterA(shift);
+    }
 
 }

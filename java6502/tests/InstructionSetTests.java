@@ -994,5 +994,38 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getNegative());
     }
 
-    
+    @Test
+    public void lsrTest(){
+        AddressingModeReturn input = new AddressingModeReturn();
+
+        this.flags.reset();
+
+        this.memory.setRegisterA((byte)0b00000000);
+
+        this.is.LSR();
+
+        Assertions.assertEquals((byte)0b00000000,this.memory.getRegisterA());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getCarry());
+
+        this.memory.setRegisterA((byte)0b00000001);
+
+        this.is.LSR();
+
+        Assertions.assertEquals((byte)0b00000000,this.memory.getRegisterA());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getCarry());
+
+        this.memory.setRegisterA((byte)0b10010100);
+
+        this.is.LSR();
+
+        Assertions.assertEquals((byte)0b01001010,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getCarry());
+
+    }
 }
