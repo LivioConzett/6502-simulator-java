@@ -444,21 +444,22 @@ class InstructionSetTests{
     @Test
     public void clcTest(){
         this.flags.setCarry(true);
-
         this.is.CLC();
-
         Assertions.assertFalse(this.flags.getCarry());
-
     }
 
     @Test
     public void cldTest(){
         this.flags.setDecimalMode(true);
-
         this.is.CLD();
-
         Assertions.assertFalse(this.flags.getDecimalMode());
+    }
 
+    @Test
+    public void cliTest(){
+        this.flags.setInterruptDisable(true);
+        this.is.CLI();
+        Assertions.assertFalse(this.flags.getInterruptDisable());
     }
 
 }

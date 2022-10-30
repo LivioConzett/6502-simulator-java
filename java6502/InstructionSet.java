@@ -250,5 +250,13 @@ public class InstructionSet {
         this.flags.setDecimalMode(false);
     }
 
+    /**
+     * Clear Interrupt Disable Flag<br>
+     * Sets the interrupt disable flag to false.
+     */
+    public void CLI(){
+        this.flags.setInterruptDisable(false);
+    }
+
 
 }
