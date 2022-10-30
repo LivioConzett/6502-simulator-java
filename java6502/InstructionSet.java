@@ -1,7 +1,5 @@
 package java6502;
 
-import java.lang.reflect.AccessibleObject;
-
 /**
  * Class with all the CPU Operations. <br>
  * For more info on each of the Operations visit: <br>
@@ -268,11 +266,11 @@ public class InstructionSet {
 
     /**
      * Compares two numbers<br>
-     * Subtracts a value from the accumulator without saving the result. Status flags will be set accordingly.
+     * Compares two values and sets the Status flags  accordingly.
      * @param register the value in the register to compare to.
      * @param memory the value to compare the register to.
      */
-    public void Compare(byte register, byte memory){
+    public void compare(byte register, byte memory){
 
         this.flags.setNegative(register < memory);
         this.flags.setZero(register == memory);
@@ -280,6 +278,14 @@ public class InstructionSet {
 
     }
 
+    /**
+     * Compare Memory with Accumulator<br>
+     * Subtracts a value from the accumulator without saving the result. Status flags will be set accordingly.
+     * @param value Value to compare accumulator to.
+     */
+    public void CMP(AddressingModeReturn value){
+        this.compare(this.memory.getRegisterA(),value.getValue());
+    }
 
 
 }
