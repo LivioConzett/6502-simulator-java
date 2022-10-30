@@ -512,4 +512,11 @@ public class InstructionSet {
     public void PHA(){
         this.stack.push(this.memory.getRegisterA());
     }
+
+    /**
+     * Push Processor Status on Stack
+     */
+    public void PHP(){
+        this.stack.push(this.flags.getWholeRegister());
+    }
 }

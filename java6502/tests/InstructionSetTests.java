@@ -1111,5 +1111,23 @@ class InstructionSetTests{
         Assertions.assertEquals((byte)0x12,this.memory.getByteAtAddress((short)0x01fe));
     }
 
-    
+    @Test
+    public void phpTest(){
+
+        this.stack.setStackPointer((byte)0xff);
+        this.flags.setWholeRegister((byte)0b01001010);
+
+        this.is.PHP();
+
+        Assertions.assertEquals((byte)0xfe,this.stack.getStackPointer());
+        Assertions.assertEquals((byte)0b01001010,this.memory.getByteAtAddress((short)0x01ff));
+
+        this.flags.setWholeRegister((byte)0b10000010);
+
+        this.is.PHP();
+
+        Assertions.assertEquals((byte)0xfd,this.stack.getStackPointer());
+        Assertions.assertEquals((byte)0b10000010,this.memory.getByteAtAddress((short)0x01fe));
+    }
+
 }

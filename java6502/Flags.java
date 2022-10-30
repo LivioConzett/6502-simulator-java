@@ -44,7 +44,8 @@ public class Flags {
 
     /**
      * The processor status register is the register where the processor flags are saved.
-     * This returns the whole register as a byte.
+     * This returns the whole register as a byte.<br>
+     * NV_BDIZC
      * @return the processor flags as one byte
      */
     public byte getWholeRegister(){
