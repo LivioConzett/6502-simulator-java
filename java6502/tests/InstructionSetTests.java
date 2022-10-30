@@ -831,4 +831,30 @@ class InstructionSetTests{
 
     }
 
+    @Test
+    public void inxTest(){
+
+        this.memory.setRegisterX((byte)0x02);
+        this.is.INX();
+
+        Assertions.assertEquals((byte)0x03,this.memory.getRegisterX());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+
+        this.memory.setRegisterX((byte)0xff);
+        this.is.INX();
+
+        Assertions.assertEquals((byte)0x00,this.memory.getRegisterX());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getZero());
+
+        this.memory.setRegisterX((byte)0x7f);
+        this.is.INX();
+
+        Assertions.assertEquals((byte)0x80,this.memory.getRegisterX());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+
+    }
+
 }

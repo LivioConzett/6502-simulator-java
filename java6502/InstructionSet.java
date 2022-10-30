@@ -373,4 +373,17 @@ public class InstructionSet {
         this.memory.setByteAtAddress(address.getAddress(),ans);
     }
 
+    /**
+     * Increment Index X by One<br>
+     * Increments a value in register X by one.
+     */
+    public void INX(){
+        byte ans = (byte)(this.memory.getRegisterX() + 1);
+
+        this.flags.setZero(ans == 0);
+        this.flags.setNegative(ans < 0);
+
+        this.memory.setRegisterX(ans);
+    }
+
 }
