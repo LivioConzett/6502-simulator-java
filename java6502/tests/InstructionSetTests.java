@@ -1094,4 +1094,22 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getNegative());
     }
 
+    @Test
+    public void phaTest(){
+        this.stack.setStackPointer((byte)0xff);
+        this.memory.setRegisterA((byte)0x35);
+
+        this.is.PHA();
+
+        Assertions.assertEquals((byte)0x0fe,this.stack.getStackPointer());
+        Assertions.assertEquals((byte)0x35,this.memory.getByteAtAddress((short)0x01ff));
+
+        this.memory.setRegisterA((byte)0x12);
+        this.is.PHA();
+
+        Assertions.assertEquals((byte)0x0fd,this.stack.getStackPointer());
+        Assertions.assertEquals((byte)0x12,this.memory.getByteAtAddress((short)0x01fe));
+    }
+
+    
 }

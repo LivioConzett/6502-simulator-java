@@ -506,4 +506,10 @@ public class InstructionSet {
         this.flags.setNegative(this.memory.getRegisterA() < 0);
     }
 
+    /**
+     * Push accumulator on Stack
+     */
+    public void PHA(){
+        this.stack.push(this.memory.getRegisterA());
+    }
 }
