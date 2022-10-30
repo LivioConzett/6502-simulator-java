@@ -462,4 +462,11 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getInterruptDisable());
     }
 
+    @Test
+    public void clvTest(){
+        this.flags.setOverFlow(true);
+        this.is.CLV();
+        Assertions.assertFalse(this.flags.getOverFlow());
+    }
+
 }

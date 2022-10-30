@@ -258,5 +258,13 @@ public class InstructionSet {
         this.flags.setInterruptDisable(false);
     }
 
+    /**
+     * Clear Overflow Flag<br>
+     * Sets the overflow flag to false.
+     */
+    public void CLV(){
+        this.flags.setOverFlow(false);
+    }
+
 
 }
