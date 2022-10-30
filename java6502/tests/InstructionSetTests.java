@@ -883,4 +883,17 @@ class InstructionSetTests{
 
     }
 
+    @Test
+    public void jmpTest(){
+        AddressingModeReturn input = new AddressingModeReturn();
+        input.setAddress((short)0x1234);
+
+        this.memory.setProgramCounter((short)0x9fa3);
+
+        this.is.JMP(input);
+
+        Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
+    }
+
+
 }

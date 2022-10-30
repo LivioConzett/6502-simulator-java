@@ -399,4 +399,14 @@ public class InstructionSet {
         this.memory.setRegisterY(ans);
     }
 
+    /**
+     * Jump<br>
+     * Jumps to an address.
+     * @param address address to jump to.
+     */
+    public void JMP(AddressingModeReturn address){
+        this.memory.setProgramCounter(address.getAddress());
+    }
+
+    
 }
