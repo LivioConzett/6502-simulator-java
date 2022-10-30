@@ -451,4 +451,14 @@ class InstructionSetTests{
 
     }
 
+    @Test
+    public void cldTest(){
+        this.flags.setDecimalMode(true);
+
+        this.is.CLD();
+
+        Assertions.assertFalse(this.flags.getDecimalMode());
+
+    }
+
 }

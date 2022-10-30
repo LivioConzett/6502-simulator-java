@@ -242,5 +242,13 @@ public class InstructionSet {
         this.flags.setCarry(false);
     }
 
+    /**
+     * Clear Decimal Flag<br>
+     * Sets the decimal flag to false.
+     */
+    public void CLD(){
+        this.flags.setDecimalMode(false);
+    }
+
 
 }
