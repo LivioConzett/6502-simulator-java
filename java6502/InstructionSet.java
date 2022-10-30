@@ -445,5 +445,16 @@ public class InstructionSet {
         this.memory.setRegisterX(value.getValue());
     }
 
+    /**
+     * Load Index Y with Memory<br>
+     * Puts a value into the register Y.
+     * @param value value to put into accumulator.
+     */
+    public void LDY(AddressingModeReturn value){
+        this.flags.setZero(value.getValue() == 0);
+        this.flags.setNegative(value.getValue() < 0);
+        this.memory.setRegisterY(value.getValue());
+    }
+
 
 }

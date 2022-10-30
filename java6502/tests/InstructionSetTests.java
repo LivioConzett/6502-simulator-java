@@ -924,6 +924,22 @@ class InstructionSetTests{
         this.is.LDA(input);
 
         Assertions.assertEquals((byte)0x69,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        input.setValue((byte)0x81);
+        this.is.LDA(input);
+
+        Assertions.assertEquals((byte)0x81,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+
+        input.setValue((byte)0x0);
+        this.is.LDA(input);
+
+        Assertions.assertEquals((byte)0x0,this.memory.getRegisterA());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
     }
 
     @Test
@@ -934,5 +950,49 @@ class InstructionSetTests{
         this.is.LDX(input);
 
         Assertions.assertEquals((byte)0x69,this.memory.getRegisterX());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        input.setValue((byte)0x81);
+        this.is.LDX(input);
+
+        Assertions.assertEquals((byte)0x81,this.memory.getRegisterX());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+
+        input.setValue((byte)0x0);
+        this.is.LDX(input);
+
+        Assertions.assertEquals((byte)0x0,this.memory.getRegisterX());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
     }
+
+    @Test
+    public void ldyTest(){
+        AddressingModeReturn input = new AddressingModeReturn((byte)0x69,(short)0x1234);
+        this.memory.setRegisterY((byte)0xf);
+
+        this.is.LDY(input);
+
+        Assertions.assertEquals((byte)0x69,this.memory.getRegisterY());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        input.setValue((byte)0x81);
+        this.is.LDY(input);
+
+        Assertions.assertEquals((byte)0x81,this.memory.getRegisterY());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+
+        input.setValue((byte)0x0);
+        this.is.LDY(input);
+
+        Assertions.assertEquals((byte)0x0,this.memory.getRegisterY());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+    }
+
+    
 }
