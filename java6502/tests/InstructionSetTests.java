@@ -895,5 +895,26 @@ class InstructionSetTests{
         Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
     }
 
+    @Test
+    public void jsrTest(){
+        this.flags.reset();
+        AddressingModeReturn input = new AddressingModeReturn();
+        input.setAddress((short)0x1234);
+        this.memory.setProgramCounter((short)0xabcd);
 
+        this.stack.setStackPointer((byte)0xff);
+
+        this.flags.setZero(true);
+        this.flags.setNegative(true);
+
+        this.is.JSR(input);
+
+        Assertions.assertEquals((byte)0xfc,this.stack.getStackPointer());
+        Assertions.assertEquals((byte)0xab, this.memory.getByteAtAddress((short)0x01ff));
+        Assertions.assertEquals((byte)0xcd, this.memory.getByteAtAddress((short)0x01fe));
+        Assertions.assertEquals((byte)0x86, this.memory.getByteAtAddress((short)0x01fd));
+        Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
+
+
+    }
 }

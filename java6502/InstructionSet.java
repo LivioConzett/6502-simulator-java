@@ -408,5 +408,19 @@ public class InstructionSet {
         this.memory.setProgramCounter(address.getAddress());
     }
 
-    
+    /**
+     * Jump to Subroutine<br>
+     * Pushes the current address and status register onto the stack. Then jumps to an address.
+     * @param address address to jump to.
+     */
+    public void JSR(AddressingModeReturn address){
+        byte[] addr = Util.addressToBytes(this.memory.getProgramCounter());
+
+        this.stack.push(addr[1]);
+        this.stack.push(addr[0]);
+        this.stack.push(this.flags.getWholeRegister());
+
+        this.memory.setProgramCounter(address.getAddress());
+
+    }
 }
