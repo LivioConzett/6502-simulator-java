@@ -433,4 +433,17 @@ public class InstructionSet {
         this.flags.setNegative(value.getValue() < 0);
         this.memory.setRegisterA(value.getValue());
     }
+
+    /**
+     * Load Index X with Memory<br>
+     * Puts a value into the register X.
+     * @param value value to put into accumulator.
+     */
+    public void LDX(AddressingModeReturn value){
+        this.flags.setZero(value.getValue() == 0);
+        this.flags.setNegative(value.getValue() < 0);
+        this.memory.setRegisterX(value.getValue());
+    }
+
+
 }

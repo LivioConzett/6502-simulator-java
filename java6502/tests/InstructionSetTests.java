@@ -924,6 +924,15 @@ class InstructionSetTests{
         this.is.LDA(input);
 
         Assertions.assertEquals((byte)0x69,this.memory.getRegisterA());
+    }
 
+    @Test
+    public void ldxTest(){
+        AddressingModeReturn input = new AddressingModeReturn((byte)0x69,(short)0x1234);
+        this.memory.setRegisterX((byte)0xf);
+
+        this.is.LDX(input);
+
+        Assertions.assertEquals((byte)0x69,this.memory.getRegisterX());
     }
 }
