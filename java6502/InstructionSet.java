@@ -465,11 +465,29 @@ public class InstructionSet {
         // turn the carry to a one.
         this.flags.setCarry((this.memory.getRegisterA() & 0b1) == 0b1);
 
-        byte shift = (byte)(this.memory.getRegisterA() >> 1);
+        byte shift = (byte)(Util.unsignByte(this.memory.getRegisterA()) >>> 1);
 
         this.flags.setZero(shift == 0);
         this.flags.setNegative(false);
         this.memory.setRegisterA(shift);
     }
+
+    /**
+     * Logical Shift Right<br>
+     * Shift a memory loaction one bit to the right.
+     * @param address address of value to shift right
+     */
+    public void LSR(AddressingModeReturn address){
+        // if the lsb of the accumulator is a 1 then shifting it right will
+        // turn the carry to a one.
+        this.flags.setCarry((address.getValue() & 0b1) == 0b1);
+
+        byte shift = (byte)(Util.unsignByte(address.getValue()) >>> 1);
+
+        this.flags.setZero(shift == 0);
+        this.flags.setNegative(false);
+        this.memory.setByteAtAddress(address.getAddress(),shift);
+    }
+
 
 }

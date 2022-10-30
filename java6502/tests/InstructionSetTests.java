@@ -995,8 +995,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void lsrTest(){
-        AddressingModeReturn input = new AddressingModeReturn();
+    public void lsrAccTest(){
 
         this.flags.reset();
 
@@ -1023,6 +1022,43 @@ class InstructionSetTests{
         this.is.LSR();
 
         Assertions.assertEquals((byte)0b01001010,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getCarry());
+
+    }
+
+    @Test
+    public void lsrMemTest(){
+
+        short addr = 0x4fe5;
+        AddressingModeReturn input = new AddressingModeReturn((byte)0b00000000,addr);
+
+        this.flags.reset();
+
+        this.memory.setByteAtAddress(addr,(byte)0b00000000);
+
+        this.is.LSR(input);
+
+        Assertions.assertEquals((byte)0b00000000,this.memory.getByteAtAddress(addr));
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getCarry());
+
+        this.memory.setByteAtAddress(addr,(byte)0b00000001);
+        input.setValue((byte)0b00000001);
+        this.is.LSR(input);
+
+        Assertions.assertEquals((byte)0b00000000,this.memory.getByteAtAddress(addr));
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getCarry());
+
+        this.memory.setByteAtAddress(addr,(byte)0b10010100);
+        input.setValue((byte)0b10010100);
+        this.is.LSR(input);
+
+        Assertions.assertEquals((byte)0b01001010,this.memory.getByteAtAddress(addr));
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
         Assertions.assertFalse(this.flags.getCarry());
