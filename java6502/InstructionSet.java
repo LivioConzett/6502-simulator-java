@@ -266,5 +266,20 @@ public class InstructionSet {
         this.flags.setOverFlow(false);
     }
 
+    /**
+     * Compare Memory with Accumulator<br>
+     * Subtracts a value from the accumulator without saving the result. Status flags will be set accordingly.
+     * @param value value to compare the accumulator to.
+     */
+    public void CMP(AddressingModeReturn value){
+        byte accum = this.memory.getRegisterA();
+        byte num = value.getValue();
+
+        this.flags.setNegative(accum < num);
+        this.flags.setZero(accum == num);
+        this.flags.setCarry((accum == num)||(accum > num));
+
+    }
+
 
 }

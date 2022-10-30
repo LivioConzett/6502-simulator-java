@@ -469,4 +469,57 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getOverFlow());
     }
 
+    @Test
+    public void cmpTest(){
+        this.memory.setRegisterA((byte)0x12);
+        AddressingModeReturn input = new AddressingModeReturn();
+        this.flags.reset();
+
+        input.setValue((byte)0x12);
+
+        this.is.CMP(input);
+
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getCarry());
+
+        input.setValue((byte)0x10);
+
+        this.is.CMP(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getCarry());
+
+        input.setValue((byte)0x20);
+
+        this.is.CMP(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getCarry());
+
+
+        this.memory.setRegisterA((byte)0x91);
+
+        input.setValue((byte)0xf0);
+
+        this.is.CMP(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getCarry());
+
+        input.setValue((byte)0x90);
+
+        this.is.CMP(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getCarry());
+
+    }
+
+
+
 }
