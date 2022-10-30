@@ -188,7 +188,8 @@ public class InstructionSet {
     }
 
     /**
-     * Break command.
+     * Break command <br>
+     * Will cause the cpu to jump to the address saved in the break vector.
      */
     public void BRK(){
 
@@ -211,7 +212,16 @@ public class InstructionSet {
         this.flags.setBreakCommand(false);
 
         this.memory.setProgramCounter(this.memory.getBreakAddress());
+    }
 
+    /**
+     * Branch on Overflow Clear<br>
+     * Branch to the address given if the overflow flag is false.
+     * @param address Address to branch to.
+     */
+    public void BVC(AddressingModeReturn address){
+        if(this.flags.getOverFlow()) return;
+        this.memory.setProgramCounter(address.getAddress());
     }
 
 }

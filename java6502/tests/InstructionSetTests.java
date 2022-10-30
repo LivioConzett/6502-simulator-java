@@ -401,4 +401,25 @@ class InstructionSetTests{
 
     }
 
+    @Test
+    public void bvcTest(){
+
+        this.memory.setProgramCounter((short)0xfabc);
+        this.flags.setOverFlow(false);
+        this.input.setAddress((short)0xabcd);
+
+        this.is.BVC(input);
+
+        Assertions.assertEquals((short)0xabcd,this.memory.getProgramCounter());
+
+        this.memory.setProgramCounter((short)0xfabc);
+        this.flags.setOverFlow(true);
+        this.input.setAddress((short)0xabcd);
+
+        this.is.BVC(input);
+
+        Assertions.assertEquals((short)0xfabc,this.memory.getProgramCounter());
+    }
+
+
 }
