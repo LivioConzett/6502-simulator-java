@@ -296,6 +296,15 @@ public class InstructionSet {
         this.compare(this.memory.getRegisterX(),value.getValue());
     }
 
+    /**
+     * Compare Memory and Index Y<br>
+     * Subtracts a value from the register Y without saving the result. Status flags will be set accordingly.
+     * @param value Value to compare accumulator to.
+     */
+    public void CPY(AddressingModeReturn value){
+        this.compare(this.memory.getRegisterY(),value.getValue());
+    }
+
 
 
 

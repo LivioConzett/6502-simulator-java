@@ -624,6 +624,58 @@ class InstructionSetTests{
 
     }
 
+    @Test
+    public void cpyTest(){
+
+        this.memory.setRegisterY((byte)0x12);
+        this.flags.reset();
+        AddressingModeReturn input = new AddressingModeReturn();
+
+        input.setValue((byte)0x12);
+
+        this.is.CPY(input);
+
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getCarry());
+
+        input.setValue((byte)0x10);
+
+        this.is.CPY(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getCarry());
+
+        input.setValue((byte)0x20);
+
+        this.is.CPY(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getCarry());
+
+
+        this.memory.setRegisterY((byte)0x91);
+
+        input.setValue((byte)0xf0);
+
+        this.is.CPY(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getCarry());
+
+        input.setValue((byte)0x90);
+
+        this.is.CPY(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getCarry());
+
+    }
+
 
 
 }
