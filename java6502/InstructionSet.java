@@ -317,7 +317,19 @@ public class InstructionSet {
         this.flags.setNegative(ans < 0);
 
         this.memory.setByteAtAddress(address.getAddress(),ans);
+    }
 
+    /**
+     * Decrement Index X by One<br>
+     * Decrements a value in register X by one.
+     */
+    public void DEX(){
+        byte ans = (byte)(this.memory.getRegisterX() - 1);
+
+        this.flags.setZero(ans == 0);
+        this.flags.setNegative(ans < 0);
+
+        this.memory.setRegisterX(ans);
     }
 
 

@@ -706,7 +706,29 @@ class InstructionSetTests{
         Assertions.assertTrue(this.flags.getNegative());
         Assertions.assertFalse(this.flags.getZero());
 
+    }
 
+    @Test
+    public void dexTest(){
+
+        this.memory.setRegisterX((byte)0x02);
+        this.is.DEX();
+
+        Assertions.assertEquals((byte)0x01,this.memory.getRegisterX());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+
+        this.is.DEX();
+
+        Assertions.assertEquals((byte)0x00,this.memory.getRegisterX());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getZero());
+
+        this.is.DEX();
+
+        Assertions.assertEquals((byte)0xff,this.memory.getRegisterX());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
 
     }
 
