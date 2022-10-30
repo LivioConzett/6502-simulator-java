@@ -519,4 +519,13 @@ public class InstructionSet {
     public void PHP(){
         this.stack.push(this.flags.getWholeRegister());
     }
+
+    /**
+     * Pull Accumulator from Stack.
+     */
+    public void PLA(){
+        this.memory.setRegisterA(this.stack.pull());
+        this.flags.setZero(this.memory.getRegisterA() == 0);
+        this.flags.setNegative(this.memory.getRegisterA() < 0);
+    }
 }

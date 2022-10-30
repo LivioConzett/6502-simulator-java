@@ -1130,4 +1130,45 @@ class InstructionSetTests{
         Assertions.assertEquals((byte)0b10000010,this.memory.getByteAtAddress((short)0x01fe));
     }
 
+    @Test
+    public void plaTest(){
+
+        this.memory.setByteAtAddress((short)0x1ff,(byte)0x0f);
+        this.memory.setByteAtAddress((short)0x1fe,(byte)0x91);
+        this.memory.setByteAtAddress((short)0x1fd,(byte)0x00);
+        this.memory.setByteAtAddress((short)0x1fc,(byte)0x01);
+
+        this.stack.setStackPointer((byte)0xfb);
+
+        this.is.PLA();
+
+        Assertions.assertEquals((byte)0xfc,this.stack.getStackPointer());
+        Assertions.assertEquals((byte)0x01,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        this.is.PLA();
+
+        Assertions.assertEquals((byte)0xfd,this.stack.getStackPointer());
+        Assertions.assertEquals((byte)0x00,this.memory.getRegisterA());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        this.is.PLA();
+
+        Assertions.assertEquals((byte)0xfe,this.stack.getStackPointer());
+        Assertions.assertEquals((byte)0x91,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+
+        this.is.PLA();
+
+        Assertions.assertEquals((byte)0xff,this.stack.getStackPointer());
+        Assertions.assertEquals((byte)0x0f,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+
+    }
+
 }
