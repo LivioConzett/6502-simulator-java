@@ -441,5 +441,14 @@ class InstructionSetTests{
         Assertions.assertEquals((short)0x1928,this.memory.getProgramCounter());
     }
 
+    @Test
+    public void clcTest(){
+        this.flags.setCarry(true);
+
+        this.is.CLC();
+
+        Assertions.assertFalse(this.flags.getCarry());
+
+    }
 
 }

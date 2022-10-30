@@ -234,6 +234,13 @@ public class InstructionSet {
         this.memory.setProgramCounter(address.getAddress());
     }
 
+    /**
+     * Clear Carry Flag<br>
+     * Sets the carry flag to false.
+     */
+    public void CLC(){
+        this.flags.setCarry(false);
+    }
 
 
 }
