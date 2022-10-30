@@ -267,19 +267,19 @@ public class InstructionSet {
     }
 
     /**
-     * Compare Memory with Accumulator<br>
+     * Compares two numbers<br>
      * Subtracts a value from the accumulator without saving the result. Status flags will be set accordingly.
-     * @param value value to compare the accumulator to.
+     * @param register the value in the register to compare to.
+     * @param memory the value to compare the register to.
      */
-    public void CMP(AddressingModeReturn value){
-        byte accum = this.memory.getRegisterA();
-        byte num = value.getValue();
+    public void Compare(byte register, byte memory){
 
-        this.flags.setNegative(accum < num);
-        this.flags.setZero(accum == num);
-        this.flags.setCarry((accum == num)||(accum > num));
+        this.flags.setNegative(register < memory);
+        this.flags.setZero(register == memory);
+        this.flags.setCarry((register == memory)||(register > memory));
 
     }
+
 
 
 }
