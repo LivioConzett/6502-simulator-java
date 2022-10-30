@@ -224,4 +224,16 @@ public class InstructionSet {
         this.memory.setProgramCounter(address.getAddress());
     }
 
+    /**
+     * Branch on Overflow Set<br>
+     * Branch to the address given if the overflow flag is true.
+     * @param address Address to branch to.
+     */
+    public void BVS(AddressingModeReturn address){
+        if(!this.flags.getOverFlow()) return;
+        this.memory.setProgramCounter(address.getAddress());
+    }
+
+
+
 }

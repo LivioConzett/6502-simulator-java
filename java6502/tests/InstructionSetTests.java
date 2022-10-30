@@ -421,5 +421,25 @@ class InstructionSetTests{
         Assertions.assertEquals((short)0xfabc,this.memory.getProgramCounter());
     }
 
+    @Test
+    public void bvsTest(){
+
+        this.memory.setProgramCounter((short)0xc3f5);
+        this.flags.setOverFlow(false);
+        this.input.setAddress((short)0x1928);
+
+        this.is.BVS(input);
+
+        Assertions.assertEquals((short)0xc3f5,this.memory.getProgramCounter());
+
+        this.memory.setProgramCounter((short)0xc3f5);
+        this.flags.setOverFlow(true);
+        this.input.setAddress((short)0x1928);
+
+        this.is.BVS(input);
+
+        Assertions.assertEquals((short)0x1928,this.memory.getProgramCounter());
+    }
+
 
 }
