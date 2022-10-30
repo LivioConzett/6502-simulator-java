@@ -332,6 +332,19 @@ public class InstructionSet {
         this.memory.setRegisterX(ans);
     }
 
+    /**
+     * Decrement Index Y by One<br>
+     * Decrements a value in register Y by one.
+     */
+    public void DEY(){
+        byte ans = (byte)(this.memory.getRegisterY() - 1);
+
+        this.flags.setZero(ans == 0);
+        this.flags.setNegative(ans < 0);
+
+        this.memory.setRegisterY(ans);
+    }
+
 
 
 

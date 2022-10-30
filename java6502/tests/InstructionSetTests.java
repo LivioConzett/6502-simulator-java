@@ -732,4 +732,28 @@ class InstructionSetTests{
 
     }
 
+    @Test
+    public void deyTest(){
+
+        this.memory.setRegisterY((byte)0x02);
+        this.is.DEY();
+
+        Assertions.assertEquals((byte)0x01,this.memory.getRegisterY());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+
+        this.is.DEY();
+
+        Assertions.assertEquals((byte)0x00,this.memory.getRegisterY());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getZero());
+
+        this.is.DEY();
+
+        Assertions.assertEquals((byte)0xff,this.memory.getRegisterY());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+
+    }
+
 }
