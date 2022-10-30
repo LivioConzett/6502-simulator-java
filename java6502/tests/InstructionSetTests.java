@@ -914,7 +914,16 @@ class InstructionSetTests{
         Assertions.assertEquals((byte)0xcd, this.memory.getByteAtAddress((short)0x01fe));
         Assertions.assertEquals((byte)0x86, this.memory.getByteAtAddress((short)0x01fd));
         Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
+    }
 
+    @Test
+    public void ldaTest(){
+        AddressingModeReturn input = new AddressingModeReturn((byte)0x69,(short)0x1234);
+        this.memory.setRegisterA((byte)0xf);
+
+        this.is.LDA(input);
+
+        Assertions.assertEquals((byte)0x69,this.memory.getRegisterA());
 
     }
 }

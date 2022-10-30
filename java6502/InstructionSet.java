@@ -421,6 +421,16 @@ public class InstructionSet {
         this.stack.push(this.flags.getWholeRegister());
 
         this.memory.setProgramCounter(address.getAddress());
+    }
 
+    /**
+     * Load Accumulator with Memory<br>
+     * Puts a value into the Accumulator.
+     * @param value value to put into accumulator.
+     */
+    public void LDA(AddressingModeReturn value){
+        this.flags.setZero(value.getValue() == 0);
+        this.flags.setNegative(value.getValue() < 0);
+        this.memory.setRegisterA(value.getValue());
     }
 }
