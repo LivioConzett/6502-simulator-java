@@ -857,4 +857,30 @@ class InstructionSetTests{
 
     }
 
+    @Test
+    public void inyTest(){
+
+        this.memory.setRegisterY((byte)0x02);
+        this.is.INY();
+
+        Assertions.assertEquals((byte)0x03,this.memory.getRegisterY());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+
+        this.memory.setRegisterY((byte)0xff);
+        this.is.INY();
+
+        Assertions.assertEquals((byte)0x00,this.memory.getRegisterY());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getZero());
+
+        this.memory.setRegisterY((byte)0x7f);
+        this.is.INY();
+
+        Assertions.assertEquals((byte)0x80,this.memory.getRegisterY());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+
+    }
+
 }

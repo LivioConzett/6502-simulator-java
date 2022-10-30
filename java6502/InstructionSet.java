@@ -386,4 +386,17 @@ public class InstructionSet {
         this.memory.setRegisterX(ans);
     }
 
+    /**
+     * Increment Index X by One<br>
+     * Increments a value in register X by one.
+     */
+    public void INY(){
+        byte ans = (byte)(this.memory.getRegisterY() + 1);
+
+        this.flags.setZero(ans == 0);
+        this.flags.setNegative(ans < 0);
+
+        this.memory.setRegisterY(ans);
+    }
+
 }
