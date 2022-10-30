@@ -1064,4 +1064,34 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getCarry());
 
     }
+
+    @Test
+    public void oraTest(){
+
+        AddressingModeReturn input = new AddressingModeReturn((byte)0b00000000,(short)0x0);
+        this.memory.setRegisterA((byte)0b00000000);
+
+        this.is.ORA(input);
+
+        Assertions.assertEquals((byte)0b00000000,this.memory.getRegisterA());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        this.memory.setRegisterA((byte)0b01010101);
+        input.setValue((byte)0b10101010);
+        this.is.ORA(input);
+
+        Assertions.assertEquals((byte)0b11111111,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+
+        this.memory.setRegisterA((byte)0b00100001);
+        input.setValue((byte)0b00100010);
+        this.is.ORA(input);
+
+        Assertions.assertEquals((byte)0b00100011,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+    }
+
 }

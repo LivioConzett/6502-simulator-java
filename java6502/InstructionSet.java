@@ -493,10 +493,17 @@ public class InstructionSet {
      * No Operator<br>
      * Doesn't do anything.
      */
-    public void NOP(){
+    public void NOP(){}
 
+    /**
+     * OR Memory with Accumulator<br>
+     * ORs a value with the Accumulator and stores it in the accumulator
+     * @param value value to OR the Accumulator with.
+     */
+    public void ORA(AddressingModeReturn value){
+        this.memory.setRegisterA((byte)(this.memory.getRegisterA() | value.getValue()));
+        this.flags.setZero(this.memory.getRegisterA() == 0);
+        this.flags.setNegative(this.memory.getRegisterA() < 0);
     }
-
-    
 
 }
