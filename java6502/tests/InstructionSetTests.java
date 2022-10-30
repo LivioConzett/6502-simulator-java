@@ -799,4 +799,36 @@ class InstructionSetTests{
 
     }
 
+    @Test
+    public void incTest(){
+
+        short addr = 0x5431;
+
+        AddressingModeReturn input = new AddressingModeReturn((byte)0x13,addr);
+        this.memory.setByteAtAddress(addr,(byte)0x13);
+
+        this.is.INC(input);
+
+        Assertions.assertEquals((byte)0x14,this.memory.getByteAtAddress(addr));
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+
+        this.memory.setByteAtAddress(addr,(byte)0xff);
+        input.setValue((byte)0xff);
+        this.is.INC(input);
+
+        Assertions.assertEquals((byte)0x00,this.memory.getByteAtAddress(addr));
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getZero());
+
+
+        input.setValue((byte)0x7f);
+        this.is.INC(input);
+
+        Assertions.assertEquals((byte)0x80,this.memory.getByteAtAddress(addr));
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+
+    }
+
 }

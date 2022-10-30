@@ -359,4 +359,18 @@ public class InstructionSet {
         this.memory.setRegisterA(ans);
     }
 
+    /**
+     * Increment Memory by One<br>
+     * Increments a memory location by one.
+     * @param address address to increment by one.
+     */
+    public void INC(AddressingModeReturn address){
+        byte ans = (byte)(address.getValue() + 1);
+
+        this.flags.setZero(ans == 0);
+        this.flags.setNegative(ans < 0);
+
+        this.memory.setByteAtAddress(address.getAddress(),ans);
+    }
+
 }
