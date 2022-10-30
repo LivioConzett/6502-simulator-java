@@ -305,6 +305,21 @@ public class InstructionSet {
         this.compare(this.memory.getRegisterY(),value.getValue());
     }
 
+    /**
+     * Decrement Memory by One<br>
+     * Decrements a value in memory by one.
+     * @param address address of value to decrement.
+     */
+    public void DEC(AddressingModeReturn address){
+        byte ans = (byte)(address.getValue() - 1);
+
+        this.flags.setZero(ans == 0);
+        this.flags.setNegative(ans < 0);
+
+        this.memory.setByteAtAddress(address.getAddress(),ans);
+
+    }
+
 
 
 

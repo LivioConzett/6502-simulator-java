@@ -676,6 +676,38 @@ class InstructionSetTests{
 
     }
 
+    @Test
+    public void decTest(){
 
+        short addr = 0x5431;
+
+        AddressingModeReturn input = new AddressingModeReturn((byte)0x13,addr);
+        this.memory.setByteAtAddress(addr,(byte)0x13);
+
+        this.is.DEC(input);
+
+        Assertions.assertEquals((byte)0x12,this.memory.getByteAtAddress(addr));
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+
+        this.memory.setByteAtAddress(addr,(byte)0x01);
+        input.setValue((byte)0x01);
+        this.is.DEC(input);
+
+        Assertions.assertEquals((byte)0x00,this.memory.getByteAtAddress(addr));
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getZero());
+
+
+        input.setValue((byte)0x00);
+        this.is.DEC(input);
+
+        Assertions.assertEquals((byte)0xff,this.memory.getByteAtAddress(addr));
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+
+
+
+    }
 
 }
