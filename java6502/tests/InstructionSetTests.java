@@ -561,10 +561,62 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertTrue(this.flags.getNegative());
         Assertions.assertFalse(this.flags.getCarry());
-        
+
         input.setValue((byte)0x90);
 
         this.is.CMP(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getCarry());
+
+    }
+
+    @Test
+    public void cpxTest(){
+
+        this.memory.setRegisterX((byte)0x12);
+        this.flags.reset();
+        AddressingModeReturn input = new AddressingModeReturn();
+
+        input.setValue((byte)0x12);
+
+        this.is.CPX(input);
+
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getCarry());
+
+        input.setValue((byte)0x10);
+
+        this.is.CPX(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getCarry());
+
+        input.setValue((byte)0x20);
+
+        this.is.CPX(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getCarry());
+
+
+        this.memory.setRegisterX((byte)0x91);
+
+        input.setValue((byte)0xf0);
+
+        this.is.CPX(input);
+
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getCarry());
+
+        input.setValue((byte)0x90);
+
+        this.is.CPX(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
