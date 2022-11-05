@@ -1306,4 +1306,49 @@ class InstructionSetTests{
 
     }
 
+    @Test 
+    public void rorMemTest(){
+        
+        short addr = (short) 0x023f;
+        AddressingModeReturn input = new AddressingModeReturn((byte)0b00000010,addr);
+
+        this.memory.setByteAtAddress(addr,(byte)0b00000010);
+
+        this.is.ROR(input);
+
+        Assertions.assertEquals((byte)0b00000001, this.memory.getByteAtAddress(addr));
+        Assertions.assertFalse(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        this.memory.setByteAtAddress(addr,(byte)0b00000001);
+        input.setValue((byte)0b00000001);
+
+        this.is.ROR(input);
+
+        Assertions.assertEquals((byte)0b00000000, this.memory.getByteAtAddress(addr));
+        Assertions.assertTrue(this.flags.getCarry());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        input.setValue((byte)0b00000000);
+        this.is.ROR(input);
+
+        Assertions.assertEquals((byte)0b10000000, this.memory.getByteAtAddress(addr));
+        Assertions.assertFalse(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+
+        this.memory.setByteAtAddress(addr,(byte)0b11000001);
+        input.setValue((byte)0b11000001);
+
+        this.is.ROR(input);
+
+        Assertions.assertEquals((byte)0b01100000, this.memory.getByteAtAddress(addr));
+        Assertions.assertTrue(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+    }
+
 }
