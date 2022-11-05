@@ -611,4 +611,16 @@ public class InstructionSet {
         this.memory.setByteAtAddress(address.getAddress(), shift);
     }
 
+    /**
+     * Return from Interupt
+     */
+    public void RTI(){
+        byte status = this.stack.pull();
+        byte lowByte = this.stack.pull();
+        byte highByte = this.stack.pull();
+
+        this.flags.setWholeRegister(status);
+        this.flags.setBreakCommand(false);
+        this.memory.setProgramCounter(Util.bytesToAddress(lowByte, highByte));
+    }
 }
