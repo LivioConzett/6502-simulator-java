@@ -528,4 +528,14 @@ public class InstructionSet {
         this.flags.setZero(this.memory.getRegisterA() == 0);
         this.flags.setNegative(this.memory.getRegisterA() < 0);
     }
+
+    /**
+     * Pull Processor Status from Stack
+     */
+    public void PLP(){
+        byte number = this.stack.pull();
+        this.flags.setWholeRegister(number);
+    }
+
+    
 }

@@ -1168,7 +1168,21 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
 
+    }
+
+    @Test 
+    public void plpTest(){
+        this.stack.setStackPointer((byte)0xfe);
+        this.flags.reset();
+        this.memory.setByteAtAddress((short)0x01ff, (byte)0b01001010);
+
+        this.is.PLP();
+
+        Assertions.assertEquals((byte)0b01001010, this.flags.getWholeRegister());
+        Assertions.assertEquals((byte)0xff,this.stack.getStackPointer());
 
     }
+
+    
 
 }
