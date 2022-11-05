@@ -1184,7 +1184,7 @@ class InstructionSetTests{
     }
 
     @Test 
-    public void rolTest(){
+    public void rolAccTest(){
 
         this.memory.setRegisterA((byte)0b00000001);
 
@@ -1216,6 +1216,51 @@ class InstructionSetTests{
         this.is.ROL();
 
         Assertions.assertEquals((byte)0b10000000, this.memory.getRegisterA());
+        Assertions.assertTrue(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+
+    }
+
+    @Test 
+    public void rolMemTest(){
+        
+        short addr = (short) 0x1234;
+        AddressingModeReturn input = new AddressingModeReturn((byte)0b00000001,addr);
+
+        this.memory.setByteAtAddress(addr,(byte)0b00000001);
+
+        this.is.ROL(input);
+
+        Assertions.assertEquals((byte)0b00000010, this.memory.getByteAtAddress(addr));
+        Assertions.assertFalse(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        this.memory.setByteAtAddress(addr,(byte)0b10000000);
+        input.setValue((byte)0b10000000);
+
+        this.is.ROL(input);
+
+        Assertions.assertEquals((byte)0b00000000, this.memory.getByteAtAddress(addr));
+        Assertions.assertTrue(this.flags.getCarry());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        input.setValue((byte)0b00000000);
+        this.is.ROL(input);
+
+        Assertions.assertEquals((byte)0b00000001, this.memory.getByteAtAddress(addr));
+        Assertions.assertFalse(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        this.memory.setByteAtAddress(addr,(byte)0b11000000);
+        input.setValue((byte)0b11000000);
+
+        this.is.ROL(input);
+
+        Assertions.assertEquals((byte)0b10000000, this.memory.getByteAtAddress(addr));
         Assertions.assertTrue(this.flags.getCarry());
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertTrue(this.flags.getNegative());
