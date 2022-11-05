@@ -558,6 +558,7 @@ public class InstructionSet {
     /**
      * Rotate Left.<br>
      * Rotates the value at and address left by one.
+     * @param address address of the byte to rotate.
      */
     public void ROL(AddressingModeReturn address){
         // get the value of the carry and save it for later
@@ -571,6 +572,24 @@ public class InstructionSet {
         this.flags.setNegative(shift < 0);
         this.flags.setZero(shift == 0);
         this.memory.setByteAtAddress(address.getAddress(), shift);
+    }
+
+    /**
+     * Rotate Right<br>
+     * Rotates the accumulator right by one.
+     */
+    public void ROR(){
+        // get the value of the carry and save it for later
+        int carry = this.flags.getCarryInt();
+        // if the lsb of the accumulator is a 1 then rotating it right will
+        // turn the carry to a one.
+        this.flags.setCarry((this.memory.getRegisterA() & 0b1) == 0b1);
+
+        byte shift = (byte)((Util.unsignByte(this.memory.getRegisterA()) >>> 1) | (carry * 128));
+
+        this.flags.setNegative(shift < 0);
+        this.flags.setZero(shift == 0);
+        this.memory.setRegisterA(shift);
     }
 
 

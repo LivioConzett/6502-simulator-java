@@ -1267,4 +1267,43 @@ class InstructionSetTests{
 
     }
 
+    @Test 
+    public void rorAccTest(){
+
+        this.memory.setRegisterA((byte)0b00000010);
+
+        this.is.ROR();
+
+        Assertions.assertEquals((byte)0b00000001, this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        this.memory.setRegisterA((byte)0b00000001);
+
+        this.is.ROR();
+
+        Assertions.assertEquals((byte)0b00000000, this.memory.getRegisterA());
+        Assertions.assertTrue(this.flags.getCarry());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        this.is.ROR();
+
+        Assertions.assertEquals((byte)0b10000000, this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+
+        this.memory.setRegisterA((byte)0b11000001);
+
+        this.is.ROR();
+
+        Assertions.assertEquals((byte)0b01100000, this.memory.getRegisterA());
+        Assertions.assertTrue(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+    }
+
 }
