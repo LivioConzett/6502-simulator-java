@@ -537,5 +537,23 @@ public class InstructionSet {
         this.flags.setWholeRegister(number);
     }
 
+    /**
+     * Rotate Left.<br>
+     * Rotates the Accumulator left by one.
+     */
+    public void ROL(){
+        // get the value of the carry and save it for later
+        int carry = this.flags.getCarryInt();
+        // if the msb of the accumulator is a 1 then rotating it right will
+        // turn the carry to a one.
+        this.flags.setCarry((this.memory.getRegisterA() & 0b10000000) == 0b10000000);
+
+        byte shift = (byte)((Util.unsignByte(this.memory.getRegisterA()) << 1) + carry);
+
+        this.flags.setNegative(shift < 0);
+        this.flags.setZero(shift == 0);
+        this.memory.setRegisterA(shift);
+    }
+
     
 }
