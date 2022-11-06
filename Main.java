@@ -2,7 +2,7 @@
  * Main class to use the Sim6502 class
  */
 
-import java6502.*;
+import tech.livio.java6502.*;
 public class Main {
 
     public static void main(String[] args){

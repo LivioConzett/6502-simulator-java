@@ -1,13 +1,11 @@
-package java6502;
+package tech.livio.java6502;
 
-
-import java6502.Flags;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class FlagTests {
     @Test
-    public void flagTests() {
+    void flagTests() {
         Flags flags = new Flags();
 
         Assertions.assertTrue(flags.getInterruptDisable());

@@ -1,9 +1,5 @@
-package java6502;
+package tech.livio.java6502;
 
-
-import java6502.AddressingMode;
-import java6502.AddressingModeReturn;
-import java6502.Memory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,14 +11,14 @@ class AddressingModeTest{
     private AddressingModeReturn ans;
 
     @BeforeEach
-    public void init(){
+    void init(){
         this.memory = new Memory();
         this.addr = new AddressingMode(this.memory);
         this.ans = new AddressingModeReturn();
     }
 
     @Test
-    public void immediateTest(){
+    void immediateTest(){
         this.memory.setProgramCounter((short) 0x01);
         this.memory.setByteAtAddress((short) 0x02, (byte) 0x69);
         this.ans.set((byte)0x69,(short)0x02);
@@ -36,7 +32,7 @@ class AddressingModeTest{
     }
 
     @Test
-    public void absoluteTest(){
+    void absoluteTest(){
         this.memory.setProgramCounter((short) 0x1000);
         this.memory.setByteAtAddress((short) 0x1001, (byte) 0x34);
         this.memory.setByteAtAddress((short) 0x1002, (byte) 0x12);
@@ -60,7 +56,7 @@ class AddressingModeTest{
     }
 
     @Test
-    public void zeroPageTest(){
+    void zeroPageTest(){
         this.memory.setProgramCounter((short) 0x0020);
         this.memory.setByteAtAddress((short) 0x0021, (byte) 0x1f);
         this.memory.setByteAtAddress((short) 0x001f,(byte) 0xff);
@@ -90,7 +86,7 @@ class AddressingModeTest{
     }
 
     @Test
-    public void indexAbsoluteTest(){
+    void indexAbsoluteTest(){
         this.memory.setProgramCounter((short) 0x1000);
         this.memory.setByteAtAddress((short) 0x1001, (byte) 0x34);
         this.memory.setByteAtAddress((short) 0x1002, (byte) 0x12);
@@ -134,7 +130,7 @@ class AddressingModeTest{
     }
 
     @Test
-    public void indirectAbsoluteTest(){
+    void indirectAbsoluteTest(){
         this.memory.setProgramCounter((short) 0x1000);
         this.memory.setByteAtAddress((short) 0x1001, (byte) 0x34);
         this.memory.setByteAtAddress((short) 0x1002, (byte) 0x12);
@@ -159,7 +155,7 @@ class AddressingModeTest{
     }
 
     @Test
-    public void zeroPageIndexTest(){
+    void zeroPageIndexTest(){
         this.memory.setProgramCounter((short) 0x1000);
         this.memory.setByteAtAddress((short) 0x1001, (byte) 0x34);
         this.memory.setByteAtAddress((short) 0x0037,(byte) 0xf1);
@@ -199,7 +195,7 @@ class AddressingModeTest{
 
 
     @Test
-    public void indexedIndirectTest(){
+    void indexedIndirectTest(){
 
         this.memory.setProgramCounter((short)0x1234);
         this.memory.setRegisterX((byte)0x09);
@@ -228,7 +224,7 @@ class AddressingModeTest{
     }
 
     @Test
-    public void indirectIndexedTest(){
+    void indirectIndexedTest(){
 
         this.memory.setProgramCounter((short)0x1234);
         this.memory.setRegisterY((byte)0x09);
@@ -257,7 +253,7 @@ class AddressingModeTest{
     }
 
     @Test
-    public void relativAddressingTest(){
+    void relativAddressingTest(){
 
         this.memory.setProgramCounter((short)0x0f3e);
         this.memory.setByteAtAddress((short)0x0f3f,(byte)0x2e);

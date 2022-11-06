@@ -1,4 +1,4 @@
-package java6502;
+package tech.livio.java6502;
 
 
 import org.junit.jupiter.api.Assertions;
@@ -23,7 +23,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void adcTest(){
+    void adcTest(){
 
         // -----------------------------------
         this.memory.setRegisterA((byte)10);
@@ -82,7 +82,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void andTest(){
+    void andTest(){
 
         this.memory.setRegisterA((byte)0b00101010);
         this.flags.setZero(false);
@@ -117,7 +117,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void aslAccumulatorTest(){
+    void aslAccumulatorTest(){
 
         this.memory.setRegisterA((byte)0b00000001);
         this.is.asl();
@@ -164,7 +164,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void aslMemoryTest(){
+    void aslMemoryTest(){
 
         this.memory.setByteAtAddress((short)0x0345,(byte)0b00000001);
         this.input.set((byte)0b00000001,(short)0x0345);
@@ -216,7 +216,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void bccTest(){
+    void bccTest(){
 
         this.memory.setProgramCounter((short)0x0010);
         this.flags.setCarry(true);
@@ -236,7 +236,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void bcsTest(){
+    void bcsTest(){
 
         this.memory.setProgramCounter((short)0xf010);
         this.flags.setCarry(false);
@@ -256,7 +256,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void beqTest(){
+    void beqTest(){
 
         this.memory.setProgramCounter((short)0x1234);
         this.flags.setZero(false);
@@ -276,7 +276,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void bitTest(){
+    void bitTest(){
 
         this.memory.setRegisterA((byte)0b01010101);
         this.input.setValue((byte)0b01010001);
@@ -317,7 +317,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void bmiTest(){
+    void bmiTest(){
 
         this.memory.setProgramCounter((short)0x3333);
         this.flags.setNegative(false);
@@ -337,7 +337,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void bneTest(){
+    void bneTest(){
 
         this.memory.setProgramCounter((short)0xfabcd);
         this.flags.setZero(true);
@@ -357,7 +357,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void bplTest(){
+    void bplTest(){
 
         this.memory.setProgramCounter((short)0x3333);
         this.flags.setNegative(false);
@@ -377,7 +377,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void brkTest(){
+    void brkTest(){
 
         this.flags.reset();
 
@@ -401,7 +401,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void bvcTest(){
+    void bvcTest(){
 
         this.memory.setProgramCounter((short)0xfabc);
         this.flags.setOverFlow(false);
@@ -421,7 +421,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void bvsTest(){
+    void bvsTest(){
 
         this.memory.setProgramCounter((short)0xc3f5);
         this.flags.setOverFlow(false);
@@ -441,35 +441,35 @@ class InstructionSetTests{
     }
 
     @Test
-    public void clcTest(){
+    void clcTest(){
         this.flags.setCarry(true);
         this.is.clc();
         Assertions.assertFalse(this.flags.getCarry());
     }
 
     @Test
-    public void cldTest(){
+    void cldTest(){
         this.flags.setDecimalMode(true);
         this.is.cld();
         Assertions.assertFalse(this.flags.getDecimalMode());
     }
 
     @Test
-    public void cliTest(){
+    void cliTest(){
         this.flags.setInterruptDisable(true);
         this.is.cli();
         Assertions.assertFalse(this.flags.getInterruptDisable());
     }
 
     @Test
-    public void clvTest(){
+    void clvTest(){
         this.flags.setOverFlow(true);
         this.is.clv();
         Assertions.assertFalse(this.flags.getOverFlow());
     }
 
     @Test
-    public void compareTest(){
+    void compareTest(){
 
         byte register = 0x12;
         byte memory = 0x12;
@@ -520,7 +520,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void cmpTest(){
+    void cmpTest(){
 
         this.memory.setRegisterA((byte)0x12);
         this.flags.reset();
@@ -572,7 +572,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void cpxTest(){
+    void cpxTest(){
 
         this.memory.setRegisterX((byte)0x12);
         this.flags.reset();
@@ -624,7 +624,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void cpyTest(){
+    void cpyTest(){
 
         this.memory.setRegisterY((byte)0x12);
         this.flags.reset();
@@ -676,7 +676,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void decTest(){
+    void decTest(){
 
         short addr = 0x5431;
 
@@ -708,7 +708,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void dexTest(){
+    void dexTest(){
 
         this.memory.setRegisterX((byte)0x02);
         this.is.dex();
@@ -732,7 +732,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void deyTest(){
+    void deyTest(){
 
         this.memory.setRegisterY((byte)0x02);
         this.is.dey();
@@ -756,7 +756,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void eorTest(){
+    void eorTest(){
         AddressingModeReturn input = new AddressingModeReturn();
         input.setValue((byte)0b00000000);
         this.memory.setRegisterA((byte)0b01010101);
@@ -799,7 +799,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void incTest(){
+    void incTest(){
 
         short addr = 0x5431;
 
@@ -831,7 +831,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void inxTest(){
+    void inxTest(){
 
         this.memory.setRegisterX((byte)0x02);
         this.is.inx();
@@ -857,7 +857,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void inyTest(){
+    void inyTest(){
 
         this.memory.setRegisterY((byte)0x02);
         this.is.iny();
@@ -883,7 +883,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void jmpTest(){
+    void jmpTest(){
         AddressingModeReturn input = new AddressingModeReturn();
         input.setAddress((short)0x1234);
 
@@ -895,7 +895,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void jsrTest(){
+    void jsrTest(){
         this.flags.reset();
         AddressingModeReturn input = new AddressingModeReturn();
         input.setAddress((short)0x1234);
@@ -916,7 +916,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void ldaTest(){
+    void ldaTest(){
         AddressingModeReturn input = new AddressingModeReturn((byte)0x69,(short)0x1234);
         this.memory.setRegisterA((byte)0xf);
 
@@ -942,7 +942,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void ldxTest(){
+    void ldxTest(){
         AddressingModeReturn input = new AddressingModeReturn((byte)0x69,(short)0x1234);
         this.memory.setRegisterX((byte)0xf);
 
@@ -968,7 +968,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void ldyTest(){
+    void ldyTest(){
         AddressingModeReturn input = new AddressingModeReturn((byte)0x69,(short)0x1234);
         this.memory.setRegisterY((byte)0xf);
 
@@ -994,7 +994,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void lsrAccTest(){
+    void lsrAccTest(){
 
         this.flags.reset();
 
@@ -1028,7 +1028,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void lsrMemTest(){
+    void lsrMemTest(){
 
         short addr = 0x4fe5;
         AddressingModeReturn input = new AddressingModeReturn((byte)0b00000000,addr);
@@ -1065,7 +1065,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void oraTest(){
+    void oraTest(){
 
         AddressingModeReturn input = new AddressingModeReturn((byte)0b00000000,(short)0x0);
         this.memory.setRegisterA((byte)0b00000000);
@@ -1094,7 +1094,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void phaTest(){
+    void phaTest(){
         this.stack.setStackPointer((byte)0xff);
         this.memory.setRegisterA((byte)0x35);
 
@@ -1111,7 +1111,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void phpTest(){
+    void phpTest(){
 
         this.stack.setStackPointer((byte)0xff);
         this.flags.setWholeRegister((byte)0b01001010);
@@ -1130,7 +1130,7 @@ class InstructionSetTests{
     }
 
     @Test
-    public void plaTest(){
+    void plaTest(){
 
         this.memory.setByteAtAddress((short)0x1ff,(byte)0x0f);
         this.memory.setByteAtAddress((short)0x1fe,(byte)0x91);
@@ -1170,7 +1170,7 @@ class InstructionSetTests{
     }
 
     @Test 
-    public void plpTest(){
+    void plpTest(){
         this.stack.setStackPointer((byte)0xfe);
         this.flags.reset();
         this.memory.setByteAtAddress((short)0x01ff, (byte)0b01001010);
@@ -1183,7 +1183,7 @@ class InstructionSetTests{
     }
 
     @Test 
-    public void rolAccTest(){
+    void rolAccTest(){
 
         this.memory.setRegisterA((byte)0b00000001);
 
@@ -1222,7 +1222,7 @@ class InstructionSetTests{
     }
 
     @Test 
-    public void rolMemTest(){
+    void rolMemTest(){
         
         short addr = (short) 0x1234;
         AddressingModeReturn input = new AddressingModeReturn((byte)0b00000001,addr);
@@ -1267,7 +1267,7 @@ class InstructionSetTests{
     }
 
     @Test 
-    public void rorAccTest(){
+    void rorAccTest(){
 
         this.memory.setRegisterA((byte)0b00000010);
 
@@ -1306,7 +1306,7 @@ class InstructionSetTests{
     }
 
     @Test 
-    public void rorMemTest(){
+    void rorMemTest(){
         
         short addr = (short) 0x023f;
         AddressingModeReturn input = new AddressingModeReturn((byte)0b00000010,addr);

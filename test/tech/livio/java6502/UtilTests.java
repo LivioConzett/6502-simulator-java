@@ -1,6 +1,5 @@
-package java6502;
+package tech.livio.java6502;
 
-import java6502.Util;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

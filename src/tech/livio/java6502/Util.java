@@ -1,4 +1,4 @@
-package java6502;
+package tech.livio.java6502;
 
 /**
  * Util functions

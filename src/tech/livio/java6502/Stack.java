@@ -1,4 +1,4 @@
-package java6502;
+package tech.livio.java6502;
 
 /**
  * 8bit stack for the system.

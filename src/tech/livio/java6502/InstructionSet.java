@@ -1,9 +1,9 @@
-package java6502;
+package tech.livio.java6502;
 
 /**
  * Class with all the CPU Operations. <br>
  * For more info on each of the Operations visit: <br>
- * https://6502.livio.tech/instructionset/
+ * <a href="https://6502.livio.tech/instructionset/">6502.livio.tech/instructionset</a>
  * @author Livio Conzett
  * @version 16.10.2022
  */

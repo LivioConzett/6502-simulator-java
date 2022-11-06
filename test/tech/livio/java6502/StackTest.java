@@ -1,16 +1,12 @@
-package java6502;
+package tech.livio.java6502;
 
-
-import java6502.Memory;
-import java6502.Stack;
-import java6502.Util;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class StackTest{
 
     @Test
-    public void stack(){
+    void stack(){
         Memory mem = new Memory();
 
         Stack stack = new Stack(new Memory());

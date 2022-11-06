@@ -1,13 +1,12 @@
-package java6502;
+package tech.livio.java6502;
 
-import java6502.AddressingModeReturn;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class AddressingModeReturnTest {
+class AddressingModeReturnTest {
 
     @Test
-    public void tests(){
+    void tests(){
 
         AddressingModeReturn test = new AddressingModeReturn((byte)0x63,(short)0xf34e);
 
@@ -33,10 +32,8 @@ public class AddressingModeReturnTest {
         test2.set((byte)0x69,(short)0x1234);
         Assertions.assertEquals(test2,test);
 
-        Assertions.assertFalse(test.equals(null));
+        Assertions.assertNotEquals(null, test);
 
-        AddressingModeReturn nullTest = null;
-
-        Assertions.assertNotEquals(test,nullTest);
+        Assertions.assertNotEquals(null, test);
     }
 }
