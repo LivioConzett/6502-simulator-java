@@ -7,7 +7,7 @@ package java6502;
  * @author Livio Conzett
  * @version 16.10.2022
  */
-public class InstructionSet {
+class InstructionSet {
 
     private final Memory memory;
     private final Stack stack;
@@ -29,7 +29,7 @@ public class InstructionSet {
      * Add to accumulator with carry.
      * @param value AddressingModeReturn object with value to add to accumulator
      */
-    public void ADC(AddressingModeReturn value){
+    public void adc(AddressingModeReturn value){
         // clear the overflow bit
         this.flags.setOverFlow(false);
         byte number = value.getValue();
@@ -70,7 +70,7 @@ public class InstructionSet {
      * ANDs a byte with the accumulator.
      * @param value AddressingModeReturn object with value to AND with accumulator
      */
-    public void AND(AddressingModeReturn value){
+    public void and(AddressingModeReturn value){
         byte number = value.getValue();
         this.memory.setRegisterA((byte)(this.memory.getRegisterA() & number));
         this.flags.setZero(this.memory.getRegisterA()==0);
@@ -81,7 +81,7 @@ public class InstructionSet {
      * Accumulator Shift Left<br>
      * Shifts the Accumulator left
      */
-    public void ASL(){
+    public void asl(){
         byte regA = this.memory.getRegisterA();
 
         // if the number to shift left is negative, it has a 1 in the msb.
@@ -99,7 +99,7 @@ public class InstructionSet {
      * Shifts the value at a memory address to the left.
      * @param address Address of the byte to shift left.
      */
-    public void ASL(AddressingModeReturn address){
+    public void asl(AddressingModeReturn address){
         byte value = address.getValue();
 
         // if the number to shift left is negative, it has a 1 in the msb.
@@ -117,7 +117,7 @@ public class InstructionSet {
      * Branch to the address given if the carry flag is false
      * @param address address to branch to.
      */
-    public void BCC(AddressingModeReturn address){
+    public void bcc(AddressingModeReturn address){
         if(this.flags.getCarry()) return;
         this.memory.setProgramCounter(address.getAddress());
     }
@@ -127,7 +127,7 @@ public class InstructionSet {
      * Branch to the address given if the carry flag is true
      * @param address address to branch to.
      */
-    public void BCS(AddressingModeReturn address){
+    public void bcs(AddressingModeReturn address){
         if(!this.flags.getCarry()) return;
         this.memory.setProgramCounter(address.getAddress());
     }
@@ -137,7 +137,7 @@ public class InstructionSet {
      * Branch to the address given if the zero flag is true
      * @param address address to branch to.
      */
-    public void BEQ(AddressingModeReturn address){
+    public void beq(AddressingModeReturn address){
         if(!this.flags.getZero()) return;
         this.memory.setProgramCounter(address.getAddress());
     }
@@ -146,7 +146,7 @@ public class InstructionSet {
      * ANDs a value with the accumulator without saving the result.
      * @param value value to AND the accumulator with.
      */
-    public void BIT(AddressingModeReturn value){
+    public void bit(AddressingModeReturn value){
         int number = value.getValue();
         int ans = number & this.memory.getRegisterA();
 
@@ -160,7 +160,7 @@ public class InstructionSet {
      * Branch to the address given if the negative flag is true.
      * @param address address to branch to.
      */
-    public void BMI(AddressingModeReturn address){
+    public void bmi(AddressingModeReturn address){
         if(!this.flags.getNegative()) return;
         this.memory.setProgramCounter(address.getAddress());
     }
@@ -170,7 +170,7 @@ public class InstructionSet {
      * Branch to the address given if the zero flag is false
      * @param address address to branch to.
      */
-    public void BNE(AddressingModeReturn address){
+    public void bne(AddressingModeReturn address){
         if(this.flags.getZero()) return;
         this.memory.setProgramCounter(address.getAddress());
     }
@@ -180,7 +180,7 @@ public class InstructionSet {
      * Branch to the address given if the negative flag is false.
      * @param address address to branch to.
      */
-    public void BPL(AddressingModeReturn address){
+    public void bpl(AddressingModeReturn address){
         if(this.flags.getNegative()) return;
         this.memory.setProgramCounter(address.getAddress());
     }
@@ -189,7 +189,7 @@ public class InstructionSet {
      * Break command <br>
      * Will cause the cpu to jump to the address saved in the break vector.
      */
-    public void BRK(){
+    public void brk(){
 
         this.memory.incrementProgramCounter();
         byte[] address = Util.addressToBytes(this.memory.getProgramCounter());
@@ -217,7 +217,7 @@ public class InstructionSet {
      * Branch to the address given if the overflow flag is false.
      * @param address Address to branch to.
      */
-    public void BVC(AddressingModeReturn address){
+    public void bvc(AddressingModeReturn address){
         if(this.flags.getOverFlow()) return;
         this.memory.setProgramCounter(address.getAddress());
     }
@@ -227,7 +227,7 @@ public class InstructionSet {
      * Branch to the address given if the overflow flag is true.
      * @param address Address to branch to.
      */
-    public void BVS(AddressingModeReturn address){
+    public void bvs(AddressingModeReturn address){
         if(!this.flags.getOverFlow()) return;
         this.memory.setProgramCounter(address.getAddress());
     }
@@ -236,7 +236,7 @@ public class InstructionSet {
      * Clear Carry Flag<br>
      * Sets the carry flag to false.
      */
-    public void CLC(){
+    public void clc(){
         this.flags.setCarry(false);
     }
 
@@ -244,7 +244,7 @@ public class InstructionSet {
      * Clear Decimal Flag<br>
      * Sets the decimal flag to false.
      */
-    public void CLD(){
+    public void cld(){
         this.flags.setDecimalMode(false);
     }
 
@@ -252,7 +252,7 @@ public class InstructionSet {
      * Clear Interrupt Disable Flag<br>
      * Sets the interrupt disable flag to false.
      */
-    public void CLI(){
+    public void cli(){
         this.flags.setInterruptDisable(false);
     }
 
@@ -260,7 +260,7 @@ public class InstructionSet {
      * Clear Overflow Flag<br>
      * Sets the overflow flag to false.
      */
-    public void CLV(){
+    public void clv(){
         this.flags.setOverFlow(false);
     }
 
@@ -275,7 +275,6 @@ public class InstructionSet {
         this.flags.setNegative(register < memory);
         this.flags.setZero(register == memory);
         this.flags.setCarry((register == memory)||(register > memory));
-
     }
 
     /**
@@ -283,7 +282,7 @@ public class InstructionSet {
      * Subtracts a value from the accumulator without saving the result. Status flags will be set accordingly.
      * @param value Value to compare accumulator to.
      */
-    public void CMP(AddressingModeReturn value){
+    public void cmp(AddressingModeReturn value){
         this.compare(this.memory.getRegisterA(),value.getValue());
     }
 
@@ -292,7 +291,7 @@ public class InstructionSet {
      * Subtracts a value from the register X without saving the result. Status flags will be set accordingly.
      * @param value Value to compare accumulator to.
      */
-    public void CPX(AddressingModeReturn value){
+    public void cpx(AddressingModeReturn value){
         this.compare(this.memory.getRegisterX(),value.getValue());
     }
 
@@ -301,7 +300,7 @@ public class InstructionSet {
      * Subtracts a value from the register Y without saving the result. Status flags will be set accordingly.
      * @param value Value to compare accumulator to.
      */
-    public void CPY(AddressingModeReturn value){
+    public void cpy(AddressingModeReturn value){
         this.compare(this.memory.getRegisterY(),value.getValue());
     }
 
@@ -310,7 +309,7 @@ public class InstructionSet {
      * Decrements a value in memory by one.
      * @param address address of value to decrement.
      */
-    public void DEC(AddressingModeReturn address){
+    public void dec(AddressingModeReturn address){
         byte ans = (byte)(address.getValue() - 1);
 
         this.flags.setZero(ans == 0);
@@ -323,7 +322,7 @@ public class InstructionSet {
      * Decrement Index X by One<br>
      * Decrements a value in register X by one.
      */
-    public void DEX(){
+    public void dex(){
         byte ans = (byte)(this.memory.getRegisterX() - 1);
 
         this.flags.setZero(ans == 0);
@@ -336,7 +335,7 @@ public class InstructionSet {
      * Decrement Index Y by One<br>
      * Decrements a value in register Y by one.
      */
-    public void DEY(){
+    public void dey(){
         byte ans = (byte)(this.memory.getRegisterY() - 1);
 
         this.flags.setZero(ans == 0);
@@ -350,7 +349,7 @@ public class InstructionSet {
      * Result will be stored in Accumulator.
      * @param value value to xor with Accumulator.
      */
-    public void EOR(AddressingModeReturn value) {
+    public void eor(AddressingModeReturn value) {
         byte ans = (byte)(this.memory.getRegisterA() ^ value.getValue());
 
         this.flags.setNegative(ans < 0);
@@ -364,7 +363,7 @@ public class InstructionSet {
      * Increments a memory location by one.
      * @param address address to increment by one.
      */
-    public void INC(AddressingModeReturn address){
+    public void inc(AddressingModeReturn address){
         byte ans = (byte)(address.getValue() + 1);
 
         this.flags.setZero(ans == 0);
@@ -377,7 +376,7 @@ public class InstructionSet {
      * Increment Index X by One<br>
      * Increments a value in register X by one.
      */
-    public void INX(){
+    public void inx(){
         byte ans = (byte)(this.memory.getRegisterX() + 1);
 
         this.flags.setZero(ans == 0);
@@ -390,7 +389,7 @@ public class InstructionSet {
      * Increment Index X by One<br>
      * Increments a value in register X by one.
      */
-    public void INY(){
+    public void iny(){
         byte ans = (byte)(this.memory.getRegisterY() + 1);
 
         this.flags.setZero(ans == 0);
@@ -404,7 +403,7 @@ public class InstructionSet {
      * Jumps to an address.
      * @param address address to jump to.
      */
-    public void JMP(AddressingModeReturn address){
+    public void jmp(AddressingModeReturn address){
         this.memory.setProgramCounter(address.getAddress());
     }
 
@@ -413,7 +412,7 @@ public class InstructionSet {
      * Pushes the current address and status register onto the stack. Then jumps to an address.
      * @param address address to jump to.
      */
-    public void JSR(AddressingModeReturn address){
+    public void jsr(AddressingModeReturn address){
         byte[] addr = Util.addressToBytes(this.memory.getProgramCounter());
 
         this.stack.push(addr[1]);
@@ -428,7 +427,7 @@ public class InstructionSet {
      * Puts a value into the Accumulator.
      * @param value value to put into accumulator.
      */
-    public void LDA(AddressingModeReturn value){
+    public void lda(AddressingModeReturn value){
         this.flags.setZero(value.getValue() == 0);
         this.flags.setNegative(value.getValue() < 0);
         this.memory.setRegisterA(value.getValue());
@@ -439,7 +438,7 @@ public class InstructionSet {
      * Puts a value into the register X.
      * @param value value to put into accumulator.
      */
-    public void LDX(AddressingModeReturn value){
+    public void ldx(AddressingModeReturn value){
         this.flags.setZero(value.getValue() == 0);
         this.flags.setNegative(value.getValue() < 0);
         this.memory.setRegisterX(value.getValue());
@@ -450,7 +449,7 @@ public class InstructionSet {
      * Puts a value into the register Y.
      * @param value value to put into accumulator.
      */
-    public void LDY(AddressingModeReturn value){
+    public void ldy(AddressingModeReturn value){
         this.flags.setZero(value.getValue() == 0);
         this.flags.setNegative(value.getValue() < 0);
         this.memory.setRegisterY(value.getValue());
@@ -460,7 +459,7 @@ public class InstructionSet {
      * Logical Shift Right<br>
      * Shift the accumulator one bit to the right.
      */
-    public void LSR(){
+    public void lsr(){
         // if the lsb of the accumulator is a 1 then shifting it right will
         // turn the carry to a one.
         this.flags.setCarry((this.memory.getRegisterA() & 0b1) == 0b1);
@@ -477,7 +476,7 @@ public class InstructionSet {
      * Shift a memory loaction one bit to the right.
      * @param address address of value to shift right
      */
-    public void LSR(AddressingModeReturn address){
+    public void lsr(AddressingModeReturn address){
         // if the lsb of the accumulator is a 1 then shifting it right will
         // turn the carry to a one.
         this.flags.setCarry((address.getValue() & 0b1) == 0b1);
@@ -493,14 +492,14 @@ public class InstructionSet {
      * No Operator<br>
      * Doesn't do anything.
      */
-    public void NOP(){}
+    public void nop(){}
 
     /**
      * OR Memory with Accumulator<br>
      * ORs a value with the Accumulator and stores it in the accumulator
      * @param value value to OR the Accumulator with.
      */
-    public void ORA(AddressingModeReturn value){
+    public void ora(AddressingModeReturn value){
         this.memory.setRegisterA((byte)(this.memory.getRegisterA() | value.getValue()));
         this.flags.setZero(this.memory.getRegisterA() == 0);
         this.flags.setNegative(this.memory.getRegisterA() < 0);
@@ -509,21 +508,21 @@ public class InstructionSet {
     /**
      * Push accumulator on Stack
      */
-    public void PHA(){
+    public void pha(){
         this.stack.push(this.memory.getRegisterA());
     }
 
     /**
      * Push Processor Status on Stack
      */
-    public void PHP(){
+    public void php(){
         this.stack.push(this.flags.getWholeRegister());
     }
 
     /**
      * Pull Accumulator from Stack.
      */
-    public void PLA(){
+    public void pla(){
         this.memory.setRegisterA(this.stack.pull());
         this.flags.setZero(this.memory.getRegisterA() == 0);
         this.flags.setNegative(this.memory.getRegisterA() < 0);
@@ -532,7 +531,7 @@ public class InstructionSet {
     /**
      * Pull Processor Status from Stack
      */
-    public void PLP(){
+    public void plp(){
         byte number = this.stack.pull();
         this.flags.setWholeRegister(number);
     }
@@ -541,7 +540,7 @@ public class InstructionSet {
      * Rotate Left<br>
      * Rotates the Accumulator left by one.
      */
-    public void ROL(){
+    public void rol(){
         // get the value of the carry and save it for later
         int carry = this.flags.getCarryInt();
         // if the msb of the accumulator is a 1 then rotating it right will
@@ -560,7 +559,7 @@ public class InstructionSet {
      * Rotates the value at and address left by one.
      * @param address address of the byte to rotate.
      */
-    public void ROL(AddressingModeReturn address){
+    public void rol(AddressingModeReturn address){
         // get the value of the carry and save it for later
         int carry = this.flags.getCarryInt();
         // if the msb of the accumulator is a 1 then rotating it right will
@@ -578,7 +577,7 @@ public class InstructionSet {
      * Rotate Right<br>
      * Rotates the accumulator right by one.
      */
-    public void ROR(){
+    public void ror(){
         // get the value of the carry and save it for later
         int carry = this.flags.getCarryInt();
         // if the lsb of the accumulator is a 1 then rotating it right will
@@ -597,7 +596,7 @@ public class InstructionSet {
      * Rotates the value at and address right by one.
      * @param address address of the byte to rotate.
      */
-    public void ROR(AddressingModeReturn address){
+    public void ror(AddressingModeReturn address){
         // get the value of the carry and save it for later
         int carry = this.flags.getCarryInt();
         // if the msb of the accumulator is a 1 then rotating it right will
@@ -614,7 +613,7 @@ public class InstructionSet {
     /**
      * Return from Interupt
      */
-    public void RTI(){
+    public void rti(){
         byte status = this.stack.pull();
         byte lowByte = this.stack.pull();
         byte highByte = this.stack.pull();

@@ -1,7 +1,6 @@
-package java6502.tests;
+package java6502;
 
 
-import java6502.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +31,7 @@ class InstructionSetTests{
         this.flags.setCarry(false);
         this.input.set((byte)7,(short)0x0);
 
-        this.is.ADC(input);
+        this.is.adc(input);
 
         Assertions.assertEquals((byte)17,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getNegative());
@@ -45,7 +44,7 @@ class InstructionSetTests{
         this.flags.setDecimalMode(false);
         this.flags.setCarry(true);
 
-        this.is.ADC(input);
+        this.is.adc(input);
 
         Assertions.assertEquals((byte)-128,this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getNegative());
@@ -58,7 +57,7 @@ class InstructionSetTests{
         this.flags.setDecimalMode(false);
         this.flags.setCarry(false);
 
-        this.is.ADC(input);
+        this.is.adc(input);
 
         Assertions.assertEquals((byte)6,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getNegative());
@@ -72,7 +71,7 @@ class InstructionSetTests{
         this.flags.setCarry(true);
         this.input.setValue((byte)0);
 
-        this.is.ADC(input);
+        this.is.adc(input);
 
         Assertions.assertEquals((byte)0,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getNegative());
@@ -90,27 +89,27 @@ class InstructionSetTests{
         this.flags.setNegative(false);
         this.input.setValue((byte)0b00101010);
 
-        this.is.AND(input);
+        this.is.and(input);
         Assertions.assertEquals((byte)0b00101010,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getNegative());
         Assertions.assertFalse(this.flags.getZero());
         this.input.setValue((byte)0b00010101);
 
-        this.is.AND(input);
+        this.is.and(input);
         Assertions.assertEquals((byte)0b00000000,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getNegative());
         Assertions.assertTrue(this.flags.getZero());
         this.input.setValue((byte)0b10001000);
         this.memory.setRegisterA((byte)0b11001000);
 
-        this.is.AND(input);
+        this.is.and(input);
         Assertions.assertEquals((byte)0b10001000,this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getNegative());
         Assertions.assertFalse(this.flags.getZero());
         this.input.setValue((byte)0b10101010);
         this.memory.setRegisterA((byte)0b11111111);
 
-        this.is.AND(input);
+        this.is.and(input);
         Assertions.assertEquals((byte)0b10101010,this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getNegative());
         Assertions.assertFalse(this.flags.getZero());
@@ -121,7 +120,7 @@ class InstructionSetTests{
     public void aslAccumulatorTest(){
 
         this.memory.setRegisterA((byte)0b00000001);
-        this.is.ASL();
+        this.is.asl();
         Assertions.assertEquals((byte)0b00000010,this.memory.getRegisterA());
 
         Assertions.assertFalse(this.flags.getNegative());
@@ -129,7 +128,7 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getCarry());
 
         this.memory.setRegisterA((byte)0b10000001);
-        this.is.ASL();
+        this.is.asl();
         Assertions.assertEquals((byte)0b00000010,this.memory.getRegisterA());
 
         Assertions.assertFalse(this.flags.getNegative());
@@ -139,7 +138,7 @@ class InstructionSetTests{
         this.flags.setCarry(false);
 
         this.memory.setRegisterA((byte)0b10000000);
-        this.is.ASL();
+        this.is.asl();
         Assertions.assertEquals((byte)0b00000000,this.memory.getRegisterA());
 
         Assertions.assertFalse(this.flags.getNegative());
@@ -147,7 +146,7 @@ class InstructionSetTests{
         Assertions.assertTrue(this.flags.getCarry());
 
         this.memory.setRegisterA((byte)0b01000000);
-        this.is.ASL();
+        this.is.asl();
         Assertions.assertEquals((byte)0b10000000,this.memory.getRegisterA());
 
         Assertions.assertTrue(this.flags.getNegative());
@@ -155,7 +154,7 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getCarry());
 
         this.memory.setRegisterA((byte)0b00000000);
-        this.is.ASL();
+        this.is.asl();
         Assertions.assertEquals((byte)0b00000000,this.memory.getRegisterA());
 
         Assertions.assertFalse(this.flags.getNegative());
@@ -169,7 +168,7 @@ class InstructionSetTests{
 
         this.memory.setByteAtAddress((short)0x0345,(byte)0b00000001);
         this.input.set((byte)0b00000001,(short)0x0345);
-        this.is.ASL(input);
+        this.is.asl(input);
         Assertions.assertEquals((byte)0b00000010,this.memory.getByteAtAddress((short)0x0345));
 
         Assertions.assertFalse(this.flags.getNegative());
@@ -178,7 +177,7 @@ class InstructionSetTests{
 
         this.memory.setByteAtAddress((short)0xf001,(byte)0b10000001);
         this.input.set((byte)0b10000001,(short)0xf001);
-        this.is.ASL(input);
+        this.is.asl(input);
         Assertions.assertEquals((byte)0b00000010,this.memory.getByteAtAddress((short)0xf001));
 
         Assertions.assertFalse(this.flags.getNegative());
@@ -189,7 +188,7 @@ class InstructionSetTests{
 
         this.memory.setByteAtAddress((short)0x002,(byte)0b10000000);
         this.input.set((byte)0b10000000,(short)0x002);
-        this.is.ASL(input);
+        this.is.asl(input);
         Assertions.assertEquals((byte)0b00000000,this.memory.getByteAtAddress((short)0x002));
 
         Assertions.assertFalse(this.flags.getNegative());
@@ -198,7 +197,7 @@ class InstructionSetTests{
 
         this.memory.setByteAtAddress((short)0x3456,(byte)0b01000000);
         this.input.set((byte)0b01000000,(short)0x3456);
-        this.is.ASL(input);
+        this.is.asl(input);
         Assertions.assertEquals((byte)0b10000000,this.memory.getByteAtAddress((short)0x3456));
 
         Assertions.assertTrue(this.flags.getNegative());
@@ -207,7 +206,7 @@ class InstructionSetTests{
 
         this.memory.setByteAtAddress((short)0x1010,(byte)0b00000000);
         this.input.set((byte)0b00000000,(short)0x1010);
-        this.is.ASL(input);
+        this.is.asl(input);
         Assertions.assertEquals((byte)0b00000000,this.memory.getByteAtAddress((short)0x1010));
 
         Assertions.assertFalse(this.flags.getNegative());
@@ -223,7 +222,7 @@ class InstructionSetTests{
         this.flags.setCarry(true);
         this.input.setAddress((short)0x0300);
 
-        this.is.BCC(input);
+        this.is.bcc(input);
 
         Assertions.assertEquals((short)0x0010,this.memory.getProgramCounter());
 
@@ -231,7 +230,7 @@ class InstructionSetTests{
         this.flags.setCarry(false);
         this.input.setAddress((short)0x0300);
 
-        this.is.BCC(input);
+        this.is.bcc(input);
 
         Assertions.assertEquals((short)0x0300,this.memory.getProgramCounter());
     }
@@ -243,7 +242,7 @@ class InstructionSetTests{
         this.flags.setCarry(false);
         this.input.setAddress((short)0xf300);
 
-        this.is.BCS(input);
+        this.is.bcs(input);
 
         Assertions.assertEquals((short)0xf010,this.memory.getProgramCounter());
 
@@ -251,7 +250,7 @@ class InstructionSetTests{
         this.flags.setCarry(true);
         this.input.setAddress((short)0xf300);
 
-        this.is.BCS(input);
+        this.is.bcs(input);
 
         Assertions.assertEquals((short)0xf300,this.memory.getProgramCounter());
     }
@@ -263,7 +262,7 @@ class InstructionSetTests{
         this.flags.setZero(false);
         this.input.setAddress((short)0x6969);
 
-        this.is.BEQ(input);
+        this.is.beq(input);
 
         Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
 
@@ -271,7 +270,7 @@ class InstructionSetTests{
         this.flags.setZero(true);
         this.input.setAddress((short)0x6969);
 
-        this.is.BEQ(input);
+        this.is.beq(input);
 
         Assertions.assertEquals((short)0x6969,this.memory.getProgramCounter());
     }
@@ -282,7 +281,7 @@ class InstructionSetTests{
         this.memory.setRegisterA((byte)0b01010101);
         this.input.setValue((byte)0b01010001);
 
-        this.is.BIT(input);
+        this.is.bit(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
@@ -291,7 +290,7 @@ class InstructionSetTests{
         this.memory.setRegisterA((byte)0b00010101);
         this.input.setValue((byte)0b00000010);
 
-        this.is.BIT(input);
+        this.is.bit(input);
 
         Assertions.assertTrue(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
@@ -300,7 +299,7 @@ class InstructionSetTests{
         this.memory.setRegisterA((byte)0b10100000);
         this.input.setValue((byte)0b00100000);
 
-        this.is.BIT(input);
+        this.is.bit(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
@@ -309,7 +308,7 @@ class InstructionSetTests{
         this.memory.setRegisterA((byte)0b10100000);
         this.input.setValue((byte)0b10000000);
 
-        this.is.BIT(input);
+        this.is.bit(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertTrue(this.flags.getNegative());
@@ -324,7 +323,7 @@ class InstructionSetTests{
         this.flags.setNegative(false);
         this.input.setAddress((short)0x458e);
 
-        this.is.BMI(input);
+        this.is.bmi(input);
 
         Assertions.assertEquals((short)0x3333,this.memory.getProgramCounter());
 
@@ -332,7 +331,7 @@ class InstructionSetTests{
         this.flags.setNegative(true);
         this.input.setAddress((short)0x458e);
 
-        this.is.BMI(input);
+        this.is.bmi(input);
 
         Assertions.assertEquals((short)0x458e,this.memory.getProgramCounter());
     }
@@ -344,7 +343,7 @@ class InstructionSetTests{
         this.flags.setZero(true);
         this.input.setAddress((short)0x12ef);
 
-        this.is.BNE(input);
+        this.is.bne(input);
 
         Assertions.assertEquals((short)0xfabcd,this.memory.getProgramCounter());
 
@@ -352,7 +351,7 @@ class InstructionSetTests{
         this.flags.setZero(false);
         this.input.setAddress((short)0x12ef);
 
-        this.is.BNE(input);
+        this.is.bne(input);
 
         Assertions.assertEquals((short)0x12ef,this.memory.getProgramCounter());
     }
@@ -364,7 +363,7 @@ class InstructionSetTests{
         this.flags.setNegative(false);
         this.input.setAddress((short)0x458e);
 
-        this.is.BPL(input);
+        this.is.bpl(input);
 
         Assertions.assertEquals((short)0x458e,this.memory.getProgramCounter());
 
@@ -372,7 +371,7 @@ class InstructionSetTests{
         this.flags.setNegative(true);
         this.input.setAddress((short)0x458e);
 
-        this.is.BPL(input);
+        this.is.bpl(input);
 
         Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
     }
@@ -391,7 +390,7 @@ class InstructionSetTests{
 
         this.memory.setProgramCounter((short)0xaabb);
 
-        this.is.BRK();
+        this.is.brk();
 
         Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
         Assertions.assertEquals((byte)0xfc,this.stack.getStackPointer());
@@ -408,7 +407,7 @@ class InstructionSetTests{
         this.flags.setOverFlow(false);
         this.input.setAddress((short)0xabcd);
 
-        this.is.BVC(input);
+        this.is.bvc(input);
 
         Assertions.assertEquals((short)0xabcd,this.memory.getProgramCounter());
 
@@ -416,7 +415,7 @@ class InstructionSetTests{
         this.flags.setOverFlow(true);
         this.input.setAddress((short)0xabcd);
 
-        this.is.BVC(input);
+        this.is.bvc(input);
 
         Assertions.assertEquals((short)0xfabc,this.memory.getProgramCounter());
     }
@@ -428,7 +427,7 @@ class InstructionSetTests{
         this.flags.setOverFlow(false);
         this.input.setAddress((short)0x1928);
 
-        this.is.BVS(input);
+        this.is.bvs(input);
 
         Assertions.assertEquals((short)0xc3f5,this.memory.getProgramCounter());
 
@@ -436,7 +435,7 @@ class InstructionSetTests{
         this.flags.setOverFlow(true);
         this.input.setAddress((short)0x1928);
 
-        this.is.BVS(input);
+        this.is.bvs(input);
 
         Assertions.assertEquals((short)0x1928,this.memory.getProgramCounter());
     }
@@ -444,28 +443,28 @@ class InstructionSetTests{
     @Test
     public void clcTest(){
         this.flags.setCarry(true);
-        this.is.CLC();
+        this.is.clc();
         Assertions.assertFalse(this.flags.getCarry());
     }
 
     @Test
     public void cldTest(){
         this.flags.setDecimalMode(true);
-        this.is.CLD();
+        this.is.cld();
         Assertions.assertFalse(this.flags.getDecimalMode());
     }
 
     @Test
     public void cliTest(){
         this.flags.setInterruptDisable(true);
-        this.is.CLI();
+        this.is.cli();
         Assertions.assertFalse(this.flags.getInterruptDisable());
     }
 
     @Test
     public void clvTest(){
         this.flags.setOverFlow(true);
-        this.is.CLV();
+        this.is.clv();
         Assertions.assertFalse(this.flags.getOverFlow());
     }
 
@@ -529,7 +528,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0x12);
 
-        this.is.CMP(input);
+        this.is.cmp(input);
 
         Assertions.assertTrue(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
@@ -537,7 +536,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0x10);
 
-        this.is.CMP(input);
+        this.is.cmp(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
@@ -545,7 +544,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0x20);
 
-        this.is.CMP(input);
+        this.is.cmp(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertTrue(this.flags.getNegative());
@@ -556,7 +555,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0xf0);
 
-        this.is.CMP(input);
+        this.is.cmp(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertTrue(this.flags.getNegative());
@@ -564,7 +563,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0x90);
 
-        this.is.CMP(input);
+        this.is.cmp(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
@@ -581,7 +580,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0x12);
 
-        this.is.CPX(input);
+        this.is.cpx(input);
 
         Assertions.assertTrue(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
@@ -589,7 +588,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0x10);
 
-        this.is.CPX(input);
+        this.is.cpx(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
@@ -597,7 +596,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0x20);
 
-        this.is.CPX(input);
+        this.is.cpx(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertTrue(this.flags.getNegative());
@@ -608,7 +607,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0xf0);
 
-        this.is.CPX(input);
+        this.is.cpx(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertTrue(this.flags.getNegative());
@@ -616,7 +615,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0x90);
 
-        this.is.CPX(input);
+        this.is.cpx(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
@@ -633,7 +632,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0x12);
 
-        this.is.CPY(input);
+        this.is.cpy(input);
 
         Assertions.assertTrue(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
@@ -641,7 +640,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0x10);
 
-        this.is.CPY(input);
+        this.is.cpy(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
@@ -649,7 +648,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0x20);
 
-        this.is.CPY(input);
+        this.is.cpy(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertTrue(this.flags.getNegative());
@@ -660,7 +659,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0xf0);
 
-        this.is.CPY(input);
+        this.is.cpy(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertTrue(this.flags.getNegative());
@@ -668,7 +667,7 @@ class InstructionSetTests{
 
         input.setValue((byte)0x90);
 
-        this.is.CPY(input);
+        this.is.cpy(input);
 
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
@@ -684,7 +683,7 @@ class InstructionSetTests{
         AddressingModeReturn input = new AddressingModeReturn((byte)0x13,addr);
         this.memory.setByteAtAddress(addr,(byte)0x13);
 
-        this.is.DEC(input);
+        this.is.dec(input);
 
         Assertions.assertEquals((byte)0x12,this.memory.getByteAtAddress(addr));
         Assertions.assertFalse(this.flags.getNegative());
@@ -692,7 +691,7 @@ class InstructionSetTests{
 
         this.memory.setByteAtAddress(addr,(byte)0x01);
         input.setValue((byte)0x01);
-        this.is.DEC(input);
+        this.is.dec(input);
 
         Assertions.assertEquals((byte)0x00,this.memory.getByteAtAddress(addr));
         Assertions.assertFalse(this.flags.getNegative());
@@ -700,7 +699,7 @@ class InstructionSetTests{
 
 
         input.setValue((byte)0x00);
-        this.is.DEC(input);
+        this.is.dec(input);
 
         Assertions.assertEquals((byte)0xff,this.memory.getByteAtAddress(addr));
         Assertions.assertTrue(this.flags.getNegative());
@@ -712,19 +711,19 @@ class InstructionSetTests{
     public void dexTest(){
 
         this.memory.setRegisterX((byte)0x02);
-        this.is.DEX();
+        this.is.dex();
 
         Assertions.assertEquals((byte)0x01,this.memory.getRegisterX());
         Assertions.assertFalse(this.flags.getNegative());
         Assertions.assertFalse(this.flags.getZero());
 
-        this.is.DEX();
+        this.is.dex();
 
         Assertions.assertEquals((byte)0x00,this.memory.getRegisterX());
         Assertions.assertFalse(this.flags.getNegative());
         Assertions.assertTrue(this.flags.getZero());
 
-        this.is.DEX();
+        this.is.dex();
 
         Assertions.assertEquals((byte)0xff,this.memory.getRegisterX());
         Assertions.assertTrue(this.flags.getNegative());
@@ -736,19 +735,19 @@ class InstructionSetTests{
     public void deyTest(){
 
         this.memory.setRegisterY((byte)0x02);
-        this.is.DEY();
+        this.is.dey();
 
         Assertions.assertEquals((byte)0x01,this.memory.getRegisterY());
         Assertions.assertFalse(this.flags.getNegative());
         Assertions.assertFalse(this.flags.getZero());
 
-        this.is.DEY();
+        this.is.dey();
 
         Assertions.assertEquals((byte)0x00,this.memory.getRegisterY());
         Assertions.assertFalse(this.flags.getNegative());
         Assertions.assertTrue(this.flags.getZero());
 
-        this.is.DEY();
+        this.is.dey();
 
         Assertions.assertEquals((byte)0xff,this.memory.getRegisterY());
         Assertions.assertTrue(this.flags.getNegative());
@@ -762,7 +761,7 @@ class InstructionSetTests{
         input.setValue((byte)0b00000000);
         this.memory.setRegisterA((byte)0b01010101);
 
-        this.is.EOR(input);
+        this.is.eor(input);
 
         Assertions.assertEquals((byte)0b01010101,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getNegative());
@@ -771,7 +770,7 @@ class InstructionSetTests{
         input.setValue((byte)0b10101010);
         this.memory.setRegisterA((byte)0b01010101);
 
-        this.is.EOR(input);
+        this.is.eor(input);
 
         Assertions.assertEquals((byte)0b11111111,this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getNegative());
@@ -780,7 +779,7 @@ class InstructionSetTests{
         input.setValue((byte)0b11111111);
         this.memory.setRegisterA((byte)0b11111111);
 
-        this.is.EOR(input);
+        this.is.eor(input);
 
         Assertions.assertEquals((byte)0b00000000,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getNegative());
@@ -789,7 +788,7 @@ class InstructionSetTests{
         input.setValue((byte)0b01000001);
         this.memory.setRegisterA((byte)0b01000011);
 
-        this.is.EOR(input);
+        this.is.eor(input);
 
         Assertions.assertEquals((byte)0b00000010,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getNegative());
@@ -807,7 +806,7 @@ class InstructionSetTests{
         AddressingModeReturn input = new AddressingModeReturn((byte)0x13,addr);
         this.memory.setByteAtAddress(addr,(byte)0x13);
 
-        this.is.INC(input);
+        this.is.inc(input);
 
         Assertions.assertEquals((byte)0x14,this.memory.getByteAtAddress(addr));
         Assertions.assertFalse(this.flags.getNegative());
@@ -815,7 +814,7 @@ class InstructionSetTests{
 
         this.memory.setByteAtAddress(addr,(byte)0xff);
         input.setValue((byte)0xff);
-        this.is.INC(input);
+        this.is.inc(input);
 
         Assertions.assertEquals((byte)0x00,this.memory.getByteAtAddress(addr));
         Assertions.assertFalse(this.flags.getNegative());
@@ -823,7 +822,7 @@ class InstructionSetTests{
 
 
         input.setValue((byte)0x7f);
-        this.is.INC(input);
+        this.is.inc(input);
 
         Assertions.assertEquals((byte)0x80,this.memory.getByteAtAddress(addr));
         Assertions.assertTrue(this.flags.getNegative());
@@ -835,21 +834,21 @@ class InstructionSetTests{
     public void inxTest(){
 
         this.memory.setRegisterX((byte)0x02);
-        this.is.INX();
+        this.is.inx();
 
         Assertions.assertEquals((byte)0x03,this.memory.getRegisterX());
         Assertions.assertFalse(this.flags.getNegative());
         Assertions.assertFalse(this.flags.getZero());
 
         this.memory.setRegisterX((byte)0xff);
-        this.is.INX();
+        this.is.inx();
 
         Assertions.assertEquals((byte)0x00,this.memory.getRegisterX());
         Assertions.assertFalse(this.flags.getNegative());
         Assertions.assertTrue(this.flags.getZero());
 
         this.memory.setRegisterX((byte)0x7f);
-        this.is.INX();
+        this.is.inx();
 
         Assertions.assertEquals((byte)0x80,this.memory.getRegisterX());
         Assertions.assertTrue(this.flags.getNegative());
@@ -861,21 +860,21 @@ class InstructionSetTests{
     public void inyTest(){
 
         this.memory.setRegisterY((byte)0x02);
-        this.is.INY();
+        this.is.iny();
 
         Assertions.assertEquals((byte)0x03,this.memory.getRegisterY());
         Assertions.assertFalse(this.flags.getNegative());
         Assertions.assertFalse(this.flags.getZero());
 
         this.memory.setRegisterY((byte)0xff);
-        this.is.INY();
+        this.is.iny();
 
         Assertions.assertEquals((byte)0x00,this.memory.getRegisterY());
         Assertions.assertFalse(this.flags.getNegative());
         Assertions.assertTrue(this.flags.getZero());
 
         this.memory.setRegisterY((byte)0x7f);
-        this.is.INY();
+        this.is.iny();
 
         Assertions.assertEquals((byte)0x80,this.memory.getRegisterY());
         Assertions.assertTrue(this.flags.getNegative());
@@ -890,7 +889,7 @@ class InstructionSetTests{
 
         this.memory.setProgramCounter((short)0x9fa3);
 
-        this.is.JMP(input);
+        this.is.jmp(input);
 
         Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
     }
@@ -907,7 +906,7 @@ class InstructionSetTests{
         this.flags.setZero(true);
         this.flags.setNegative(true);
 
-        this.is.JSR(input);
+        this.is.jsr(input);
 
         Assertions.assertEquals((byte)0xfc,this.stack.getStackPointer());
         Assertions.assertEquals((byte)0xab, this.memory.getByteAtAddress((short)0x01ff));
@@ -921,21 +920,21 @@ class InstructionSetTests{
         AddressingModeReturn input = new AddressingModeReturn((byte)0x69,(short)0x1234);
         this.memory.setRegisterA((byte)0xf);
 
-        this.is.LDA(input);
+        this.is.lda(input);
 
         Assertions.assertEquals((byte)0x69,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
 
         input.setValue((byte)0x81);
-        this.is.LDA(input);
+        this.is.lda(input);
 
         Assertions.assertEquals((byte)0x81,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertTrue(this.flags.getNegative());
 
         input.setValue((byte)0x0);
-        this.is.LDA(input);
+        this.is.lda(input);
 
         Assertions.assertEquals((byte)0x0,this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getZero());
@@ -947,21 +946,21 @@ class InstructionSetTests{
         AddressingModeReturn input = new AddressingModeReturn((byte)0x69,(short)0x1234);
         this.memory.setRegisterX((byte)0xf);
 
-        this.is.LDX(input);
+        this.is.ldx(input);
 
         Assertions.assertEquals((byte)0x69,this.memory.getRegisterX());
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
 
         input.setValue((byte)0x81);
-        this.is.LDX(input);
+        this.is.ldx(input);
 
         Assertions.assertEquals((byte)0x81,this.memory.getRegisterX());
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertTrue(this.flags.getNegative());
 
         input.setValue((byte)0x0);
-        this.is.LDX(input);
+        this.is.ldx(input);
 
         Assertions.assertEquals((byte)0x0,this.memory.getRegisterX());
         Assertions.assertTrue(this.flags.getZero());
@@ -973,21 +972,21 @@ class InstructionSetTests{
         AddressingModeReturn input = new AddressingModeReturn((byte)0x69,(short)0x1234);
         this.memory.setRegisterY((byte)0xf);
 
-        this.is.LDY(input);
+        this.is.ldy(input);
 
         Assertions.assertEquals((byte)0x69,this.memory.getRegisterY());
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
 
         input.setValue((byte)0x81);
-        this.is.LDY(input);
+        this.is.ldy(input);
 
         Assertions.assertEquals((byte)0x81,this.memory.getRegisterY());
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertTrue(this.flags.getNegative());
 
         input.setValue((byte)0x0);
-        this.is.LDY(input);
+        this.is.ldy(input);
 
         Assertions.assertEquals((byte)0x0,this.memory.getRegisterY());
         Assertions.assertTrue(this.flags.getZero());
@@ -1001,7 +1000,7 @@ class InstructionSetTests{
 
         this.memory.setRegisterA((byte)0b00000000);
 
-        this.is.LSR();
+        this.is.lsr();
 
         Assertions.assertEquals((byte)0b00000000,this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getZero());
@@ -1010,7 +1009,7 @@ class InstructionSetTests{
 
         this.memory.setRegisterA((byte)0b00000001);
 
-        this.is.LSR();
+        this.is.lsr();
 
         Assertions.assertEquals((byte)0b00000000,this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getZero());
@@ -1019,7 +1018,7 @@ class InstructionSetTests{
 
         this.memory.setRegisterA((byte)0b10010100);
 
-        this.is.LSR();
+        this.is.lsr();
 
         Assertions.assertEquals((byte)0b01001010,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getZero());
@@ -1038,7 +1037,7 @@ class InstructionSetTests{
 
         this.memory.setByteAtAddress(addr,(byte)0b00000000);
 
-        this.is.LSR(input);
+        this.is.lsr(input);
 
         Assertions.assertEquals((byte)0b00000000,this.memory.getByteAtAddress(addr));
         Assertions.assertTrue(this.flags.getZero());
@@ -1047,7 +1046,7 @@ class InstructionSetTests{
 
         this.memory.setByteAtAddress(addr,(byte)0b00000001);
         input.setValue((byte)0b00000001);
-        this.is.LSR(input);
+        this.is.lsr(input);
 
         Assertions.assertEquals((byte)0b00000000,this.memory.getByteAtAddress(addr));
         Assertions.assertTrue(this.flags.getZero());
@@ -1056,7 +1055,7 @@ class InstructionSetTests{
 
         this.memory.setByteAtAddress(addr,(byte)0b10010100);
         input.setValue((byte)0b10010100);
-        this.is.LSR(input);
+        this.is.lsr(input);
 
         Assertions.assertEquals((byte)0b01001010,this.memory.getByteAtAddress(addr));
         Assertions.assertFalse(this.flags.getZero());
@@ -1071,7 +1070,7 @@ class InstructionSetTests{
         AddressingModeReturn input = new AddressingModeReturn((byte)0b00000000,(short)0x0);
         this.memory.setRegisterA((byte)0b00000000);
 
-        this.is.ORA(input);
+        this.is.ora(input);
 
         Assertions.assertEquals((byte)0b00000000,this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getZero());
@@ -1079,7 +1078,7 @@ class InstructionSetTests{
 
         this.memory.setRegisterA((byte)0b01010101);
         input.setValue((byte)0b10101010);
-        this.is.ORA(input);
+        this.is.ora(input);
 
         Assertions.assertEquals((byte)0b11111111,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getZero());
@@ -1087,7 +1086,7 @@ class InstructionSetTests{
 
         this.memory.setRegisterA((byte)0b00100001);
         input.setValue((byte)0b00100010);
-        this.is.ORA(input);
+        this.is.ora(input);
 
         Assertions.assertEquals((byte)0b00100011,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getZero());
@@ -1099,13 +1098,13 @@ class InstructionSetTests{
         this.stack.setStackPointer((byte)0xff);
         this.memory.setRegisterA((byte)0x35);
 
-        this.is.PHA();
+        this.is.pha();
 
         Assertions.assertEquals((byte)0x0fe,this.stack.getStackPointer());
         Assertions.assertEquals((byte)0x35,this.memory.getByteAtAddress((short)0x01ff));
 
         this.memory.setRegisterA((byte)0x12);
-        this.is.PHA();
+        this.is.pha();
 
         Assertions.assertEquals((byte)0x0fd,this.stack.getStackPointer());
         Assertions.assertEquals((byte)0x12,this.memory.getByteAtAddress((short)0x01fe));
@@ -1117,14 +1116,14 @@ class InstructionSetTests{
         this.stack.setStackPointer((byte)0xff);
         this.flags.setWholeRegister((byte)0b01001010);
 
-        this.is.PHP();
+        this.is.php();
 
         Assertions.assertEquals((byte)0xfe,this.stack.getStackPointer());
         Assertions.assertEquals((byte)0b01001010,this.memory.getByteAtAddress((short)0x01ff));
 
         this.flags.setWholeRegister((byte)0b10000010);
 
-        this.is.PHP();
+        this.is.php();
 
         Assertions.assertEquals((byte)0xfd,this.stack.getStackPointer());
         Assertions.assertEquals((byte)0b10000010,this.memory.getByteAtAddress((short)0x01fe));
@@ -1140,28 +1139,28 @@ class InstructionSetTests{
 
         this.stack.setStackPointer((byte)0xfb);
 
-        this.is.PLA();
+        this.is.pla();
 
         Assertions.assertEquals((byte)0xfc,this.stack.getStackPointer());
         Assertions.assertEquals((byte)0x01,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
 
-        this.is.PLA();
+        this.is.pla();
 
         Assertions.assertEquals((byte)0xfd,this.stack.getStackPointer());
         Assertions.assertEquals((byte)0x00,this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
 
-        this.is.PLA();
+        this.is.pla();
 
         Assertions.assertEquals((byte)0xfe,this.stack.getStackPointer());
         Assertions.assertEquals((byte)0x91,this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getZero());
         Assertions.assertTrue(this.flags.getNegative());
 
-        this.is.PLA();
+        this.is.pla();
 
         Assertions.assertEquals((byte)0xff,this.stack.getStackPointer());
         Assertions.assertEquals((byte)0x0f,this.memory.getRegisterA());
@@ -1176,7 +1175,7 @@ class InstructionSetTests{
         this.flags.reset();
         this.memory.setByteAtAddress((short)0x01ff, (byte)0b01001010);
 
-        this.is.PLP();
+        this.is.plp();
 
         Assertions.assertEquals((byte)0b01001010, this.flags.getWholeRegister());
         Assertions.assertEquals((byte)0xff,this.stack.getStackPointer());
@@ -1188,7 +1187,7 @@ class InstructionSetTests{
 
         this.memory.setRegisterA((byte)0b00000001);
 
-        this.is.ROL();
+        this.is.rol();
 
         Assertions.assertEquals((byte)0b00000010, this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getCarry());
@@ -1197,14 +1196,14 @@ class InstructionSetTests{
 
         this.memory.setRegisterA((byte)0b10000000);
 
-        this.is.ROL();
+        this.is.rol();
 
         Assertions.assertEquals((byte)0b00000000, this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getCarry());
         Assertions.assertTrue(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
 
-        this.is.ROL();
+        this.is.rol();
 
         Assertions.assertEquals((byte)0b00000001, this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getCarry());
@@ -1213,7 +1212,7 @@ class InstructionSetTests{
 
         this.memory.setRegisterA((byte)0b11000000);
 
-        this.is.ROL();
+        this.is.rol();
 
         Assertions.assertEquals((byte)0b10000000, this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getCarry());
@@ -1230,7 +1229,7 @@ class InstructionSetTests{
 
         this.memory.setByteAtAddress(addr,(byte)0b00000001);
 
-        this.is.ROL(input);
+        this.is.rol(input);
 
         Assertions.assertEquals((byte)0b00000010, this.memory.getByteAtAddress(addr));
         Assertions.assertFalse(this.flags.getCarry());
@@ -1240,7 +1239,7 @@ class InstructionSetTests{
         this.memory.setByteAtAddress(addr,(byte)0b10000000);
         input.setValue((byte)0b10000000);
 
-        this.is.ROL(input);
+        this.is.rol(input);
 
         Assertions.assertEquals((byte)0b00000000, this.memory.getByteAtAddress(addr));
         Assertions.assertTrue(this.flags.getCarry());
@@ -1248,7 +1247,7 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getNegative());
 
         input.setValue((byte)0b00000000);
-        this.is.ROL(input);
+        this.is.rol(input);
 
         Assertions.assertEquals((byte)0b00000001, this.memory.getByteAtAddress(addr));
         Assertions.assertFalse(this.flags.getCarry());
@@ -1258,7 +1257,7 @@ class InstructionSetTests{
         this.memory.setByteAtAddress(addr,(byte)0b11000000);
         input.setValue((byte)0b11000000);
 
-        this.is.ROL(input);
+        this.is.rol(input);
 
         Assertions.assertEquals((byte)0b10000000, this.memory.getByteAtAddress(addr));
         Assertions.assertTrue(this.flags.getCarry());
@@ -1272,7 +1271,7 @@ class InstructionSetTests{
 
         this.memory.setRegisterA((byte)0b00000010);
 
-        this.is.ROR();
+        this.is.ror();
 
         Assertions.assertEquals((byte)0b00000001, this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getCarry());
@@ -1281,14 +1280,14 @@ class InstructionSetTests{
 
         this.memory.setRegisterA((byte)0b00000001);
 
-        this.is.ROR();
+        this.is.ror();
 
         Assertions.assertEquals((byte)0b00000000, this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getCarry());
         Assertions.assertTrue(this.flags.getZero());
         Assertions.assertFalse(this.flags.getNegative());
 
-        this.is.ROR();
+        this.is.ror();
 
         Assertions.assertEquals((byte)0b10000000, this.memory.getRegisterA());
         Assertions.assertFalse(this.flags.getCarry());
@@ -1297,7 +1296,7 @@ class InstructionSetTests{
 
         this.memory.setRegisterA((byte)0b11000001);
 
-        this.is.ROR();
+        this.is.ror();
 
         Assertions.assertEquals((byte)0b01100000, this.memory.getRegisterA());
         Assertions.assertTrue(this.flags.getCarry());
@@ -1314,7 +1313,7 @@ class InstructionSetTests{
 
         this.memory.setByteAtAddress(addr,(byte)0b00000010);
 
-        this.is.ROR(input);
+        this.is.ror(input);
 
         Assertions.assertEquals((byte)0b00000001, this.memory.getByteAtAddress(addr));
         Assertions.assertFalse(this.flags.getCarry());
@@ -1324,7 +1323,7 @@ class InstructionSetTests{
         this.memory.setByteAtAddress(addr,(byte)0b00000001);
         input.setValue((byte)0b00000001);
 
-        this.is.ROR(input);
+        this.is.ror(input);
 
         Assertions.assertEquals((byte)0b00000000, this.memory.getByteAtAddress(addr));
         Assertions.assertTrue(this.flags.getCarry());
@@ -1332,7 +1331,7 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getNegative());
 
         input.setValue((byte)0b00000000);
-        this.is.ROR(input);
+        this.is.ror(input);
 
         Assertions.assertEquals((byte)0b10000000, this.memory.getByteAtAddress(addr));
         Assertions.assertFalse(this.flags.getCarry());
@@ -1342,7 +1341,7 @@ class InstructionSetTests{
         this.memory.setByteAtAddress(addr,(byte)0b11000001);
         input.setValue((byte)0b11000001);
 
-        this.is.ROR(input);
+        this.is.ror(input);
 
         Assertions.assertEquals((byte)0b01100000, this.memory.getByteAtAddress(addr));
         Assertions.assertTrue(this.flags.getCarry());

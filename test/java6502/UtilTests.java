@@ -1,4 +1,4 @@
-package java6502.tests;
+package java6502;
 
 import java6502.Util;
 import org.junit.jupiter.api.Assertions;

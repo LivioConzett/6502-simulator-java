@@ -5,7 +5,7 @@ package java6502;
  * It holds both the value and address that the addressingmodes return. <br>
  * This is needed because the instruction sets sometimes need tha value or the address.
  */
-public class AddressingModeReturn {
+class AddressingModeReturn {
 
     private byte value;
     private short address;
