@@ -762,4 +762,11 @@ class InstructionSet {
         this.transferToY(this.memory.getRegisterA());
     }
 
+    /**
+     * Transfer Stack pointer to index x
+     */
+    void tsx(){
+        this.transferToX(this.stack.getStackPointer());
+    }
+
 }

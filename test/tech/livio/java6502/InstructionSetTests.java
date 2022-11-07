@@ -1601,4 +1601,27 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getNegative());
 
     }
+
+    @Test
+    void tsxTest(){
+
+        this.stack.setStackPointer((byte)0x10);
+        this.is.tsx();
+        Assertions.assertEquals((byte)0x10,this.memory.getRegisterX());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        this.stack.setStackPointer((byte)0x81);
+        this.is.tsx();
+        Assertions.assertEquals((byte)0x81,this.memory.getRegisterX());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+
+        this.stack.setStackPointer((byte)0x00);
+        this.is.tsx();
+        Assertions.assertEquals((byte)0x00,this.memory.getRegisterX());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+    }
 }
