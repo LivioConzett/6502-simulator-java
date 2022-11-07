@@ -738,4 +738,11 @@ class InstructionSet {
         this.flags.setNegative(value < 0);
     }
 
+    /**
+     * Transfer Accumulator to index X
+     */
+    void tax(){
+        this.transferToX(this.memory.getRegisterA());
+    }
+
 }
