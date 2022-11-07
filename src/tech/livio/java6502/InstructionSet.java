@@ -696,10 +696,20 @@ class InstructionSet {
     }
 
     /**
+     * Store a byte to a memory address.
+     * @param value value to set
+     * @param address address to put value in.
+     */
+    void store(byte value, short address){
+        this.memory.setByteAtAddress(address,value);
+    }
+    /**
      * Store Accumulator in Memory.
      * @param address address to store the value in the accumulator.
      */
     void sta(AddressingModeReturn address){
-        this.memory.setByteAtAddress(address.getAddress(), this.memory.getRegisterA());
+        this.store(this.memory.getRegisterA(),address.getAddress());
     }
+
+
 }

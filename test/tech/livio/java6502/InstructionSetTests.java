@@ -1474,6 +1474,13 @@ class InstructionSetTests{
     }
 
     @Test
+    void storeTest(){
+        this.is.store((byte)0xde,(short)0x4321);
+
+        Assertions.assertEquals((byte)0xde,this.memory.getByteAtAddress((short)0x4321));
+    }
+
+    @Test
     void staTest(){
 
         this.input.setAddress((short)0x3333);
