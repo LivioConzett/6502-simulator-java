@@ -1578,4 +1578,27 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getNegative());
 
     }
+
+    @Test
+    void tayTest(){
+
+        this.memory.setRegisterA((byte)0x10);
+        this.is.tay();
+        Assertions.assertEquals((byte)0x10,this.memory.getRegisterY());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        this.memory.setRegisterA((byte)0x81);
+        this.is.tay();
+        Assertions.assertEquals((byte)0x81,this.memory.getRegisterY());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+
+        this.memory.setRegisterA((byte)0x00);
+        this.is.tay();
+        Assertions.assertEquals((byte)0x00,this.memory.getRegisterY());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+    }
 }

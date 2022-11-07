@@ -755,4 +755,11 @@ class InstructionSet {
         this.transferToX(this.memory.getRegisterA());
     }
 
+    /**
+     * Transfer Accumulator to index Y
+     */
+    void tay(){
+        this.transferToY(this.memory.getRegisterA());
+    }
+
 }
