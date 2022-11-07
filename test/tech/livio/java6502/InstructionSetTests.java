@@ -1350,5 +1350,21 @@ class InstructionSetTests{
 
     }
 
-    //TODO test for RTI
+    @Test
+    void rtiTest(){
+
+        this.stack.setStackPointer((byte)0xfc);
+        this.memory.setByteAtAddress((short)0x01ff,(byte)0x12);
+        this.memory.setByteAtAddress((short)0x01fe,(byte)0x34);
+        this.memory.setByteAtAddress((short)0x01fd,(byte)0b01001110);
+
+        this.memory.setProgramCounter((short)0x0001);
+
+        this.is.rti();
+
+        Assertions.assertEquals((short)0x1234, this.memory.getProgramCounter());
+        Assertions.assertEquals((byte)0b01001110, this.flags.getWholeRegister());
+        Assertions.assertEquals((byte)0xff, this.stack.getStackPointer());
+
+    }
 }
