@@ -680,4 +680,11 @@ class InstructionSet {
     void sec(){
         this.flags.setCarry(true);
     }
+
+    /**
+     * Set Decimal Mode
+     */
+    void sed(){
+        this.flags.setDecimalMode(true);
+    }
 }

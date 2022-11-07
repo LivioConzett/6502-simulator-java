@@ -1452,5 +1452,14 @@ class InstructionSetTests{
         Assertions.assertTrue(this.flags.getCarry());
     }
 
+    @Test
+    void sedTest(){
+        this.flags.setDecimalMode(false);
+
+        this.is.sed();
+
+        Assertions.assertTrue(this.flags.getDecimalMode());
+    }
+
 
 }
