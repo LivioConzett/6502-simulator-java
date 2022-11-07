@@ -793,4 +793,11 @@ class InstructionSet {
         this.stack.setStackPointer(this.memory.getRegisterX());
     }
 
+    /**
+     * Transfer index Y to Accumulator
+     */
+    void tya(){
+        this.transferToAcc(this.memory.getRegisterY());
+    }
+
 }

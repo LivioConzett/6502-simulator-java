@@ -1676,4 +1676,27 @@ class InstructionSetTests{
         Assertions.assertEquals((byte)0x10,this.stack.getStackPointer());
 
     }
+
+    @Test
+    void tyaTest(){
+
+        this.memory.setRegisterY((byte)0x10);
+        this.is.tya();
+        Assertions.assertEquals((byte)0x10,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        this.memory.setRegisterY((byte)0x81);
+        this.is.tya();
+        Assertions.assertEquals((byte)0x81,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+
+        this.memory.setRegisterY((byte)0x00);
+        this.is.tya();
+        Assertions.assertEquals((byte)0x00,this.memory.getRegisterA());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+    }
 }
