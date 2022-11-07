@@ -1503,4 +1503,16 @@ class InstructionSetTests{
 
         Assertions.assertEquals((byte)0x69,this.memory.getByteAtAddress((short)0x3334));
     }
+
+    @Test
+    void styTest(){
+
+        this.input.setAddress((short)0x3335);
+        this.memory.setRegisterY((byte)0x69);
+        this.memory.setByteAtAddress((short)0x3335,(byte)0x0);
+
+        this.is.sty(input);
+
+        Assertions.assertEquals((byte)0x69,this.memory.getByteAtAddress((short)0x3335));
+    }
 }

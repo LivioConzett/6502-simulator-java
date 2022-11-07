@@ -720,5 +720,12 @@ class InstructionSet {
         this.store(this.memory.getRegisterX(),address.getAddress());
     }
 
+    /**
+     * Store Register Y in Memory.
+     * @param address address to store the value.
+     */
+    void sty(AddressingModeReturn address){
+        this.store(this.memory.getRegisterY(),address.getAddress());
+    }
 
 }
