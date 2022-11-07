@@ -1383,4 +1383,63 @@ class InstructionSetTests{
         Assertions.assertEquals((byte)0xfe, this.stack.getStackPointer());
 
     }
+
+    @Test
+    void sbcTest(){
+
+        // -----------------------------------
+        this.memory.setRegisterA((byte)10);
+        this.flags.setDecimalMode(false);
+        this.flags.setCarry(true);
+        this.input.set((byte)7,(short)0x0);
+
+        this.is.sbc(input);
+
+        Assertions.assertEquals((byte)2,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getOverFlow());
+
+        // -----------------------------------
+        this.memory.setRegisterA((byte)6);
+        this.flags.setDecimalMode(false);
+        this.flags.setCarry(true);
+
+        this.is.sbc(input);
+
+        Assertions.assertEquals((byte)-2,this.memory.getRegisterA());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getOverFlow());
+
+        // -----------------------------------
+        this.memory.setRegisterA((byte)8);
+        this.flags.setDecimalMode(false);
+        this.flags.setCarry(true);
+
+        this.is.sbc(input);
+
+        Assertions.assertEquals((byte)0,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getNegative());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getCarry());
+        Assertions.assertFalse(this.flags.getOverFlow());
+
+        // -----------------------------------
+        this.memory.setRegisterA((byte)254);
+        this.flags.setDecimalMode(false);
+        this.flags.setCarry(true);
+        this.input.setValue((byte)1);
+
+        this.is.sbc(input);
+
+        Assertions.assertEquals((byte)252,this.memory.getRegisterA());
+        Assertions.assertTrue(this.flags.getNegative());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getCarry());
+        Assertions.assertTrue(this.flags.getOverFlow());
+
+    }
 }

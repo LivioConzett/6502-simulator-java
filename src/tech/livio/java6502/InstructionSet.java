@@ -639,7 +639,38 @@ class InstructionSet {
      * @param value value to subtract.
      */
     void sbc(AddressingModeReturn value){
+        // clear the overflow bit
+        this.flags.setOverFlow(false);
+        byte number = value.getValue();
 
+        boolean unLikeSigned = Util.areNotLikeSigned(number,this.memory.getRegisterA());
 
+        if(this.flags.getDecimalMode()){
+
+            int bcd = Util.bcdToDec(number);
+            int ans = this.memory.getRegisterA() - bcd - this.flags.getCarryInt();
+
+            // set the carry flag if the ans is over 99 since we are in bcd mode.
+            this.flags.setCarry(ans >= 0);
+            // cut off the overflow
+            this.memory.setRegisterA(Util.decToBcd((byte)(ans % 99)));
+        }
+        else{
+            int ans = Util.unsignByte(this.memory.getRegisterA()) -
+                    Util.unsignByte(number) -
+                    this.flags.getCarryInt();
+
+            // 255 is the highest number that can be saved in one byte.
+            this.flags.setCarry(ans >= 0);
+            this.memory.setRegisterA((byte)ans);
+
+            System.out.println(ans);
+            if(unLikeSigned && (ans > 127 || ans < -128)){
+                this.flags.setOverFlow(true);
+            }
+        }
+
+        this.flags.setZero(this.memory.getRegisterA() == 0);
+        this.flags.setNegative(this.memory.getRegisterA() < 0);
     }
 }
