@@ -786,4 +786,11 @@ class InstructionSet {
         this.transferToAcc(this.memory.getRegisterX());
     }
 
+    /**
+     * Transfer index X to Stack pointer
+     */
+    void txs(){
+        this.stack.setStackPointer(this.memory.getRegisterX());
+    }
+
 }

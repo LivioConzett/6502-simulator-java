@@ -1667,4 +1667,13 @@ class InstructionSetTests{
         Assertions.assertFalse(this.flags.getNegative());
 
     }
+
+    @Test
+    void txsTest(){
+
+        this.memory.setRegisterX((byte)0x10);
+        this.is.txs();
+        Assertions.assertEquals((byte)0x10,this.stack.getStackPointer());
+
+    }
 }
