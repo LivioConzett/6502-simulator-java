@@ -77,4 +77,15 @@ class UtilTests{
         Assertions.assertFalse(Util.areLikeSigned((byte)0b01011001,(byte)0b10000000));
 
     }
+
+    @Test
+    void notLikeSignedTest(){
+
+        Assertions.assertTrue(Util.areNotLikeSigned((byte)0b00011001,(byte)0b10000000));
+        Assertions.assertTrue(Util.areNotLikeSigned((byte)0b10011001,(byte)0b00100000));
+
+        Assertions.assertFalse(Util.areNotLikeSigned((byte)0b10011001,(byte)0b11010000));
+        Assertions.assertFalse(Util.areNotLikeSigned((byte)0b01011001,(byte)0b00000000));
+
+    }
 }

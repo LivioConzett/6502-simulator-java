@@ -95,4 +95,14 @@ class Util {
     static boolean areLikeSigned(byte one, byte two){
         return (one >> 7) == (two >> 7);
     }
+
+    /**
+     * Tests if two bytes are not like signed. i.e. if one number is negativean the other positive.
+     * @param one first number for comparison.
+     * @param two second number for comparison
+     * @return true if not likely signed false if they are
+     */
+    static boolean areNotLikeSigned(byte one, byte two){
+        return (one >> 7) != (two >> 7);
+    }
 }
