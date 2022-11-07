@@ -1490,6 +1490,17 @@ class InstructionSetTests{
         this.is.sta(input);
 
         Assertions.assertEquals((byte)0x69,this.memory.getByteAtAddress((short)0x3333));
+    }
 
+    @Test
+    void stxTest(){
+
+        this.input.setAddress((short)0x3334);
+        this.memory.setRegisterX((byte)0x69);
+        this.memory.setByteAtAddress((short)0x3334,(byte)0x0);
+
+        this.is.stx(input);
+
+        Assertions.assertEquals((byte)0x69,this.memory.getByteAtAddress((short)0x3334));
     }
 }

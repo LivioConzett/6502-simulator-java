@@ -703,12 +703,21 @@ class InstructionSet {
     void store(byte value, short address){
         this.memory.setByteAtAddress(address,value);
     }
+
     /**
      * Store Accumulator in Memory.
      * @param address address to store the value in the accumulator.
      */
     void sta(AddressingModeReturn address){
         this.store(this.memory.getRegisterA(),address.getAddress());
+    }
+
+    /**
+     * Store Register X in Memory.
+     * @param address address to store the value.
+     */
+    void stx(AddressingModeReturn address){
+        this.store(this.memory.getRegisterX(),address.getAddress());
     }
 
 
