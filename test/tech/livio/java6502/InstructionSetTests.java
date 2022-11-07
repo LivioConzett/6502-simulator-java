@@ -1367,4 +1367,20 @@ class InstructionSetTests{
         Assertions.assertEquals((byte)0xff, this.stack.getStackPointer());
 
     }
+
+    @Test
+    void rtsTest(){
+
+        this.stack.setStackPointer((byte)0xfc);
+        this.memory.setByteAtAddress((short)0x01fe,(byte)0x46);
+        this.memory.setByteAtAddress((short)0x01fd,(byte)0xff);
+
+        this.memory.setProgramCounter((short)0x0001);
+
+        this.is.rts();
+
+        Assertions.assertEquals((short)0x46ff, this.memory.getProgramCounter());
+        Assertions.assertEquals((byte)0xfe, this.stack.getStackPointer());
+
+    }
 }
