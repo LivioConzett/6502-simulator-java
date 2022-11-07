@@ -22,4 +22,12 @@ public class Sim6502 {
         this.instructionSet = new InstructionSet(this.memory, this.stack, this.flags);
     }
 
+    /**
+     * Takes a Byte and runs the corresponding instruction
+     * @param instruction byte to run.
+     */
+    void runInstruction(byte instruction){
+        //TODO: makes switch case
+    }
+
 }
