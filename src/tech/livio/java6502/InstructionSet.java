@@ -694,4 +694,12 @@ class InstructionSet {
     void sei(){
         this.flags.setInterruptDisable(true);
     }
+
+    /**
+     * Store Accumulator in Memory.
+     * @param address address to store the value in the accumulator.
+     */
+    void sta(AddressingModeReturn address){
+        this.memory.setByteAtAddress(address.getAddress(), this.memory.getRegisterA());
+    }
 }

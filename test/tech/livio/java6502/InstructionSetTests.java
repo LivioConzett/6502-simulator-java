@@ -1473,5 +1473,16 @@ class InstructionSetTests{
         Assertions.assertTrue(this.flags.getInterruptDisable());
     }
 
+    @Test
+    void staTest(){
 
+        this.input.setAddress((short)0x3333);
+        this.memory.setRegisterA((byte)0x69);
+        this.memory.setByteAtAddress((short)0x3333,(byte)0x0);
+
+        this.is.sta(input);
+
+        Assertions.assertEquals((byte)0x69,this.memory.getByteAtAddress((short)0x3333));
+
+    }
 }
