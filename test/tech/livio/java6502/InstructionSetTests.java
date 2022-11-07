@@ -1515,4 +1515,24 @@ class InstructionSetTests{
 
         Assertions.assertEquals((byte)0x69,this.memory.getByteAtAddress((short)0x3335));
     }
+
+    @Test
+    void transferXTest(){
+
+        this.is.transferToX((byte)0x10);
+        Assertions.assertEquals((byte)0x10,this.memory.getRegisterX());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        this.is.transferToX((byte)0x81);
+        Assertions.assertEquals((byte)0x81,this.memory.getRegisterX());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+
+        this.is.transferToX((byte)0x00);
+        Assertions.assertEquals((byte)0x00,this.memory.getRegisterX());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+    }
 }

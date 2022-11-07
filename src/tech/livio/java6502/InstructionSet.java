@@ -728,4 +728,14 @@ class InstructionSet {
         this.store(this.memory.getRegisterY(),address.getAddress());
     }
 
+    /**
+     * Transfer a value to the X register.
+     * @param value value to store in the X register.
+     */
+    void transferToX(byte value){
+        this.memory.setRegisterX(value);
+        this.flags.setZero(value == 0);
+        this.flags.setNegative(value < 0);
+    }
+
 }
