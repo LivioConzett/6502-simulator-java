@@ -1442,4 +1442,15 @@ class InstructionSetTests{
         Assertions.assertTrue(this.flags.getOverFlow());
 
     }
+
+    @Test
+    void secTest(){
+        this.flags.setCarry(false);
+
+        this.is.sec();
+
+        Assertions.assertTrue(this.flags.getCarry());
+    }
+
+
 }

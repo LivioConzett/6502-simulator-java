@@ -673,4 +673,11 @@ class InstructionSet {
         this.flags.setZero(this.memory.getRegisterA() == 0);
         this.flags.setNegative(this.memory.getRegisterA() < 0);
     }
+
+    /**
+     * Set Carry Flag
+     */
+    void sec(){
+        this.flags.setCarry(true);
+    }
 }
