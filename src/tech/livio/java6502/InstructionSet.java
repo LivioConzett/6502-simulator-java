@@ -739,6 +739,16 @@ class InstructionSet {
     }
 
     /**
+     * Transfer a value to the Y register.
+     * @param value value to store in the Y register.
+     */
+    void transferToY(byte value){
+        this.memory.setRegisterY(value);
+        this.flags.setZero(value == 0);
+        this.flags.setNegative(value < 0);
+    }
+
+    /**
      * Transfer Accumulator to index X
      */
     void tax(){
