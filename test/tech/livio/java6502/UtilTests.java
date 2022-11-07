@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class UtilTests{
 
     @Test
-    public void unsignByteTest(){
+    void unsignedByteTest(){
         byte testByte = -1;
         Assertions.assertEquals(0xff, Util.unsignByte(testByte));
 
@@ -18,7 +18,7 @@ class UtilTests{
     }
 
     @Test
-    public void byteToAddressTest(){
+    void byteToAddressTest(){
 
         byte low = 0x34;
         byte high = 0x12;
@@ -37,7 +37,7 @@ class UtilTests{
     }
 
     @Test
-    public void addressToBytesTest(){
+    void addressToBytesTest(){
         byte[] ans = Util.addressToBytes((short)0x1234);
 
         Assertions.assertEquals((byte)0x34,ans[0]);
@@ -56,7 +56,7 @@ class UtilTests{
     }
 
     @Test
-    public void bcdTest(){
+    void bcdTest(){
 
         Assertions.assertEquals((byte)99,Util.bcdToDec((byte)0b10011001));
         Assertions.assertEquals((byte)10,Util.bcdToDec((byte)0b00010000));
@@ -68,7 +68,7 @@ class UtilTests{
     }
 
     @Test
-    public void likeSignedTest(){
+    void likeSignedTest(){
 
         Assertions.assertTrue(Util.areLikeSigned((byte)0b10011001,(byte)0b10000000));
         Assertions.assertTrue(Util.areLikeSigned((byte)0b00011001,(byte)0b00100000));

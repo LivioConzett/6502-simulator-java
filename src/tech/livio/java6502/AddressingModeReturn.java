@@ -1,8 +1,8 @@
 package tech.livio.java6502;
 
 /**
- * The class that the addressingmodes return.
- * It holds both the value and address that the addressingmodes return. <br>
+ * The class that the addressing modes return.
+ * It holds both the value and address that the addressing modes return. <br>
  * This is needed because the instruction sets sometimes need tha value or the address.
  */
 class AddressingModeReturn {

@@ -1,5 +1,7 @@
 package tech.livio.java6502;
 
+import java.util.Arrays;
+
 /**
  * Class that handles all the memory related things.<br>
  * Memory in entire address range.<br>
@@ -24,7 +26,7 @@ package tech.livio.java6502;
 class Memory {
 
     // entire addressable memory space 2^16
-    private final byte[] memory;
+    private final byte[] memoryArray;
 
     // registers
     private byte registerA;
@@ -40,7 +42,7 @@ class Memory {
      */
     public Memory(){
         // initialize the memory to the max range of a 16bit address system.
-        this.memory = new byte[0x10000];
+        this.memoryArray = new byte[0x10000];
 
         // reset the rest.
         this.hardReset();
@@ -51,9 +53,7 @@ class Memory {
      */
     public void hardReset(){
 
-        for(Byte mem: this.memory){
-            mem = 0;
-        }
+        Arrays.fill(this.memoryArray, (byte) 0x00);
 
         // program counter always starts at address 0xfffc
         // that's where it gets the address to the start of the program.
@@ -71,7 +71,7 @@ class Memory {
      * @return Value of byte at that address.
      */
     public byte getByteAtAddress(short address){
-        return this.memory[Util.unsignShort(address)];
+        return this.memoryArray[Util.unsignShort(address)];
     }
 
     /**
@@ -79,7 +79,7 @@ class Memory {
      * @return Byte at address of program counter.
      */
     public byte getCurrentByte(){
-        return this.memory[Util.unsignShort(this.programCounter)];
+        return this.memoryArray[Util.unsignShort(this.programCounter)];
     }
 
     /**
@@ -88,7 +88,7 @@ class Memory {
      * @param value Value to set.
      */
     public void setByteAtAddress(short address, byte value){
-        this.memory[Util.unsignShort(address)] = value;
+        this.memoryArray[Util.unsignShort(address)] = value;
     }
 
     /**
@@ -171,7 +171,7 @@ class Memory {
     }
 
     /**
-     * Gets the address stored in the Non Maskable Interupt vector.<br>
+     * Gets the address stored in the Non Maskable Interrupt vector.<br>
      * 0xfffa - 0xfffb
      * @return address stored in 0xfffa - 0xfffb
      */

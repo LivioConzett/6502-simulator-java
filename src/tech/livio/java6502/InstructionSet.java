@@ -55,10 +55,8 @@ class InstructionSet {
             this.flags.setCarry(ans > 255);
             this.memory.setRegisterA((byte)ans);
 
-            if(likeSigned){
-                if(ans > 127 || ans < -128){
-                    this.flags.setOverFlow(true);
-                }
+            if(likeSigned && (ans > 127 || ans < -128)){
+                this.flags.setOverFlow(true);
             }
         }
 
@@ -413,10 +411,10 @@ class InstructionSet {
      * @param address address to jump to.
      */
     public void jsr(AddressingModeReturn address){
-        byte[] addr = Util.addressToBytes(this.memory.getProgramCounter());
+        byte[] memAddress = Util.addressToBytes(this.memory.getProgramCounter());
 
-        this.stack.push(addr[1]);
-        this.stack.push(addr[0]);
+        this.stack.push(memAddress[1]);
+        this.stack.push(memAddress[0]);
         this.stack.push(this.flags.getWholeRegister());
 
         this.memory.setProgramCounter(address.getAddress());
@@ -473,7 +471,7 @@ class InstructionSet {
 
     /**
      * Logical Shift Right<br>
-     * Shift a memory loaction one bit to the right.
+     * Shift a memory location one bit to the right.
      * @param address address of value to shift right
      */
     public void lsr(AddressingModeReturn address){
@@ -492,7 +490,9 @@ class InstructionSet {
      * No Operator<br>
      * Doesn't do anything.
      */
-    public void nop(){}
+    public void nop(){
+        // Comment so Sonar linter is happy.
+    }
 
     /**
      * OR Memory with Accumulator<br>
@@ -611,7 +611,7 @@ class InstructionSet {
     }
 
     /**
-     * Return from Interupt
+     * Return from Interrupt
      */
     public void rti(){
         byte status = this.stack.pull();

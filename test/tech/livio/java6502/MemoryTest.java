@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class MemoryTest{
 
     @Test
-    public void programCounterTest(){
+    void programCounterTest(){
 
         Memory mem = new Memory();
 
@@ -36,7 +36,7 @@ class MemoryTest{
     }
 
     @Test
-    public void specialVectorTest(){
+    void specialVectorTest(){
 
         Memory mem = new Memory();
 
@@ -52,8 +52,6 @@ class MemoryTest{
         Assertions.assertEquals((short)0x1234,mem.getNMIAddress());
         Assertions.assertEquals((short)0x5678,mem.getStartUpAddress());
         Assertions.assertEquals((short)0xabcd,mem.getBreakAddress());
-
-
     }
 }
 

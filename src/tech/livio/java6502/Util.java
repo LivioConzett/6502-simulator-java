@@ -8,21 +8,29 @@ package tech.livio.java6502;
 class Util {
 
     /**
-     * Gets the unsigned value of a byte.
-     * @param signedByte Byte to unsign.
-     * @return int of the unsinged byte
+     * Private Constructor<br>
+     * Needed so that Sonar Linter doesn't complain.
      */
-    public static int unsignByte(byte signedByte) {
-        return (int) signedByte & 0xff;
+    private Util(){
+        // Sonar Linter wants this.
     }
 
     /**
-     * Gets the unsigned value of a short.
-     * @param signedShort short to unsign;
+     * Gets the unsigned value of a byte.
+     * @param signedByte Byte to un-sign.
+     * @return int of the un-singed byte
+     */
+    static int unsignByte(byte signedByte) {
+        return signedByte & 0xff;
+    }
+
+    /**
+     * Gets the un-signed value of a short.
+     * @param signedShort short to un-sign;
      * @return int of the unsigned short
      */
-    public static int unsignShort(short signedShort) {
-        return (int) signedShort & 0xffff;
+    static int unsignShort(short signedShort) {
+        return signedShort & 0xffff;
     }
 
     /**
@@ -34,7 +42,7 @@ class Util {
      * @param high high byte of short
      * @return short
      */
-    public static short bytesToAddress(byte low, byte high){
+    static short bytesToAddress(byte low, byte high){
         int address = Util.unsignByte(high);
         address = address << 8;
         address = address | Util.unsignByte(low);
@@ -42,11 +50,11 @@ class Util {
     }
 
     /**
-     * Splits up an address into a highbyte and a lowbyte.
+     * Splits up an address into a high-byte and a low-byte.
      * @param address address to split up into bytes.
-     * @return array of bytes {lowbyte,highbyte}
+     * @return array of bytes {low-byte,high-byte}
      */
-    public static byte[] addressToBytes(short address){
+    static byte[] addressToBytes(short address){
         byte[] bytes = {0,0};
 
         bytes[0] = (byte)(address & 0b11111111);
@@ -60,7 +68,7 @@ class Util {
      * @param bcdNumber bcd encoded byte.
      * @return "normalized" byte.
      */
-    public static byte bcdToDec(byte bcdNumber){
+    static byte bcdToDec(byte bcdNumber){
         int low = bcdNumber & 0xf;
         int high = (bcdNumber & 0xf0)>>4;
         return (byte) ((high * 10) + low);
@@ -69,9 +77,9 @@ class Util {
     /**
      * Turn a "normal" number into a bcd encoded number.
      * @param number "normal" number.
-     * @return bcd encuded number
+     * @return bcd encoded number
      */
-    public static byte decToBcd(byte number){
+    static byte decToBcd(byte number){
         int high = number / 10;
         int low = number - (high * 10);
         byte result = (byte)(high << 4);
@@ -84,7 +92,7 @@ class Util {
      * @param two second number for comparison
      * @return true if likely signed false if not
      */
-    public static boolean areLikeSigned(byte one, byte two){
+    static boolean areLikeSigned(byte one, byte two){
         return (one >> 7) == (two >> 7);
     }
 }

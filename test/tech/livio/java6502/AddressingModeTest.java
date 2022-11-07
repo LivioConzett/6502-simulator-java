@@ -114,7 +114,7 @@ class AddressingModeTest{
         this.memory.setByteAtAddress((short) 0x0900,(byte) 0x44);
         this.ans.set((byte)0x44,(short)0x0900);
 
-        Assertions.assertEquals(ans,this.addr.absoluteIndex_X());
+        Assertions.assertEquals(ans,this.addr.absoluteIndexX());
         Assertions.assertEquals((short)0x8082,this.memory.getProgramCounter());
 
         this.memory.setRegisterY((byte) 0x92);
@@ -125,7 +125,7 @@ class AddressingModeTest{
         this.memory.setByteAtAddress((short) 0xfec4,(byte) 0x09);
         this.ans.set((byte)0x09,(short)0xfec4);
 
-        Assertions.assertEquals(ans,this.addr.absoluteIndex_Y());
+        Assertions.assertEquals(ans,this.addr.absoluteIndexY());
         Assertions.assertEquals((short)0x0003,this.memory.getProgramCounter());
     }
 
@@ -179,7 +179,7 @@ class AddressingModeTest{
         this.memory.setByteAtAddress((short) 0x0081,(byte) 0x44);
         this.ans.set((byte)0x44,(short)0x0081);
 
-        Assertions.assertEquals(ans,this.addr.zeroPageIndex_X());
+        Assertions.assertEquals(ans,this.addr.zeroPageIndexX());
         Assertions.assertEquals((short)0x8081,this.memory.getProgramCounter());
 
         this.memory.setRegisterY((byte) 0x31);
@@ -189,7 +189,7 @@ class AddressingModeTest{
         this.memory.setByteAtAddress((short) 0x63,(byte) 0x09);
         this.ans.set((byte)0x09,(short)0x63);
 
-        Assertions.assertEquals(ans,this.addr.zeroPageIndex_Y());
+        Assertions.assertEquals(ans,this.addr.zeroPageIndexY());
         Assertions.assertEquals((short)0x0002,this.memory.getProgramCounter());
     }
 

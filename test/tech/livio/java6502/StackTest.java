@@ -9,7 +9,7 @@ class StackTest{
     void stack(){
         Memory mem = new Memory();
 
-        Stack stack = new Stack(new Memory());
+        Stack stack = new Stack(mem);
         byte test = (byte) 0xff;
 
         stack.setStackPointer((byte) 0xff);
