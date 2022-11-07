@@ -779,4 +779,11 @@ class InstructionSet {
         this.transferToX(this.stack.getStackPointer());
     }
 
+    /**
+     * Transfer index X to Accumulator
+     */
+    void txa(){
+        this.transferToAcc(this.memory.getRegisterX());
+    }
+
 }
