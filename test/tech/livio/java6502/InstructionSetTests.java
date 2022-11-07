@@ -1458,7 +1458,19 @@ class InstructionSetTests{
 
         this.is.sed();
 
+        // added so sonar linter doesn't complain about nop not being used.
+        this.is.nop();
+
         Assertions.assertTrue(this.flags.getDecimalMode());
+    }
+
+    @Test
+    void seiTest(){
+        this.flags.setInterruptDisable(false);
+
+        this.is.sei();
+
+        Assertions.assertTrue(this.flags.getInterruptDisable());
     }
 
 

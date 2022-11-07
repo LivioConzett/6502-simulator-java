@@ -687,4 +687,11 @@ class InstructionSet {
     void sed(){
         this.flags.setDecimalMode(true);
     }
+
+    /**
+     * Set Interrupt Disable Mode
+     */
+    void sei(){
+        this.flags.setInterruptDisable(true);
+    }
 }
