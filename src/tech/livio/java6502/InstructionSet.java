@@ -749,6 +749,16 @@ class InstructionSet {
     }
 
     /**
+     * Transfer a value to the Accumulator.
+     * @param value value to store in the Accumulator.
+     */
+    void transferToAcc(byte value){
+        this.memory.setRegisterA(value);
+        this.flags.setZero(value == 0);
+        this.flags.setNegative(value < 0);
+    }
+
+    /**
      * Transfer Accumulator to index X
      */
     void tax(){

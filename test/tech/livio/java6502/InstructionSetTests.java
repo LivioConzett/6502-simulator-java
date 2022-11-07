@@ -1557,6 +1557,26 @@ class InstructionSetTests{
     }
 
     @Test
+    void transferAccTest(){
+
+        this.is.transferToAcc((byte)0x10);
+        Assertions.assertEquals((byte)0x10,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+        this.is.transferToAcc((byte)0x81);
+        Assertions.assertEquals((byte)0x81,this.memory.getRegisterA());
+        Assertions.assertFalse(this.flags.getZero());
+        Assertions.assertTrue(this.flags.getNegative());
+
+        this.is.transferToAcc((byte)0x00);
+        Assertions.assertEquals((byte)0x00,this.memory.getRegisterA());
+        Assertions.assertTrue(this.flags.getZero());
+        Assertions.assertFalse(this.flags.getNegative());
+
+    }
+
+    @Test
     void taxTest(){
 
         this.memory.setRegisterA((byte)0x10);
