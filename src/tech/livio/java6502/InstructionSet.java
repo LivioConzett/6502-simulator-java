@@ -664,7 +664,6 @@ class InstructionSet {
             this.flags.setCarry(ans >= 0);
             this.memory.setRegisterA((byte)ans);
 
-            System.out.println(ans);
             if(unLikeSigned && (ans > 127 || ans < -128)){
                 this.flags.setOverFlow(true);
             }
