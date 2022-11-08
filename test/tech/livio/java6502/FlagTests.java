@@ -86,7 +86,7 @@ class FlagTests {
 
         flags.setWholeRegister((byte) 0xff);
 
-        Assertions.assertEquals((byte) 0b11011111, flags.getWholeRegister());
-        Assertions.assertNotEquals((byte) 0b11111111, flags.getWholeRegister());
+        Assertions.assertEquals((byte) 0b11111111, flags.getWholeRegister());
+        Assertions.assertNotEquals((byte) 0b11011111, flags.getWholeRegister());
     }
 }

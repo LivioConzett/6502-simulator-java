@@ -237,9 +237,7 @@ public class Sim6502 {
             case (byte) 0x9a -> is.txs();
 
             case (byte) 0x98 -> is.tya();
-
         }
-
     }
 
 

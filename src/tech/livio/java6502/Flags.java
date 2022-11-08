@@ -6,7 +6,7 @@ package tech.livio.java6502;
  * <pre>
  *     2<sup>7</sup> = Negative Flag        1 = Negative
  *     2<sup>6</sup> = Overflow Flag        1 = True
- *     2<sup>5</sup> = [not used]
+ *     2<sup>5</sup> = [not used]           1 = True (always set)
  *     2<sup>4</sup> = Break Command Flag   1 = Break
  *     2<sup>3</sup> = Decimal Mode Flag    1 = True
  *     2<sup>2</sup> = Interrupt
@@ -20,6 +20,7 @@ class Flags {
 
     private boolean negative;
     private boolean overFlow;
+    private boolean unused;
     private boolean breakCommand;
     private boolean decimalMode;
     private boolean interruptDisabled;
@@ -56,6 +57,7 @@ class Flags {
         if(this.interruptDisabled) registerP += 4;
         if(this.decimalMode) registerP += 8;
         if(this.breakCommand) registerP += 16;
+        if(this.unused) registerP += 32;
         if(this.overFlow) registerP += 64;
         if(this.negative) registerP += 128;
 
@@ -73,6 +75,7 @@ class Flags {
         this.interruptDisabled = (((statusRegister) & 4) == 4);
         this.decimalMode = (((statusRegister) & 8) == 8);
         this.breakCommand = (((statusRegister) & 16) == 16);
+        this.unused = true;
         this.overFlow = (((statusRegister) & 64) == 64);
         this.negative = (((statusRegister) & 128) == 128);
     }

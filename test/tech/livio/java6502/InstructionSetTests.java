@@ -396,7 +396,7 @@ class InstructionSetTests{
         Assertions.assertEquals((byte)0xfc,this.stack.getStackPointer());
         Assertions.assertEquals((byte)0xaa,this.memory.getByteAtAddress((short)0x01ff));
         Assertions.assertEquals((byte)0xbc,this.memory.getByteAtAddress((short)0x01fe));
-        Assertions.assertEquals((byte)0x55,this.memory.getByteAtAddress((short)0x01fd));
+        Assertions.assertEquals((byte)0b01110101,this.memory.getByteAtAddress((short)0x01fd));
 
     }
 
@@ -911,7 +911,7 @@ class InstructionSetTests{
         Assertions.assertEquals((byte)0xfc,this.stack.getStackPointer());
         Assertions.assertEquals((byte)0xab, this.memory.getByteAtAddress((short)0x01ff));
         Assertions.assertEquals((byte)0xcd, this.memory.getByteAtAddress((short)0x01fe));
-        Assertions.assertEquals((byte)0x86, this.memory.getByteAtAddress((short)0x01fd));
+        Assertions.assertEquals((byte)0b10100110, this.memory.getByteAtAddress((short)0x01fd));
         Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
     }
 
@@ -1119,14 +1119,14 @@ class InstructionSetTests{
         this.is.php();
 
         Assertions.assertEquals((byte)0xfe,this.stack.getStackPointer());
-        Assertions.assertEquals((byte)0b01001010,this.memory.getByteAtAddress((short)0x01ff));
+        Assertions.assertEquals((byte)0b01101010,this.memory.getByteAtAddress((short)0x01ff));
 
         this.flags.setWholeRegister((byte)0b10000010);
 
         this.is.php();
 
         Assertions.assertEquals((byte)0xfd,this.stack.getStackPointer());
-        Assertions.assertEquals((byte)0b10000010,this.memory.getByteAtAddress((short)0x01fe));
+        Assertions.assertEquals((byte)0b10100010,this.memory.getByteAtAddress((short)0x01fe));
     }
 
     @Test
@@ -1177,7 +1177,7 @@ class InstructionSetTests{
 
         this.is.plp();
 
-        Assertions.assertEquals((byte)0b01001010, this.flags.getWholeRegister());
+        Assertions.assertEquals((byte)0b01101010, this.flags.getWholeRegister());
         Assertions.assertEquals((byte)0xff,this.stack.getStackPointer());
 
     }
@@ -1363,7 +1363,7 @@ class InstructionSetTests{
         this.is.rti();
 
         Assertions.assertEquals((short)0x1234, this.memory.getProgramCounter());
-        Assertions.assertEquals((byte)0b01001110, this.flags.getWholeRegister());
+        Assertions.assertEquals((byte)0b01101110, this.flags.getWholeRegister());
         Assertions.assertEquals((byte)0xff, this.stack.getStackPointer());
 
     }
