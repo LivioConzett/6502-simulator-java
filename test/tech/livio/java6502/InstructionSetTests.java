@@ -12,13 +12,15 @@ class InstructionSetTests{
     private InstructionSet is;
     private Stack stack;
     private AddressingModeReturn input;
+    private Control control;
 
     @BeforeEach
     public void init(){
+        this.control = new Control();
         this.memory = new Memory();
         this.stack = new Stack(this.memory);
         this.flags = new Flags();
-        this.is = new InstructionSet(memory,stack,flags);
+        this.is = new InstructionSet(memory,stack,flags,control);
         this.input = new AddressingModeReturn();
     }
 
@@ -218,6 +220,7 @@ class InstructionSetTests{
     @Test
     void bccTest(){
 
+        this.control.allowNextIncrement();
         this.memory.setProgramCounter((short)0x0010);
         this.flags.setCarry(true);
         this.input.setAddress((short)0x0300);
@@ -233,6 +236,8 @@ class InstructionSetTests{
         this.is.bcc(input);
 
         Assertions.assertEquals((short)0x0300,this.memory.getProgramCounter());
+        Assertions.assertTrue(this.control.getSkipNextIncrement());
+        this.control.allowNextIncrement();
     }
 
     @Test

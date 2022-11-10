@@ -12,6 +12,7 @@ class InstructionSet {
     private final Memory memory;
     private final Stack stack;
     private final Flags flags;
+    private final Control control;
 
     /**
      * Initialize tha class
@@ -19,10 +20,11 @@ class InstructionSet {
      * @param stack Stack object.
      * @param flags Flags object.
      */
-    InstructionSet(Memory memory, Stack stack, Flags flags){
+    InstructionSet(Memory memory, Stack stack, Flags flags, Control control){
         this.memory = memory;
         this.stack = stack;
         this.flags = flags;
+        this.control = control;
     }
 
     /**
@@ -118,6 +120,7 @@ class InstructionSet {
     void bcc(AddressingModeReturn address){
         if(this.flags.getCarry()) return;
         this.memory.setProgramCounter(address.getAddress());
+        this.control.setSkipNextIncrement();
     }
 
     /**

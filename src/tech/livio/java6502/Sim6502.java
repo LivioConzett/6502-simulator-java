@@ -13,14 +13,17 @@ public class Sim6502 {
     private final InstructionSet is;
     private final AddressingMode am;
 
+    private final Control control;
+
     /**
      * Initialize the 6502 simulator
      */
     public Sim6502(){
+        this.control = new Control();
         this.memory = new Memory();
         this.stack = new Stack(this.memory);
         this.flags = new Flags();
-        this.is = new InstructionSet(this.memory, this.stack, this.flags);
+        this.is = new InstructionSet(this.memory, this.stack, this.flags, this.control);
         this.am = new AddressingMode(this.memory);
     }
 
