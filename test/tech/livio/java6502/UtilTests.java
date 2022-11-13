@@ -88,4 +88,29 @@ class UtilTests{
         Assertions.assertFalse(Util.areNotLikeSigned((byte)0b01011001,(byte)0b00000000));
 
     }
+
+    @Test
+    void hexStringToByteTest(){
+
+        Assertions.assertEquals((byte) 0xff, Util.hexStringToByte("ff"));
+        Assertions.assertEquals((byte) 0xff, Util.hexStringToByte("FF"));
+        Assertions.assertEquals((byte) 0x00, Util.hexStringToByte("00"));
+        Assertions.assertEquals((byte) 0x80, Util.hexStringToByte("80"));
+        Assertions.assertEquals((byte) 0xac, Util.hexStringToByte("ac"));
+        Assertions.assertEquals((byte) 0x1a, Util.hexStringToByte("1a"));
+
+        Assertions.assertEquals((byte) 0xc1, Util.hexStringToByte("abc1"));
+
+    }
+
+    @Test
+    void sanitizeHexStringTest(){
+
+        String input = "ab cd ef gh ij kl mn op qr st uv wx yz 01 23 45 67 89 .,:;-";
+        String output = "ab cd ef 01 23 45 67 89 ";
+
+        Assertions.assertEquals(output, Util.sanitizeHexString(input));
+
+    }
+
 }

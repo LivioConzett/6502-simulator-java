@@ -105,4 +105,22 @@ class Util {
     static boolean areNotLikeSigned(byte one, byte two){
         return (one >> 7) != (two >> 7);
     }
+
+    /**
+     * Turns a string containing a hex into a byte
+     * @param hexString hex-code in a String
+     * @return byte of the hex-code
+     */
+    static byte hexStringToByte(String hexString){
+        return (byte) Integer.parseInt(hexString, 16);
+    }
+
+    /**
+     * Replaces everything not '0-9' 'a-f' 'A-F' or a space with ''.
+     * @param hexString String to sanitize.
+     * @return sanitized String.
+     */
+    static String sanitizeHexString(String hexString){
+        return hexString.replaceAll("[^0-9a-fA-F ]+","").replaceAll(" +"," ");
+    }
 }
