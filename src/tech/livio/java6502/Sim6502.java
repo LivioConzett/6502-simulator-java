@@ -239,6 +239,8 @@ public class Sim6502 {
             case (byte) 0x9a -> is.txs();
 
             case (byte) 0x98 -> is.tya();
+
+            default -> is.nop();
         }
     }
 
@@ -279,6 +281,22 @@ public class Sim6502 {
      */
     public byte[] getMemoryInRange(short lowAddress, short highAddress){
         return this.memory.getMemoryRange(lowAddress, highAddress);
+    }
+
+    /**
+     * Do one step in the program.<br>
+     * Executes one instruction. Not just one clock cycle.
+     */
+    public void step(){
+        // if the previous instruction has jumped to a memory address then don't increment the counter
+        // because the instruction at the programm counter needs to be executed.
+        if(this.control.getSkipNextIncrement()) {
+            this.control.allowNextIncrement();
+        } else {
+            this.memory.incrementProgramCounter();
+        }
+
+        this.runInstruction(this.memory.getCurrentByte());
     }
 
 }
