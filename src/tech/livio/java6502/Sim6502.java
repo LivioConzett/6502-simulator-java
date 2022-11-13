@@ -12,7 +12,6 @@ public class Sim6502 {
     private final Flags flags;
     private final InstructionSet is;
     private final AddressingMode am;
-
     private final Control control;
 
     /**
@@ -251,6 +250,15 @@ public class Sim6502 {
      */
     public byte getByteAtAddress(short address){
         return this.memory.getByteAtAddress(address);
+    }
+
+
+    /**
+     * Gets the value of the Program counter.
+     * @return value of the program counter
+     */
+    public short getProgramCounter(){
+        return this.memory.getProgramCounter();
     }
 
 }
