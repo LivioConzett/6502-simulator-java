@@ -242,7 +242,6 @@ public class Sim6502 {
         }
     }
 
-
     /**
      * Gets the byte at a certain memory address.
      * @param address Address to get byte from.
@@ -252,13 +251,34 @@ public class Sim6502 {
         return this.memory.getByteAtAddress(address);
     }
 
-
     /**
      * Gets the value of the Program counter.
      * @return value of the program counter
      */
     public short getProgramCounter(){
         return this.memory.getProgramCounter();
+    }
+
+    /**
+     * Load code from String into memory.<br>
+     * String needs to be Hex codes formatted 2 chars at a time with spaces in between.<br>
+     * eg: ff ab 12 34 dc<br>
+     * Memory will be loaded starting by address 0x0000.
+     * @param code String of hex code
+     */
+    public void loadFromString(String code){
+        this.memory.loadString(code);
+    }
+
+    /**
+     * Get a range of memory.<br>
+     * If the highAddress is <= lowAddress the method will return an empty byte array.
+     * @param lowAddress address to being at
+     * @param highAddress address to end at
+     * @return byte array of the values between the two addresses
+     */
+    public byte[] getMemoryInRange(short lowAddress, short highAddress){
+        return this.memory.getMemoryRange(lowAddress, highAddress);
     }
 
 }
