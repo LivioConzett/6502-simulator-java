@@ -117,7 +117,7 @@ class InstructionSet {
      * Branch to the address given if the carry flag is false
      * @param address address to branch to.
      */
-    void bcc(AddressingModeReturn address){
+    void bcc(AddressingModeReturn address)      {
         if(this.flags.getCarry()) return;
         this.memory.setProgramCounter(address.getAddress());
         this.control.setSkipNextIncrement();
@@ -131,6 +131,7 @@ class InstructionSet {
     void bcs(AddressingModeReturn address){
         if(!this.flags.getCarry()) return;
         this.memory.setProgramCounter(address.getAddress());
+        this.control.setSkipNextIncrement();
     }
 
     /**
@@ -138,9 +139,10 @@ class InstructionSet {
      * Branch to the address given if the zero flag is true
      * @param address address to branch to.
      */
-    void beq(AddressingModeReturn address){
+    void beq(AddressingModeReturn address)  {
         if(!this.flags.getZero()) return;
         this.memory.setProgramCounter(address.getAddress());
+        this.control.setSkipNextIncrement();
     }
 
     /**
@@ -164,6 +166,7 @@ class InstructionSet {
     void bmi(AddressingModeReturn address){
         if(!this.flags.getNegative()) return;
         this.memory.setProgramCounter(address.getAddress());
+        this.control.setSkipNextIncrement();
     }
 
     /**
@@ -174,6 +177,7 @@ class InstructionSet {
     void bne(AddressingModeReturn address){
         if(this.flags.getZero()) return;
         this.memory.setProgramCounter(address.getAddress());
+        this.control.setSkipNextIncrement();
     }
 
     /**
@@ -184,6 +188,7 @@ class InstructionSet {
     void bpl(AddressingModeReturn address){
         if(this.flags.getNegative()) return;
         this.memory.setProgramCounter(address.getAddress());
+        this.control.setSkipNextIncrement();
     }
 
     /**
@@ -211,6 +216,7 @@ class InstructionSet {
         this.flags.setBreakCommand(false);
 
         this.memory.setProgramCounter(this.memory.getBreakAddress());
+        this.control.setSkipNextIncrement();
     }
 
     /**
@@ -221,6 +227,7 @@ class InstructionSet {
     void bvc(AddressingModeReturn address){
         if(this.flags.getOverFlow()) return;
         this.memory.setProgramCounter(address.getAddress());
+        this.control.setSkipNextIncrement();
     }
 
     /**
@@ -231,6 +238,7 @@ class InstructionSet {
     void bvs(AddressingModeReturn address){
         if(!this.flags.getOverFlow()) return;
         this.memory.setProgramCounter(address.getAddress());
+        this.control.setSkipNextIncrement();
     }
 
     /**
@@ -406,6 +414,7 @@ class InstructionSet {
      */
     void jmp(AddressingModeReturn address){
         this.memory.setProgramCounter(address.getAddress());
+        this.control.setSkipNextIncrement();
     }
 
     /**
@@ -421,6 +430,7 @@ class InstructionSet {
         this.stack.push(this.flags.getWholeRegister());
 
         this.memory.setProgramCounter(address.getAddress());
+        this.control.setSkipNextIncrement();
     }
 
     /**
