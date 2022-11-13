@@ -243,6 +243,7 @@ class InstructionSetTests{
     @Test
     void bcsTest(){
 
+        this.control.allowNextIncrement();
         this.memory.setProgramCounter((short)0xf010);
         this.flags.setCarry(false);
         this.input.setAddress((short)0xf300);
@@ -258,11 +259,14 @@ class InstructionSetTests{
         this.is.bcs(input);
 
         Assertions.assertEquals((short)0xf300,this.memory.getProgramCounter());
+        Assertions.assertTrue(this.control.getSkipNextIncrement());
+
     }
 
     @Test
     void beqTest(){
 
+        this.control.allowNextIncrement();
         this.memory.setProgramCounter((short)0x1234);
         this.flags.setZero(false);
         this.input.setAddress((short)0x6969);
@@ -271,6 +275,7 @@ class InstructionSetTests{
 
         Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
 
+
         this.memory.setProgramCounter((short)0x1234);
         this.flags.setZero(true);
         this.input.setAddress((short)0x6969);
@@ -278,6 +283,8 @@ class InstructionSetTests{
         this.is.beq(input);
 
         Assertions.assertEquals((short)0x6969,this.memory.getProgramCounter());
+        Assertions.assertTrue(this.control.getSkipNextIncrement());
+
     }
 
     @Test
@@ -324,6 +331,7 @@ class InstructionSetTests{
     @Test
     void bmiTest(){
 
+        this.control.allowNextIncrement();
         this.memory.setProgramCounter((short)0x3333);
         this.flags.setNegative(false);
         this.input.setAddress((short)0x458e);
@@ -332,6 +340,7 @@ class InstructionSetTests{
 
         Assertions.assertEquals((short)0x3333,this.memory.getProgramCounter());
 
+
         this.memory.setProgramCounter((short)0x1234);
         this.flags.setNegative(true);
         this.input.setAddress((short)0x458e);
@@ -339,11 +348,14 @@ class InstructionSetTests{
         this.is.bmi(input);
 
         Assertions.assertEquals((short)0x458e,this.memory.getProgramCounter());
+        Assertions.assertTrue(this.control.getSkipNextIncrement());
+
     }
 
     @Test
     void bneTest(){
 
+        this.control.allowNextIncrement();
         this.memory.setProgramCounter((short)0xfabcd);
         this.flags.setZero(true);
         this.input.setAddress((short)0x12ef);
@@ -359,11 +371,14 @@ class InstructionSetTests{
         this.is.bne(input);
 
         Assertions.assertEquals((short)0x12ef,this.memory.getProgramCounter());
+        Assertions.assertTrue(this.control.getSkipNextIncrement());
+
     }
 
     @Test
     void bplTest(){
 
+        this.control.allowNextIncrement();
         this.memory.setProgramCounter((short)0x3333);
         this.flags.setNegative(false);
         this.input.setAddress((short)0x458e);
@@ -371,6 +386,7 @@ class InstructionSetTests{
         this.is.bpl(input);
 
         Assertions.assertEquals((short)0x458e,this.memory.getProgramCounter());
+        Assertions.assertTrue(this.control.getSkipNextIncrement());
 
         this.memory.setProgramCounter((short)0x1234);
         this.flags.setNegative(true);
@@ -385,6 +401,7 @@ class InstructionSetTests{
     void brkTest(){
 
         this.flags.reset();
+        this.control.allowNextIncrement();
 
         this.memory.setByteAtAddress((short)0xfffe,(byte)0x34);
         this.memory.setByteAtAddress((short)0xffff,(byte)0x12);
@@ -402,12 +419,15 @@ class InstructionSetTests{
         Assertions.assertEquals((byte)0xaa,this.memory.getByteAtAddress((short)0x01ff));
         Assertions.assertEquals((byte)0xbc,this.memory.getByteAtAddress((short)0x01fe));
         Assertions.assertEquals((byte)0b01110101,this.memory.getByteAtAddress((short)0x01fd));
+        Assertions.assertTrue(this.control.getSkipNextIncrement());
+
 
     }
 
     @Test
     void bvcTest(){
 
+        this.control.allowNextIncrement();
         this.memory.setProgramCounter((short)0xfabc);
         this.flags.setOverFlow(false);
         this.input.setAddress((short)0xabcd);
@@ -415,6 +435,7 @@ class InstructionSetTests{
         this.is.bvc(input);
 
         Assertions.assertEquals((short)0xabcd,this.memory.getProgramCounter());
+        Assertions.assertTrue(this.control.getSkipNextIncrement());
 
         this.memory.setProgramCounter((short)0xfabc);
         this.flags.setOverFlow(true);
@@ -428,6 +449,7 @@ class InstructionSetTests{
     @Test
     void bvsTest(){
 
+        this.control.allowNextIncrement();
         this.memory.setProgramCounter((short)0xc3f5);
         this.flags.setOverFlow(false);
         this.input.setAddress((short)0x1928);
@@ -443,6 +465,8 @@ class InstructionSetTests{
         this.is.bvs(input);
 
         Assertions.assertEquals((short)0x1928,this.memory.getProgramCounter());
+        Assertions.assertTrue(this.control.getSkipNextIncrement());
+
     }
 
     @Test
@@ -889,6 +913,8 @@ class InstructionSetTests{
 
     @Test
     void jmpTest(){
+
+        this.control.allowNextIncrement();
         AddressingModeReturn input = new AddressingModeReturn();
         input.setAddress((short)0x1234);
 
@@ -897,10 +923,13 @@ class InstructionSetTests{
         this.is.jmp(input);
 
         Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
+        Assertions.assertTrue(this.control.getSkipNextIncrement());
+
     }
 
     @Test
     void jsrTest(){
+        this.control.allowNextIncrement();
         this.flags.reset();
         AddressingModeReturn input = new AddressingModeReturn();
         input.setAddress((short)0x1234);
@@ -918,6 +947,8 @@ class InstructionSetTests{
         Assertions.assertEquals((byte)0xcd, this.memory.getByteAtAddress((short)0x01fe));
         Assertions.assertEquals((byte)0b10100110, this.memory.getByteAtAddress((short)0x01fd));
         Assertions.assertEquals((short)0x1234,this.memory.getProgramCounter());
+        Assertions.assertTrue(this.control.getSkipNextIncrement());
+
     }
 
     @Test
