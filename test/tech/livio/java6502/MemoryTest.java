@@ -53,5 +53,33 @@ class MemoryTest{
         Assertions.assertEquals((short)0x5678,mem.getStartUpAddress());
         Assertions.assertEquals((short)0xabcd,mem.getBreakAddress());
     }
+
+    @Test
+    void getMemoryRangeTest(){
+
+        byte[] output = {
+                (byte) 0xff,
+                (byte) 0x13,
+                (byte) 0x03,
+                (byte) 0x81,
+                (byte) 0x00
+        };
+
+        Memory mem = new Memory();
+
+        mem.setByteAtAddress((short)0x1234,output[0]);
+        mem.setByteAtAddress((short)0x1235,output[1]);
+        mem.setByteAtAddress((short)0x1236,output[2]);
+        mem.setByteAtAddress((short)0x1237,output[3]);
+        mem.setByteAtAddress((short)0x1238,output[4]);
+
+        Assertions.assertArrayEquals(output,mem.getMemoryRange((short)0x1234,(short)0x1238));
+
+        output = new byte[]{
+        };
+
+        Assertions.assertArrayEquals(output,mem.getMemoryRange((short)0xff01,(short)0xff01));
+
+    }
 }
 

@@ -40,7 +40,7 @@ class Memory {
     /**
      * Initialize the Memory.
      */
-    public Memory(){
+    Memory(){
         // initialize the memory to the max range of a 16bit address system.
         this.memoryArray = new byte[0x10000];
 
@@ -51,7 +51,7 @@ class Memory {
     /**
      * Reset everything. Like power-cycling the 6502 chip.
      */
-    public void hardReset(){
+    void hardReset(){
 
         Arrays.fill(this.memoryArray, (byte) 0x00);
 
@@ -70,7 +70,7 @@ class Memory {
      * @param address Address to get.
      * @return Value of byte at that address.
      */
-    public byte getByteAtAddress(short address){
+    byte getByteAtAddress(short address){
         return this.memoryArray[Util.unsignShort(address)];
     }
 
@@ -78,8 +78,27 @@ class Memory {
      * Get the byte at the current position of the program counter.
      * @return Byte at address of program counter.
      */
-    public byte getCurrentByte(){
+    byte getCurrentByte(){
         return this.memoryArray[Util.unsignShort(this.programCounter)];
+    }
+
+    /**
+     * Get a range of memory.
+     * @param lowAddress address to start at
+     * @param highAddress address to end at
+     * @return byte array of the memory between low and high address
+     */
+    byte[] getMemoryRange(short lowAddress, short highAddress){
+        if(highAddress <= lowAddress){
+            return new byte[0];
+        }
+        int size = highAddress - lowAddress + 1;
+        System.out.println(size);
+        byte[] memoryRange = new byte[size];
+
+        System.arraycopy(this.memoryArray, lowAddress, memoryRange, 0, size);
+
+        return memoryRange;
     }
 
     /**
@@ -87,7 +106,7 @@ class Memory {
      * @param address Address to set.
      * @param value Value to set.
      */
-    public void setByteAtAddress(short address, byte value){
+    void setByteAtAddress(short address, byte value){
         this.memoryArray[Util.unsignShort(address)] = value;
     }
 
@@ -95,7 +114,7 @@ class Memory {
      * Get the value of the program counter.
      * @return Value of the program counter.
      */
-    public short getProgramCounter(){
+    short getProgramCounter(){
         return this.programCounter;
     }
 
@@ -103,7 +122,7 @@ class Memory {
      * Set the value of the program counter.
      * @param value value to set the program counter to.
      */
-    public void setProgramCounter(short value){
+    void setProgramCounter(short value){
         this.programCounter = value;
     }
 
@@ -111,14 +130,14 @@ class Memory {
      * Increments the program counter by a certain amount.
      * @param amount amount to increment the program counter to.
      */
-    public void incrementProgramCounter(int amount){
+    void incrementProgramCounter(int amount){
         this.programCounter += amount;
     }
 
     /**
      * Increments the program counter by one.
      */
-    public void incrementProgramCounter(){
+    void incrementProgramCounter(){
         this.incrementProgramCounter(1);
     }
 
@@ -126,7 +145,7 @@ class Memory {
      * Set the value of register A
      * @param registerA Value to set register A to.
      */
-    public void setRegisterA(byte registerA) {
+    void setRegisterA(byte registerA) {
         this.registerA = registerA;
     }
 
@@ -134,7 +153,7 @@ class Memory {
      * Get the value of register A.
      * @return Value of register A.
      */
-    public byte getRegisterA(){
+    byte getRegisterA(){
         return this.registerA;
     }
 
@@ -142,7 +161,7 @@ class Memory {
      * Set the value of register X
      * @param registerX Value to set register X to.
      */
-    public void setRegisterX(byte registerX) {
+    void setRegisterX(byte registerX) {
         this.registerX = registerX;
     }
 
@@ -150,7 +169,7 @@ class Memory {
      * Get the value of register X.
      * @return Value of register X.
      */
-    public byte getRegisterX(){
+    byte getRegisterX(){
         return this.registerX;
     }
 
@@ -158,7 +177,7 @@ class Memory {
      * Set the value of register Y
      * @param registerY Value to set register Y to.
      */
-    public void setRegisterY(byte registerY) {
+    void setRegisterY(byte registerY) {
         this.registerY = registerY;
     }
 
@@ -166,7 +185,7 @@ class Memory {
      * Get the value of register Y.
      * @return Value of register Y.
      */
-    public byte getRegisterY(){
+    byte getRegisterY(){
         return this.registerY;
     }
 
@@ -175,7 +194,7 @@ class Memory {
      * 0xfffa - 0xfffb
      * @return address stored in 0xfffa - 0xfffb
      */
-    public short getNMIAddress(){
+    short getNMIAddress(){
         byte highByte = this.getByteAtAddress((short)0xfffb);
         byte lowByte = this.getByteAtAddress((short)0xfffa);
 
@@ -187,7 +206,7 @@ class Memory {
      * 0xfffc - 0xfffd
      * @return address stored in 0xfffc - 0xfffd
      */
-    public short getStartUpAddress(){
+    short getStartUpAddress(){
         byte highByte = this.getByteAtAddress((short)0xfffd);
         byte lowByte = this.getByteAtAddress((short)0xfffc);
 
@@ -199,10 +218,22 @@ class Memory {
      * 0xfffe - 0xffff
      * @return address stored in 0xfffe - 0xffff
      */
-    public short getBreakAddress(){
+    short getBreakAddress(){
         byte highByte = this.getByteAtAddress((short)0xffff);
         byte lowByte = this.getByteAtAddress((short)0xfffe);
 
         return Util.bytesToAddress(lowByte,highByte);
+    }
+
+    /**
+     * Loads the Memory with code stored in a string.
+     * @param code String to load.
+     */
+    void loadString(String code){
+        String sanitizedString = Util.sanitizeHexString(code);
+        String[] codeArray = sanitizedString.split("\s");
+
+
+
     }
 }
