@@ -92,8 +92,8 @@ class Memory {
         if(highAddress <= lowAddress){
             return new byte[0];
         }
+        // +1 because the highAddress needs to be included.
         int size = highAddress - lowAddress + 1;
-        System.out.println(size);
         byte[] memoryRange = new byte[size];
 
         System.arraycopy(this.memoryArray, lowAddress, memoryRange, 0, size);
@@ -233,7 +233,8 @@ class Memory {
         String sanitizedString = Util.sanitizeHexString(code);
         String[] codeArray = sanitizedString.split("\s");
 
-
-
+        for(int i = 0; i < codeArray.length; i++){
+            this.memoryArray[i] = Util.hexStringToByte(codeArray[i]);
+        }
     }
 }

@@ -81,5 +81,37 @@ class MemoryTest{
         Assertions.assertArrayEquals(output,mem.getMemoryRange((short)0xff01,(short)0xff01));
 
     }
+
+    @Test
+    void loadMemoryFromStringTest(){
+
+        Memory mem = new Memory();
+
+        String input = "12 33 ff f3 a1";
+
+        byte[] output = {
+                (byte) 0x12,
+                (byte) 0x33,
+                (byte) 0xff,
+                (byte) 0xf3,
+                (byte) 0xa1
+        };
+
+        mem.loadString(input);
+
+        Assertions.assertArrayEquals(output,mem.getMemoryRange((short)0x0000,(short)0x0004));
+
+        input = "00 xx ff";
+
+        output = new byte[] {
+                (byte) 0x00,
+                (byte) 0xff
+        };
+
+        mem.loadString(input);
+
+        Assertions.assertArrayEquals(output,mem.getMemoryRange((short)0x0000,(short)0x0001));
+
+    }
 }
 
