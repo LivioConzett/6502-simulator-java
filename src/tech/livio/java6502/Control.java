@@ -13,7 +13,15 @@ public class Control {
      * Initialize all the variables.
      */
     Control(){
-        this.skipIncrement = false;
+        this.reset();
+    }
+
+    /**
+     * Resets the whole control object.
+     */
+    void reset(){
+        // set to true in the beginning since the program counter is on the begin vector
+        this.skipIncrement = true;
         this.run = false;
         this.doOnExt = (new CallBack() {
             @Override
