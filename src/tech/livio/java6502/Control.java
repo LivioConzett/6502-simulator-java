@@ -70,7 +70,7 @@ public class Control {
     /**
      * Sets what should be done when the program encounters the ext (0x80) instruction.<br>
      * The ext instruction will also set the run flag to false.
-     * @param doOnExt
+     * @param doOnExt CallBack object to run on ext instruction.
      */
     void setDoOnExt(CallBack doOnExt){
         this.doOnExt = doOnExt;

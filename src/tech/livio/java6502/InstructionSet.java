@@ -820,6 +820,7 @@ class InstructionSet {
      */
     void ext(){
         this.control.setRun(false);
+        this.control.runDoOnExt(this.memory.getProgramCounter());
     }
 
 }

@@ -31,11 +31,19 @@ class ControlTest {
 
     @Test
     void doOnExtTest(){
+        this.control.setRun(true);
+        this.control.setDoOnExt(e -> this.control.setRun((boolean)e));
 
-        int one = 1;
-        // this.control.setDoOnExt(e -> System.out.println("hello: " + e));
+        this.control.runDoOnExt(false);
 
-        this.control.runDoOnExt(1);
+        Assertions.assertFalse(this.control.getRun());
+
+        this.control.setRun(false);
+        this.control.setDoOnExt(e -> this.control.setRun((boolean)e));
+
+        this.control.runDoOnExt(true);
+
+        Assertions.assertTrue(this.control.getRun());
 
     }
 }
