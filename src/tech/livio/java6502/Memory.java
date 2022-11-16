@@ -226,15 +226,24 @@ class Memory {
     }
 
     /**
+     * Loads the Memory with code stored in a string starting at a certain address.
+     * @param beginAddress start address of the code in memory
+     * @param code code as a string
+     */
+    void loadString(short beginAddress, String code){
+        String sanitizedString = Util.sanitizeHexString(code);
+        String[] codeArray = sanitizedString.split("\s");
+
+        for(int i = Util.unsignShort(beginAddress); i < codeArray.length; i++){
+            this.memoryArray[i] = Util.hexStringToByte(codeArray[i]);
+        }
+    }
+
+    /**
      * Loads the Memory with code stored in a string.
      * @param code String to load.
      */
     void loadString(String code){
-        String sanitizedString = Util.sanitizeHexString(code);
-        String[] codeArray = sanitizedString.split("\s");
-
-        for(int i = 0; i < codeArray.length; i++){
-            this.memoryArray[i] = Util.hexStringToByte(codeArray[i]);
-        }
+        this.loadString((short)0x0000, code);
     }
 }
