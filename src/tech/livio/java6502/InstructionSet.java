@@ -812,4 +812,14 @@ class InstructionSet {
         this.transferToAcc(this.memory.getRegisterY());
     }
 
+    /**
+     * EXT does not exist in the instructionSet of the 6502 chip.
+     * This is a special instruction for the simulator that will end the program and run the callback specifide in the
+     * control object.<br>
+     * Stops the program by setting the run control flag to false.
+     */
+    void ext(){
+        this.control.setRun(false);
+    }
+
 }

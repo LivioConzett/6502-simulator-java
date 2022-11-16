@@ -6,12 +6,16 @@ package tech.livio.java6502;
 public class Control {
 
     private boolean skipIncrement;
+    private boolean run;
+    private Runnable doOnExt;
 
     /**
      * Initialize all the variables.
      */
     Control(){
         this.skipIncrement = false;
+        this.run = false;
+        this.doOnExt = ()-> System.out.println("Simulator finished running program.");
     }
 
     /**
@@ -40,6 +44,38 @@ public class Control {
      */
     void allowNextIncrement(){
         this.skipIncrement = false;
+    }
+
+    /**
+     * Get the run flag.
+     * @return true if run is set.
+     */
+    boolean getRun(){
+        return this.run;
+    }
+
+    /**
+     * Set the run flag.
+     * @param run value the run flag should be set to.
+     */
+    void setRun(boolean run){
+        this.run = run;
+    }
+
+    /**
+     * Sets what should be done when the program encounters the ext (0x80) instruction.<br>
+     * The ext instruction will also set the run flag to false.
+     * @param doOnExt
+     */
+    void setDoOnExt(Runnable doOnExt){
+        this.doOnExt = doOnExt;
+    }
+
+    /**
+     * Runs the doOnExt function specified.
+     */
+    void runDoOnExt(){
+        this.doOnExt.run();
     }
 
 

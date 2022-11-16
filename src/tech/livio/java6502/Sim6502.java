@@ -59,7 +59,7 @@ public class Sim6502 {
 
             case (byte) 0x90 -> is.bcc(am.relative());
 
-            case (byte) 0x80 -> is.bcs(am.relative());
+            case (byte) 0xB0 -> is.bcs(am.relative());
 
             case (byte) 0xf0 -> is.beq(am.relative());
 
@@ -239,6 +239,9 @@ public class Sim6502 {
             case (byte) 0x9a -> is.txs();
 
             case (byte) 0x98 -> is.tya();
+
+            // not an official instruction, but needed to end the program in the simulation.
+            case (byte) 0x80 -> is.ext();
 
             default -> is.nop();
         }
