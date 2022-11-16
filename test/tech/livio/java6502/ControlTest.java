@@ -27,6 +27,15 @@ class ControlTest {
         this.control.allowNextIncrement();
 
         Assertions.assertFalse(this.control.getSkipNextIncrement());
+    }
+
+    @Test
+    void doOnExtTest(){
+
+        int one = 1;
+        // this.control.setDoOnExt(e -> System.out.println("hello: " + e));
+
+        this.control.runDoOnExt(1);
 
     }
 }

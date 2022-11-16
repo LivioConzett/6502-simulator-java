@@ -7,7 +7,7 @@ public class Control {
 
     private boolean skipIncrement;
     private boolean run;
-    private Runnable doOnExt;
+    private CallBack doOnExt;
 
     /**
      * Initialize all the variables.
@@ -15,7 +15,12 @@ public class Control {
     Control(){
         this.skipIncrement = false;
         this.run = false;
-        this.doOnExt = ()-> System.out.println("Simulator finished running program.");
+        this.doOnExt = (new CallBack() {
+            @Override
+            public void run(Object e) {
+                System.out.print("Ended Program. Program Counter: " + e);
+            }
+        });
     }
 
     /**
@@ -67,15 +72,15 @@ public class Control {
      * The ext instruction will also set the run flag to false.
      * @param doOnExt
      */
-    void setDoOnExt(Runnable doOnExt){
+    void setDoOnExt(CallBack doOnExt){
         this.doOnExt = doOnExt;
     }
 
     /**
      * Runs the doOnExt function specified.
      */
-    void runDoOnExt(){
-        this.doOnExt.run();
+    void runDoOnExt(Object e){
+        this.doOnExt.run(e);
     }
 
 
