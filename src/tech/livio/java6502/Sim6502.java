@@ -27,6 +27,15 @@ public class Sim6502 {
     }
 
     /**
+     * Resets the Memory, Control object, and flags.
+     */
+    public void hardReset(){
+        this.memory.hardReset();
+        this.control.reset();
+        this.flags.reset();
+    }
+
+    /**
      * Takes a Byte and runs the corresponding instruction
      * @param instruction byte to run.
      */
@@ -276,6 +285,17 @@ public class Sim6502 {
     }
 
     /**
+     * Load code from String into memory starting from an address.<br>
+     * String needs to be Hex codes formatted 2 chars at a time with spaces in between.<br>
+     * eg: ff ab 12 34 dc<br>
+     * Memory will be loaded starting by address 0x0000.
+     * @param code String of hex code
+     */
+    public void loadFromString(short beginAddress, String code){
+        this.memory.loadString(beginAddress, code);
+    }
+
+    /**
      * Get a range of memory.<br>
      * If the highAddress is <= lowAddress the method will return an empty byte array.
      * @param lowAddress address to being at
@@ -291,6 +311,11 @@ public class Sim6502 {
      * Executes one instruction. Not just one clock cycle.
      */
     public void step(){
+        if(!this.control.getRun()){
+            System.err.println("Run Flag is set to false. Will not step. Maybe you need to start() the sim first.");
+            return;
+        }
+
         // if the previous instruction has jumped to a memory address then don't increment the counter
         // because the instruction at the programm counter needs to be executed.
         if(this.control.getSkipNextIncrement()) {
@@ -301,5 +326,13 @@ public class Sim6502 {
 
         this.runInstruction(this.memory.getCurrentByte());
     }
+
+    /**
+     * Sets the run control flag to true;
+     */
+    public void start(){
+        this.control.setRun(true);
+    }
+
 
 }

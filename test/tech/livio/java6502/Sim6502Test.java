@@ -42,4 +42,29 @@ class Sim6502Test {
         Assertions.assertArrayEquals(output,sim.getMemoryInRange((short)0x0000,(short)0x0001));
     }
 
+    @Test
+    void stepTest(){
+
+        sim.hardReset();
+
+        sim.start();
+
+        // Make the program counter to go to address 0x0000
+        sim.loadFromString((short) 0xfffc,"00 00");
+
+        String code = "ea";
+
+        sim.loadFromString(code);
+
+        Assertions.assertEquals((short) 0xfffc, sim.getProgramCounter());
+
+        sim.step();
+
+        Assertions.assertEquals((short) 0x00, sim.getProgramCounter());
+
+
+
+
+    }
+
 }
