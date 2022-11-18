@@ -42,31 +42,30 @@ class StackTest{
         Assertions.assertEquals((byte)0xfe, stack.getStackPointer());
     }
 
-    private void testMethod(){
-        this.test = 2;
+    private void testMethod(Object e){
+        this.test = (short)e;
     }
 
     @Test
     void overFlowTest(){
 
-        this.ctrl.setDoOnStackOverflow(new CallBack() {
-            @Override
-            public void run(Object e) {
-                testMethod();
-            }
-        });
+        this.mem.setProgramCounter((short)0x1234);
+
+        this.ctrl.setDoOnStackOverflow(e -> testMethod(e));
 
         stack.setStackPointer((byte) 0xff);
         stack.incrementStackPointer();
 
-        Assertions.assertEquals(2,this.test);
+        Assertions.assertEquals((short)0x1234,this.test);
 
         this.test = 0;
+        this.mem.setProgramCounter((short)0x9876);
+
 
         stack.setStackPointer((byte) 0x00);
         stack.decrementStackPointer();
 
-        Assertions.assertEquals(2,this.test);
+        Assertions.assertEquals((short)0x9876,this.test);
 
     }
 }
