@@ -8,6 +8,7 @@ public class Control {
     private boolean skipIncrement;
     private boolean run;
     private CallBack doOnExt;
+    private CallBack doOnStackOverflow;
 
     /**
      * Initialize all the variables.
@@ -26,7 +27,13 @@ public class Control {
         this.doOnExt = (new CallBack() {
             @Override
             public void run(Object e) {
-                System.out.print("Ended Program. Program Counter: " + e);
+                System.out.println("Ended Program. Program Counter: " + e);
+            }
+        });
+        this.doOnStackOverflow = (new CallBack() {
+            @Override
+            public void run(Object e) {
+                System.err.println("StackOverflow. Program Counter: " + e);
             }
         });
     }
@@ -91,5 +98,19 @@ public class Control {
         this.doOnExt.run(e);
     }
 
-    //TODO: add a stackoverflow check and callback to do when that happens.
+    /**
+     * Sets what should be done when the program encounters a stack overflow.<br>
+     * The program will exit and then call the method.
+     * @param doOnStackOverflow CallBack object to run when stackoverflow occurs.
+     */
+    void setDoOnStackOverflow(CallBack doOnStackOverflow){
+        this.doOnStackOverflow = doOnStackOverflow;
+    }
+
+    /**
+     * Runs the doOnStackOverflow method
+     */
+    void runDoOnStackOverflow(Object e){
+        this.doOnStackOverflow.run(e);
+    }
 }

@@ -18,7 +18,7 @@ class InstructionSetTests{
     public void init(){
         this.control = new Control();
         this.memory = new Memory();
-        this.stack = new Stack(this.memory);
+        this.stack = new Stack(this.memory, this.control);
         this.flags = new Flags();
         this.is = new InstructionSet(memory,stack,flags,control);
         this.input = new AddressingModeReturn();

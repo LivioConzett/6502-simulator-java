@@ -9,14 +9,17 @@ package tech.livio.java6502;
 class Stack {
 
     private final Memory memory;
+    private final Control control;
     private byte stackPointer;
 
     // address of stack
     private static final int BOTTOM_STACK = 0x0100;
-    private static final int TOP_STACK = 0x01ff;
+    private static final int MAX_POINTER_VALUE = 0xff;
+    private static final int TOP_STACK = BOTTOM_STACK + MAX_POINTER_VALUE;
 
-    public Stack(Memory memory){
+    public Stack(Memory memory, Control control){
         this.memory = memory;
+        this.control = control;
         // initiate the stackpointer to a "random" number. That's what the real one did too. This is to force
         // the programmer to actually set the stackpointer.
         this.stackPointer = 0x69;
@@ -61,14 +64,33 @@ class Stack {
      * Increment the stack pointer by one.
      */
     public void incrementStackPointer(){
-        this.stackPointer = (byte)(Util.unsignByte(this.stackPointer) + 1);
+        int incrementedPointer = Util.unsignByte(this.stackPointer) + 1;
+
+        // check if there is a stack overflow
+        if(incrementedPointer > MAX_POINTER_VALUE){
+            this.control.setRun(false);
+            this.control.runDoOnStackOverflow(this.memory.getProgramCounter());
+            return;
+        }
+
+        this.stackPointer = (byte)(incrementedPointer);
     }
 
     /**
      * Decrements the stack pointer by one.
      */
     public void decrementStackPointer(){
-        this.stackPointer = (byte)(Util.unsignByte(this.stackPointer) - 1);
+
+        int decrementedPointer = Util.unsignByte(this.stackPointer) - 1;
+
+        // check if there is a stack overflow
+        if(decrementedPointer < 0){
+            this.control.setRun(false);
+            this.control.runDoOnStackOverflow(this.memory.getProgramCounter());
+            return;
+        }
+
+        this.stackPointer = (byte)(decrementedPointer);
     }
 
     /**

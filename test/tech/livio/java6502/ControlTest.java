@@ -46,4 +46,22 @@ class ControlTest {
         Assertions.assertTrue(this.control.getRun());
 
     }
+
+    @Test
+    void doOnStackOverflowTest(){
+        this.control.setRun(true);
+        this.control.setDoOnStackOverflow(e -> this.control.setRun((boolean)e));
+
+        this.control.runDoOnStackOverflow(false);
+
+        Assertions.assertFalse(this.control.getRun());
+
+        this.control.setRun(false);
+        this.control.setDoOnStackOverflow(e -> this.control.setRun((boolean)e));
+
+        this.control.runDoOnStackOverflow(true);
+
+        Assertions.assertTrue(this.control.getRun());
+
+    }
 }
