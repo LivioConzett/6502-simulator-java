@@ -171,7 +171,7 @@ public class Sim6502 {
             case (byte) 0x4e -> is.lsr(am.absolute());
             case (byte) 0x5e -> is.lsr(am.absoluteIndexX());
 
-            case (byte) 0xea -> is.nop();
+            //case (byte) 0xea -> is.nop()
 
             case (byte) 0x09 -> is.ora(am.immediate());
             case (byte) 0x05 -> is.ora(am.zeroPage());
@@ -334,5 +334,21 @@ public class Sim6502 {
         this.control.setRun(true);
     }
 
+    /**
+     * Add a method that should be done when the program ends (encounters the ext instruction (0x80)).<br>
+     * @param doOnEnd CallBack interface with the method in it.
+     */
+    public void setDoOnEnd(CallBack doOnEnd){
+        System.out.println("hey there");
+        this.control.setDoOnExt(doOnEnd);
+    }
+
+    /**
+     * Add a method that should be done when the program encounters a stackoverflow.<br>
+     * @param doOnStackOverflow CallBack interface with the method in it.
+     */
+    public void setDoOnStackOverflow(CallBack doOnStackOverflow){
+        this.control.setDoOnStackOverflow(doOnStackOverflow);
+    }
 
 }

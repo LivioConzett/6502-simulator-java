@@ -8,10 +8,12 @@ import org.junit.jupiter.api.Test;
 class Sim6502Test {
 
     private Sim6502 sim;
+    private int test;
 
     @BeforeEach
     void init(){
         this.sim = new Sim6502();
+        this.test = 0;
     }
 
     @Test
@@ -42,8 +44,20 @@ class Sim6502Test {
         Assertions.assertArrayEquals(output,sim.getMemoryInRange((short)0x0000,(short)0x0001));
     }
 
+    void test(Object e){
+        this.test = (short) e;
+    }
+
     @Test
     void stepTest(){
+
+        sim.setDoOnEnd(new CallBack() {
+            @Override
+            public void run(Object e) {
+                test(e);
+                System.out.println("ended");
+            }
+        });
 
         sim.hardReset();
 
@@ -52,7 +66,7 @@ class Sim6502Test {
         // Make the program counter to go to address 0x0000
         sim.loadFromString((short) 0xfffc,"00 00");
 
-        String code = "ea";
+        String code = "ea ea ea 80";
 
         sim.loadFromString(code);
 
@@ -62,8 +76,13 @@ class Sim6502Test {
 
         Assertions.assertEquals((short) 0x00, sim.getProgramCounter());
 
+        sim.step();
+        sim.step();
+        sim.step();
+        sim.step();
 
-
+        Assertions.assertEquals((short)0x03, sim.getProgramCounter());
+        Assertions.assertEquals(0x03, this.test);
 
     }
 
