@@ -93,14 +93,16 @@ class Memory {
      * @return byte array of the memory between low and high address
      */
     byte[] getMemoryRange(short lowAddress, short highAddress){
-        if(highAddress <= lowAddress){
+        int high = Util.unsignShort(highAddress);
+        int low = Util.unsignShort(lowAddress);
+        if(high <= low){
             return new byte[0];
         }
         // +1 because the highAddress needs to be included.
-        int size = highAddress - lowAddress + 1;
+        int size = high - low + 1;
         byte[] memoryRange = new byte[size];
 
-        System.arraycopy(this.memoryArray, Util.unsignShort(lowAddress), memoryRange, 0, size);
+        System.arraycopy(this.memoryArray, low, memoryRange, 0, size);
 
         return memoryRange;
     }
@@ -251,4 +253,5 @@ class Memory {
     void loadString(String code){
         this.loadString((short)0x0000, code);
     }
+
 }

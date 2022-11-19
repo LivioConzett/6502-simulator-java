@@ -127,5 +127,6 @@ class MemoryTest{
         Assertions.assertArrayEquals(output, mem.getMemoryRange((short)0xfff0,(short)0xfff4));
 
     }
+
 }
 
