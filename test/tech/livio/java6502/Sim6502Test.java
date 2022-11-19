@@ -44,8 +44,8 @@ class Sim6502Test {
         Assertions.assertArrayEquals(output,sim.getMemoryInRange((short)0x0000,(short)0x0001));
     }
 
-    void test(Object e){
-        this.test = (short) e;
+    void test(short s){
+        this.test = s;
     }
 
     @Test
@@ -53,8 +53,8 @@ class Sim6502Test {
 
         sim.setDoOnEnd(new CallBack() {
             @Override
-            public void run(Object e) {
-                test(e);
+            public void run(short programCounter) {
+                test(programCounter);
                 System.out.println("ended");
             }
         });

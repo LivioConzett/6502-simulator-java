@@ -15,7 +15,7 @@ class ControlTest {
 
     @Test
     void initTest(){
-        Assertions.assertFalse(this.control.getSkipNextIncrement());
+        Assertions.assertTrue(this.control.getSkipNextIncrement());
     }
 
     @Test
@@ -32,16 +32,16 @@ class ControlTest {
     @Test
     void doOnExtTest(){
         this.control.setRun(true);
-        this.control.setDoOnExt(e -> this.control.setRun((boolean)e));
+        this.control.setDoOnExt(e -> this.control.setRun(e == (short)1));
 
-        this.control.runDoOnExt(false);
+        this.control.runDoOnExt((short)0);
 
         Assertions.assertFalse(this.control.getRun());
 
         this.control.setRun(false);
-        this.control.setDoOnExt(e -> this.control.setRun((boolean)e));
+        this.control.setDoOnExt(e -> this.control.setRun(e == (short)1));
 
-        this.control.runDoOnExt(true);
+        this.control.runDoOnExt((short)1);
 
         Assertions.assertTrue(this.control.getRun());
 
@@ -50,16 +50,16 @@ class ControlTest {
     @Test
     void doOnStackOverflowTest(){
         this.control.setRun(true);
-        this.control.setDoOnStackOverflow(e -> this.control.setRun((boolean)e));
+        this.control.setDoOnStackOverflow(e -> this.control.setRun(e == (short)1));
 
-        this.control.runDoOnStackOverflow(false);
+        this.control.runDoOnStackOverflow((short)0);
 
         Assertions.assertFalse(this.control.getRun());
 
         this.control.setRun(false);
-        this.control.setDoOnStackOverflow(e -> this.control.setRun((boolean)e));
+        this.control.setDoOnStackOverflow(e -> this.control.setRun(e == (short)1));
 
-        this.control.runDoOnStackOverflow(true);
+        this.control.runDoOnStackOverflow((short)1);
 
         Assertions.assertTrue(this.control.getRun());
 

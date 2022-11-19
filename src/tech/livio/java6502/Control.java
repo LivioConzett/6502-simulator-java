@@ -26,13 +26,13 @@ public class Control {
         this.run = false;
         this.doOnExt = (new CallBack() {
             @Override
-            public void run(Object e) {
+            public void run(short e) {
                 System.out.println("Ended Program. Program Counter: " + e);
             }
         });
         this.doOnStackOverflow = (new CallBack() {
             @Override
-            public void run(Object e) {
+            public void run(short e) {
                 System.err.println("StackOverflow. Program Counter: " + e);
             }
         });
@@ -90,13 +90,14 @@ public class Control {
     void setDoOnExt(CallBack doOnExt){
         System.out.println("I set it");
         this.doOnExt = doOnExt;
+        this.doOnExt.run((short)0x69);
     }
 
     /**
      * Runs the doOnExt function specified.
      */
-    void runDoOnExt(Object e){
-        this.doOnExt.run(e);
+    void runDoOnExt(short s){
+        this.doOnExt.run(s);
     }
 
     /**
@@ -111,7 +112,7 @@ public class Control {
     /**
      * Runs the doOnStackOverflow method
      */
-    void runDoOnStackOverflow(Object e){
+    void runDoOnStackOverflow(short e){
         this.doOnStackOverflow.run(e);
     }
 }
