@@ -116,6 +116,21 @@ class Util {
     }
 
     /**
+     * Converts a byte into a hex String.
+     * @param hex byte to convert
+     * @return String of the hex
+     */
+    static String hexByteToString(byte hex){
+        String hexString = Integer.toHexString(unsignByte(hex));
+
+        if(hexString.length() == 1){
+            hexString = "0" + hexString;
+        }
+
+        return hexString;
+    }
+
+    /**
      * Replaces everything not '0-9' 'a-f' 'A-F' or a space with ''.
      * @param hexString String to sanitize.
      * @return sanitized String.
