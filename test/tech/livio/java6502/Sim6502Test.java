@@ -86,4 +86,21 @@ class Sim6502Test {
 
     }
 
+    @Test
+    void runTest(){
+
+        sim.hardReset();
+        Assertions.assertEquals((short) 0xfffc, sim.getProgramCounter());
+
+        // Make the program counter to go to address 0x0000
+        sim.loadFromString((short) 0xfffc,"00 00");
+        String code = "ea ea ea 80";
+        sim.loadFromString(code);
+
+        sim.run();
+
+        Assertions.assertEquals((short)0x03, sim.getProgramCounter());
+
+    }
+
 }

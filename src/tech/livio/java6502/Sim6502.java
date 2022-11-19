@@ -27,10 +27,16 @@ public class Sim6502 {
     }
 
     /**
-     * Resets the Memory, Control object, and flags.
+     * Resets the Memory, Control object, and flags. This will delete the loaded code too.
      */
     public void hardReset(){
         this.memory.hardReset();
+        this.control.reset();
+        this.flags.reset();
+    }
+
+
+    public void reset(){
         this.control.reset();
         this.flags.reset();
     }
@@ -325,6 +331,16 @@ public class Sim6502 {
         }
 
         this.runInstruction(this.memory.getCurrentByte());
+    }
+
+    /**
+     * Runs the program until it encounters the ext instruction (0x80).
+     */
+    public void run(){
+        this.start();
+        while(this.control.getRun()){
+            this.step();
+        }
     }
 
     /**
