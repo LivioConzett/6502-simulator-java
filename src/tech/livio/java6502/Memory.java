@@ -49,12 +49,17 @@ class Memory {
     }
 
     /**
-     * Reset everything. Like power-cycling the 6502 chip.
+     * Reset everything. Including the loaded code.
      */
     void hardReset(){
-
         Arrays.fill(this.memoryArray, (byte) 0x00);
+        this.reset();
+    }
 
+    /**
+     * Resets the registers and programcounter
+     */
+    void reset(){
         // program counter always starts at address 0xfffc
         // that's where it gets the address to the start of the program.
         this.programCounter = (short) 0xfffc;
@@ -62,7 +67,6 @@ class Memory {
         this.registerA = 0;
         this.registerX = 0;
         this.registerY = 0;
-
     }
 
     /**

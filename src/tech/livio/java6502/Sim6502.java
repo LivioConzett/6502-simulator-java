@@ -27,7 +27,7 @@ public class Sim6502 {
     }
 
     /**
-     * Resets the Memory, Control object, and flags. This will delete the loaded code too.
+     * Resets the Memory, Control object, and flags. This will delete the loaded code and stack too.
      */
     public void hardReset(){
         this.memory.hardReset();
@@ -35,8 +35,11 @@ public class Sim6502 {
         this.flags.reset();
     }
 
-
+    /**
+     * Resets the Memory, Control object and flags. Leaves the loaded code. Stack will not be reset.
+     */
     public void reset(){
+        this.memory.reset();
         this.control.reset();
         this.flags.reset();
     }
@@ -341,6 +344,7 @@ public class Sim6502 {
         while(this.control.getRun()){
             this.step();
         }
+        //TODO: make this run in it's own thread
     }
 
     /**
