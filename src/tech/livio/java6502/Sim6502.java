@@ -339,7 +339,6 @@ public class Sim6502 {
      * @param doOnEnd CallBack interface with the method in it.
      */
     public void setDoOnEnd(CallBack doOnEnd){
-        System.out.println("hey there");
         this.control.setDoOnExt(doOnEnd);
     }
 

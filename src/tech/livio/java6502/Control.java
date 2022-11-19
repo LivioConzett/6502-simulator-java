@@ -88,9 +88,7 @@ public class Control {
      * @param doOnExt CallBack object to run on ext instruction.
      */
     void setDoOnExt(CallBack doOnExt){
-        System.out.println("I set it");
         this.doOnExt = doOnExt;
-        this.doOnExt.run((short)0x69);
     }
 
     /**

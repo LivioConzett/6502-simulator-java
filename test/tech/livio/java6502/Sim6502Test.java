@@ -1,7 +1,6 @@
 package tech.livio.java6502;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -51,6 +50,8 @@ class Sim6502Test {
     @Test
     void stepTest(){
 
+        sim.hardReset();
+
         sim.setDoOnEnd(new CallBack() {
             @Override
             public void run(short programCounter) {
@@ -59,7 +60,6 @@ class Sim6502Test {
             }
         });
 
-        sim.hardReset();
 
         sim.start();
 
