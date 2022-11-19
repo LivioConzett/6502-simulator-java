@@ -120,7 +120,7 @@ class Util {
      * @param hex byte to convert
      * @return String of the hex
      */
-    static String hexByteToString(byte hex){
+    static String hexToString(byte hex){
         String hexString = Integer.toHexString(unsignByte(hex));
 
         if(hexString.length() == 1){
@@ -128,6 +128,21 @@ class Util {
         }
 
         return hexString;
+    }
+
+    /**
+     * Converts a short into a hex String.
+     * @param hex short to convert
+     * @return String of the hex
+     */
+    static String hexToString(short hex){
+        StringBuilder hexString = new StringBuilder(Integer.toHexString(unsignShort(hex)));
+
+        for(int i = hexString.length(); i < 4; i++){
+            hexString.insert(0, "0");
+        }
+
+        return hexString.toString();
     }
 
     /**

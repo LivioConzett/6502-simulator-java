@@ -114,12 +114,17 @@ class UtilTests{
     }
 
     @Test
-    void hexByteToStringTest(){
+    void hexToStringTest(){
 
-        Assertions.assertEquals("00",Util.hexByteToString((byte)0x00));
-        Assertions.assertEquals("01",Util.hexByteToString((byte)0x01));
-        Assertions.assertEquals("a9",Util.hexByteToString((byte)0xa9));
-        Assertions.assertEquals("ff",Util.hexByteToString((byte)0xff));
+        Assertions.assertEquals("00",Util.hexToString((byte)0x00));
+        Assertions.assertEquals("01",Util.hexToString((byte)0x01));
+        Assertions.assertEquals("a9",Util.hexToString((byte)0xa9));
+        Assertions.assertEquals("ff",Util.hexToString((byte)0xff));
+
+        Assertions.assertEquals("0000",Util.hexToString((short)0x0000));
+        Assertions.assertEquals("0100",Util.hexToString((short)0x0100));
+        Assertions.assertEquals("a9c2",Util.hexToString((short)0xa9c2));
+        Assertions.assertEquals("ffff",Util.hexToString((short)0xffff));
 
     }
 
