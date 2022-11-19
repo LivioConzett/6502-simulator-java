@@ -12,7 +12,6 @@ public class Printer {
         this.memory = memory;
     }
 
-
     /**
      * Returns the content of the memory as a hexdump String.
      * @return String of the hexdump
@@ -27,7 +26,7 @@ public class Printer {
         StringBuilder hexCode;
         StringBuilder ascii;
 
-        String lastLine = "";
+        String previousLine = "";
         boolean dotWrote = false;
 
         // length minus ROW_WIDTH so that the last line can always be printed.
@@ -36,13 +35,13 @@ public class Printer {
             hexCode = getHexRow(memoryArray, i, ROW_WIDTH);
             ascii = getAsciiRow(memoryArray, i, ROW_WIDTH);
 
-            if(lastLine.equals(hexCode.toString())){
+            if(previousLine.equals(hexCode.toString())){
                 if(!dotWrote) hexDump.append("  .\n");
                 dotWrote = true;
 
             } else{
                 dotWrote = false;
-                lastLine = hexCode.toString();
+                previousLine = hexCode.toString();
                 hexDump.append(Util.hexToString((short)i));
                 hexDump.append(" ");
                 hexDump.append(hexCode);
@@ -52,8 +51,8 @@ public class Printer {
         // Print the last line
         hexDump.append(Util.hexToString((short)(memoryArray.length - ROW_WIDTH)));
         hexDump.append(" ");
-        hexDump.append(getHexRow(memoryArray,memoryArray.length-ROW_WIDTH,ROW_WIDTH));
-        hexDump.append(getAsciiRow(memoryArray,memoryArray.length-ROW_WIDTH,ROW_WIDTH));
+        hexDump.append(getHexRow(memoryArray,memoryArray.length - ROW_WIDTH,ROW_WIDTH));
+        hexDump.append(getAsciiRow(memoryArray,memoryArray.length - ROW_WIDTH,ROW_WIDTH));
 
         return hexDump.toString();
     }
