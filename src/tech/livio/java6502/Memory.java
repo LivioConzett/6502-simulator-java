@@ -240,7 +240,7 @@ class Memory {
      * @param beginAddress start address of the code in memory
      * @param code code as a string
      */
-    void loadString(short beginAddress, String code){
+    void load(short beginAddress, String code){
         String sanitizedString = Util.sanitizeHexString(code);
         String[] codeArray = sanitizedString.split("\s");
 
@@ -260,8 +260,8 @@ class Memory {
      * Loads the Memory with code stored in a string.
      * @param code String to load.
      */
-    void loadString(String code){
-        this.loadString((short)0x0000, code);
+    void load(String code){
+        this.load((short)0x0000, code);
     }
 
 
@@ -270,7 +270,7 @@ class Memory {
      * @param beginAddress start address of the code in memory
      * @param code code as a byte array
      */
-    void loadByteArray(short beginAddress, byte[] code){
+    void load(short beginAddress, byte[] code){
 
         int max = code.length;
 
@@ -288,8 +288,8 @@ class Memory {
      * Loads the Memory with code stored in a byte array.
      * @param code byte array to load.
      */
-    void loadByteArray(byte[] code){
-        this.loadByteArray((short)0x0000, code);
+    void load(byte[] code){
+        this.load((short)0x0000, code);
     }
 
 }
