@@ -30,13 +30,13 @@ class Main() {
 |-------------------------------------------------------|-------------------------------------------------------|
 | [`hardReset()`](#hard-reset)                          | Resets the system including the loaded code and stack |
 | [`reset()`](#reset)                                   | Resets the system, but leaves the code loaded         |
-| [`getByteAtAddress()`](#get byte at address)          | Gets the value of a byte at an address                |
-| [`getProgramCounter()`](#get current program counter) | Gets the value of the program counter                 |
+| [`getByteAtAddress()`](#get-byte-at-address)          | Gets the value of a byte at an address                |
+| [`getProgramCounter()`](#get-current-program-counter) | Gets the value of the program counter                 |
 | [`load()`](#load)                                     | Loads a program into memory                           |
-| [`getMemoryInRange()`](#get memory in range)          | Gets the memory bytes within a certain range          |
+| [`getMemoryInRange()`](#get-memory-in-range)          | Gets the memory bytes within a certain range          |
 | [`step()`](#step)                                     | Steps one instruction in the program                  |
 | [`run()`](#run)                                       | Runs the program loaded in memory                     |
-| [`getRunningThread()`](#get running thread)           | Gets the Thread the 6502 program is running in        |
+| [`getRunningThread()`](#get-running-thread)           | Gets the Thread the 6502 program is running in        |
 
 
 ### Hard Reset
