@@ -115,14 +115,18 @@ class Sim6502Test {
 
         String code = "";
 
+        // create string with nothing but ea commands
         for(int i = 0; i < Math.pow(2,16); i++){
             code += "ea ";
         }
 
-        // Make the program counter to go to address 0x0000
+        // load whole memory with ea commands
         sim.loadFromString(code);
+        // Make the program counter to go to address 0x0000
+        // also add a jmp to 0000 right before the start vector so the programm loops
         sim.loadFromString((short) 0xffe9,"4c 00 00 00 00");
 
+        // set the test into to 300 so we can then check if the doOnManualStop actually did something.
         sim.setDoOnManualStop((e)->{
             test = 300;
         });
