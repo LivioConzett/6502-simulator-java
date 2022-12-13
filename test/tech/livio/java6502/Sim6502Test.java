@@ -53,7 +53,7 @@ class Sim6502Test {
 
         sim.hardReset();
 
-        sim.setDoOnEnd(new CallBack() {
+        sim.setDoOnExt(new CallBack() {
             @Override
             public void run(short programCounter) {
                 test(programCounter);

@@ -407,7 +407,7 @@ public class Sim6502 {
      * Add a method that should be done when the program ends (encounters the ext instruction (0x80)).<br>
      * @param doOnEnd CallBack interface with the method in it.
      */
-    public void setDoOnEnd(CallBack doOnEnd){
+    public void setDoOnExt(CallBack doOnEnd){
         this.control.setDoOnExt(doOnEnd);
     }
 
