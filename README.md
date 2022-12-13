@@ -28,7 +28,7 @@ class Main() {
 
 | method                                                | short description                                     |
 |-------------------------------------------------------|-------------------------------------------------------|
-| [`hardReset()`](#hard reset)                          | Resets the system including the loaded code and stack |
+| [`hardReset()`](#hard-reset)                          | Resets the system including the loaded code and stack |
 | [`reset()`](#reset)                                   | Resets the system, but leaves the code loaded         |
 | [`getByteAtAddress()`](#get byte at address)          | Gets the value of a byte at an address                |
 | [`getProgramCounter()`](#get current program counter) | Gets the value of the program counter                 |
