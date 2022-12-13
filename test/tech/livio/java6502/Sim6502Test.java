@@ -126,9 +126,10 @@ class Sim6502Test {
         // also add a jmp to 0000 right before the start vector so the programm loops
         sim.loadFromString((short) 0xffe9,"4c 00 00 00 00");
 
-        // set the test into to 300 so we can then check if the doOnManualStop actually did something.
+        // set the test into to 300, so we can then check if the doOnManualStop actually did something.
         sim.setDoOnManualStop((e)->{
             test = 300;
+            System.out.println("Programcounter: "+e);
         });
 
         sim.run();
