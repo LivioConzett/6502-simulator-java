@@ -11,14 +11,14 @@ public class Control {
     private CallBack doOnStackOverflow;
     private CallBack doOnManualStop;
 
-    private Thread runingThread;
+    private Thread runningThread;
 
     /**
      * Initialize all the variables.
      */
     Control(){
         this.reset();
-        this.runingThread = null;
+        this.runningThread = new Thread();
     }
 
     /**
@@ -146,7 +146,7 @@ public class Control {
      * @param runningThread thread to set the running thread to.
      */
     void setRunningThread(Thread runningThread){
-        this.runingThread = runningThread;
+        this.runningThread = runningThread;
     }
 
     /**
@@ -154,6 +154,6 @@ public class Control {
      * @return running thread.
      */
     Thread getRunningThread(){
-        return this.runingThread;
+        return this.runningThread;
     }
 }
