@@ -65,7 +65,7 @@ class StackTest{
         stack.setStackPointer((byte) 0x00);
         stack.decrementStackPointer();
 
-        Assertions.assertEquals((short)0x9876,this.test);
+        Assertions.assertEquals((short)0x00,this.test);
 
     }
 }
