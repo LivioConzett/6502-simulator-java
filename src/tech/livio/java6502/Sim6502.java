@@ -290,7 +290,7 @@ public class Sim6502 {
      * @param code String of hex code
      */
     public void loadFromString(String code){
-        this.memory.loadString(code);
+        this.memory.load(code);
     }
 
     /**
@@ -301,7 +301,7 @@ public class Sim6502 {
      * @param code String of hex code
      */
     public void loadFromString(short beginAddress, String code){
-        this.memory.loadString(beginAddress, code);
+        this.memory.load(beginAddress, code);
     }
 
     /**
