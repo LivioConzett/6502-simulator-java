@@ -113,10 +113,15 @@ class Sim6502Test {
         sim.hardReset();
         Assertions.assertEquals((short) 0xfffc, sim.getProgramCounter());
 
+        String code = "";
+
+        for(int i = 0; i < Math.pow(2,16); i++){
+            code += "ea ";
+        }
+
         // Make the program counter to go to address 0x0000
-        sim.loadFromString((short) 0xfffc,"00 00");
-        String code = "ea ea ea";
         sim.loadFromString(code);
+        sim.loadFromString((short) 0xffe9,"4c 00 00 00 00");
 
         sim.setDoOnManualStop((e)->{
             test = 300;
