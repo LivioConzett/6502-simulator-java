@@ -97,7 +97,7 @@ class MemoryTest{
                 (byte) 0xa1
         };
 
-        mem.loadString(input);
+        mem.load(input);
 
         Assertions.assertArrayEquals(output,mem.getMemoryRange((short)0x0000,(short)0x0004));
 
@@ -108,7 +108,7 @@ class MemoryTest{
                 (byte) 0xff
         };
 
-        mem.loadString(input);
+        mem.load(input);
 
         Assertions.assertArrayEquals(output,mem.getMemoryRange((short)0x0000,(short)0x0001));
 
@@ -122,12 +122,12 @@ class MemoryTest{
 
         input = "12 33 ff f3 a1";
 
-        mem.loadString((short)0xfff0, input);
+        mem.load((short)0xfff0, input);
 
         Assertions.assertArrayEquals(output, mem.getMemoryRange((short)0xfff0,(short)0xfff4));
 
 
-        mem.loadString((short)0x1233, input);
+        mem.load((short)0x1233, input);
 
         Assertions.assertArrayEquals(output, mem.getMemoryRange((short)0x1233,(short)0x1237));
 
@@ -146,11 +146,11 @@ class MemoryTest{
                 (byte) 0xa1
         };
 
-        mem.loadByteArray(input);
+        mem.load(input);
 
         Assertions.assertArrayEquals(input, mem.getMemoryRange((short)0x0000, (short)0x0004));
 
-        mem.loadByteArray((short)0x1233, input);
+        mem.load((short)0x1233, input);
 
         byte[] test = mem.getMemoryRange((short)0x1233, (short)0x1237);
 
