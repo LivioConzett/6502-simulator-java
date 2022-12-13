@@ -362,6 +362,7 @@ public class Sim6502 {
      * Waits for the 6502 program to finish.
      */
     public void waitForProgramEnd(){
+        if(!this.control.getRunningThread().isAlive()) return;
         try{
             getRunningThread().join();
         } catch (InterruptedException e){
