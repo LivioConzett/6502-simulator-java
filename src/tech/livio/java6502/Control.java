@@ -10,15 +10,15 @@ public class Control {
     private CallBack doOnExt;
     private CallBack doOnStackOverflow;
     private CallBack doOnManualStop;
-
     private Thread runningThread;
+
+    private boolean doneOnStackOverFlow;
 
     /**
      * Initialize all the variables.
      */
     Control(){
         this.reset();
-        this.runningThread = new Thread();
     }
 
     /**
@@ -28,6 +28,8 @@ public class Control {
         // set to true in the beginning since the program counter is on the begin vector
         this.skipIncrement = true;
         this.run = false;
+        this.runningThread = new Thread();
+        this.doneOnStackOverFlow = false;
         this.doOnExt = (new CallBack() {
             @Override
             public void run(short e) {
@@ -90,6 +92,9 @@ public class Control {
      */
     void setRun(boolean run){
         this.run = run;
+        if(run){
+            this.doneOnStackOverFlow = false;
+        }
     }
 
     /**
@@ -122,6 +127,7 @@ public class Control {
      * Runs the doOnStackOverflow method
      */
     void runDoOnStackOverflow(short e){
+        if(doneOnStackOverFlow) return;
         this.doOnStackOverflow.run(e);
     }
 
