@@ -128,6 +128,7 @@ public class Control {
     void runDoOnStackOverflow(short e){
         if(doneOnStackOverFlow) return;
         this.doOnStackOverflow.run(e);
+        this.doneOnStackOverFlow = true;
     }
 
     /**
