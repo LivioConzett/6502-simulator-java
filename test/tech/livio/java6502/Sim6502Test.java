@@ -1,6 +1,5 @@
 package tech.livio.java6502;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -29,7 +28,7 @@ class Sim6502Test {
                 (byte) 0xa1
         };
 
-        sim.loadFromString(input);
+        sim.load(input);
 
         Assertions.assertArrayEquals(output,sim.getMemoryInRange((short)0x0000,(short)0x0004));
 
@@ -40,7 +39,7 @@ class Sim6502Test {
                 (byte) 0xff
         };
 
-        sim.loadFromString(input);
+        sim.load(input);
 
         Assertions.assertArrayEquals(output,sim.getMemoryInRange((short)0x0000,(short)0x0001));
     }
@@ -66,11 +65,11 @@ class Sim6502Test {
         sim.start();
 
         // Make the program counter to go to address 0x0000
-        sim.loadFromString((short) 0xfffc,"00 00");
+        sim.load((short) 0xfffc,"00 00");
 
         String code = "ea ea ea 80";
 
-        sim.loadFromString(code);
+        sim.load(code);
 
         Assertions.assertEquals((short) 0xfffc, sim.getProgramCounter());
 
@@ -95,9 +94,9 @@ class Sim6502Test {
         Assertions.assertEquals((short) 0xfffc, sim.getProgramCounter());
 
         // Make the program counter to go to address 0x0000
-        sim.loadFromString((short) 0xfffc,"00 00");
+        sim.load((short) 0xfffc,"00 00");
         String code = "ea ea ea 80";
-        sim.loadFromString(code);
+        sim.load(code);
 
         sim.run();
 
@@ -124,10 +123,10 @@ class Sim6502Test {
         }
 
         // load whole memory with ea commands
-        sim.loadFromString(code);
+        sim.load(code);
         // Make the program counter to go to address 0x0000
         // also add a jmp to 0000 right before the start vector so the programm loops
-        sim.loadFromString((short) 0xffe9,"4c 00 00 00 00");
+        sim.load((short) 0xffe9,"4c 00 00 00 00");
 
         // set the test into to 300, so we can then check if the doOnManualStop actually did something.
         sim.setDoOnManualStop((e)->{

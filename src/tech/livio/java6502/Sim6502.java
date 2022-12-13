@@ -289,7 +289,7 @@ public class Sim6502 {
      * Memory will be loaded starting by address 0x0000.
      * @param code String of hex code
      */
-    public void loadFromString(String code){
+    public void load(String code){
         this.memory.load(code);
     }
 
@@ -300,8 +300,25 @@ public class Sim6502 {
      * Memory will be loaded starting by address 0x0000.
      * @param code String of hex code
      */
-    public void loadFromString(short beginAddress, String code){
+    public void load(short beginAddress, String code){
         this.memory.load(beginAddress, code);
+    }
+
+    /**
+     * Load code from a byte array into memory starting from an address.<br>
+     * @param code String of hex code
+     */
+    public void load(short beginAddress, byte[] code){
+        this.memory.load(beginAddress, code);
+    }
+
+    /**
+     * Load code from a byte array into memory<br>
+     * Memory will be loaded starting by address 0x0000.
+     * @param code String of hex code
+     */
+    public void load(byte[] code) {
+        this.load((short)0x0000, code);
     }
 
     /**
