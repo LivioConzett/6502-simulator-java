@@ -11,7 +11,6 @@ public class Control {
     private CallBack doOnStackOverflow;
     private CallBack doOnManualStop;
     private Thread runningThread;
-
     private boolean doneOnStackOverFlow;
 
     /**
