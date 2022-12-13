@@ -86,7 +86,6 @@ class Stack {
         // check if there is a stack overflow
         if(decrementedPointer < 0){
             this.control.setRun(false);
-            //TODO brk triggers this multiple times. Make sure it only triggers once. Maybe counter in control
             this.control.runDoOnStackOverflow(this.memory.getProgramCounter());
             return;
         }
