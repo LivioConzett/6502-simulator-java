@@ -105,6 +105,7 @@ public class Control {
      * Runs the doOnExt function specified.
      */
     void runDoOnExt(short s){
+        if(!this.run) return;
         this.doOnExt.run(s);
     }
 
@@ -122,6 +123,7 @@ public class Control {
      * Runs the doOnStackOverflow method
      */
     void runDoOnStackOverflow(short e){
+        if(!this.run) return;
         this.doOnStackOverflow.run(e);
     }
 
@@ -138,6 +140,7 @@ public class Control {
      * @param e program counter
      */
     void runDoOnManualStop(short e){
+        if(!this.run) return;
         this.doOnManualStop.run(e);
     }
 
