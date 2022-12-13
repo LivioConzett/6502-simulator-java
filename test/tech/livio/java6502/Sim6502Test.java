@@ -1,7 +1,9 @@
 package tech.livio.java6502;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class Sim6502Test {
@@ -107,6 +109,7 @@ class Sim6502Test {
 
     }
 
+    @Disabled
     @Test
     void stopTest() {
 
@@ -142,7 +145,8 @@ class Sim6502Test {
 
         Assertions.assertEquals(300,test);
         Assertions.assertFalse(sim.getRunningThread().isAlive());
-
     }
+
+
 
 }
