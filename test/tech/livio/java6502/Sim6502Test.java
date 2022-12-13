@@ -129,7 +129,7 @@ class Sim6502Test {
         sim.load((short) 0xffe9,"4c 00 00 00 00");
 
         // set the test into to 300, so we can then check if the doOnManualStop actually did something.
-        sim.setDoOnManualStop((e)->{
+        sim.setDoOnManualHalt((e)->{
             test = 300;
             System.out.println("Programcounter: "+e);
         });

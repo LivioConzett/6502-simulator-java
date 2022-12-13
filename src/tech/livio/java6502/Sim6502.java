@@ -400,7 +400,7 @@ public class Sim6502 {
      */
     public void stop(){
         this.control.setRun(false);
-        this.control.runDoOnManualStop(this.memory.getProgramCounter());
+        this.control.runDoOnManualHalt(this.memory.getProgramCounter());
     }
 
     /**
@@ -421,10 +421,10 @@ public class Sim6502 {
 
     /**
      * Add a method that should be done when the program is stopped by user.<br>
-     * @param doOnManualStop CallBack interface with the method in it.
+     * @param doOnManualHalt CallBack interface with the method in it.
      */
-    public void setDoOnManualStop(CallBack doOnManualStop){
-        this.control.setDoOnManualStop(doOnManualStop);
+    public void setDoOnManualHalt(CallBack doOnManualHalt){
+        this.control.setDoOnManualHalt(doOnManualHalt);
     }
 
 }

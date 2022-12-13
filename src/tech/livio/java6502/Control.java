@@ -9,7 +9,7 @@ public class Control {
     private boolean run;
     private CallBack doOnExt;
     private CallBack doOnStackOverflow;
-    private CallBack doOnManualStop;
+    private CallBack doOnManualHalt;
     private Thread runningThread;
     private boolean doneOnStackOverFlow;
 
@@ -41,7 +41,7 @@ public class Control {
                 System.err.println("StackOverflow. Program Counter: " + e);
             }
         });
-        this.doOnManualStop = (new CallBack() {
+        this.doOnManualHalt = (new CallBack() {
             @Override
             public void run(short e) {
                 System.err.println("Manual Stop Invoked. Program Counter: " + e);
@@ -135,16 +135,16 @@ public class Control {
      * Sets what should be done when the user stops the program.<br>
      * @param doOnManualStop CallBack object to run when the user stops the program.
      */
-    void setDoOnManualStop(CallBack doOnManualStop){
-        this.doOnManualStop = doOnManualStop;
+    void setDoOnManualHalt(CallBack doOnManualStop){
+        this.doOnManualHalt = doOnManualStop;
     }
 
     /**
      * Runs the doOnManualStop method.
      * @param e program counter
      */
-    void runDoOnManualStop(short e){
-        this.doOnManualStop.run(e);
+    void runDoOnManualHalt(short e){
+        this.doOnManualHalt.run(e);
     }
 
     /**
