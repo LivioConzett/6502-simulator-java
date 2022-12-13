@@ -95,6 +95,7 @@ class Memory {
     byte[] getMemoryRange(short lowAddress, short highAddress){
         int high = Util.unsignShort(highAddress);
         int low = Util.unsignShort(lowAddress);
+
         if(high <= low){
             return new byte[0];
         }
@@ -102,7 +103,10 @@ class Memory {
         int size = high - low + 1;
         byte[] memoryRange = new byte[size];
 
-        System.arraycopy(this.memoryArray, low, memoryRange, 0, size);
+        for(int i = 0; i < memoryRange.length; i++){
+            int n = low + i;
+            memoryRange[i] = this.memoryArray[n];
+        }
 
         return memoryRange;
     }
@@ -240,7 +244,13 @@ class Memory {
         String sanitizedString = Util.sanitizeHexString(code);
         String[] codeArray = sanitizedString.split("\s");
 
-        for(int i = 0; i < codeArray.length; i++){
+        int max = codeArray.length;
+
+        if(max + Util.unsignShort(beginAddress) > this.memoryArray.length){
+            max = this.memoryArray.length;
+        }
+
+        for(int i = 0; i < max; i++){
             int n = Util.unsignShort(beginAddress) + i;
             this.memoryArray[n] = Util.hexStringToByte(codeArray[i]);
         }
@@ -252,6 +262,34 @@ class Memory {
      */
     void loadString(String code){
         this.loadString((short)0x0000, code);
+    }
+
+
+    /**
+     * Loads the Memory with code stored in a string starting at a certain address.
+     * @param beginAddress start address of the code in memory
+     * @param code code as a byte array
+     */
+    void loadByteArray(short beginAddress, byte[] code){
+
+        int max = code.length;
+
+        if(max + Util.unsignShort(beginAddress) > this.memoryArray.length){
+            max = this.memoryArray.length;
+        }
+
+        for(int i = 0; i < max; i ++){
+            int n = Util.unsignShort(beginAddress) + i;
+            this.memoryArray[n] = code[i];
+        }
+    }
+
+    /**
+     * Loads the Memory with code stored in a byte array.
+     * @param code byte array to load.
+     */
+    void loadByteArray(byte[] code){
+        this.loadByteArray((short)0x0000, code);
     }
 
 }
