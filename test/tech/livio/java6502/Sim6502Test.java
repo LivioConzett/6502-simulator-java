@@ -87,7 +87,7 @@ class Sim6502Test {
     }
 
     @Test
-    void runTest(){
+    void runTest() {
 
         sim.hardReset();
         Assertions.assertEquals((short) 0xfffc, sim.getProgramCounter());
@@ -98,6 +98,8 @@ class Sim6502Test {
         sim.loadFromString(code);
 
         sim.run();
+
+        sim.waitForProgramEnd();
 
         Assertions.assertEquals((short)0x03, sim.getProgramCounter());
 

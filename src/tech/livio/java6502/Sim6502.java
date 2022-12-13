@@ -337,14 +337,35 @@ public class Sim6502 {
     }
 
     /**
-     * Runs the program until it encounters the ext instruction (0x80).
+     * Runs the program until it encounters the ext instruction (0x80) or the run control flag is set to false.
      */
     public void run(){
-        this.start();
-        while(this.control.getRun()){
-            this.step();
+        this.control.setRunningThread(new Thread(() -> {
+            this.start();
+            while(this.control.getRun()){
+                this.step();
+            }
+        }));
+        this.control.getRunningThread().start();
+    }
+
+    /**
+     * Get the thread the 6502 programm is running in.
+     * @return returns the thread the 6502 program is running in.
+     */
+    public Thread getRunningThread(){
+        return this.control.getRunningThread();
+    }
+
+    /**
+     * Waits for the 6502 program to finish.
+     */
+    public void waitForProgramEnd(){
+        try{
+            getRunningThread().join();
+        } catch (InterruptedException e){
+            e.printStackTrace();
         }
-        //TODO: make this run in it's own thread
     }
 
     /**
@@ -352,6 +373,13 @@ public class Sim6502 {
      */
     public void start(){
         this.control.setRun(true);
+    }
+
+    /**
+     * Sets the run control flag to false.
+     */
+    public void stop(){
+        this.control.setRun(false);
     }
 
     /**

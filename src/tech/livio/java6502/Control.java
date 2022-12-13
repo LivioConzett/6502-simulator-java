@@ -10,11 +10,14 @@ public class Control {
     private CallBack doOnExt;
     private CallBack doOnStackOverflow;
 
+    private Thread runingThread;
+
     /**
      * Initialize all the variables.
      */
     Control(){
         this.reset();
+        this.runingThread = null;
     }
 
     /**
@@ -112,5 +115,21 @@ public class Control {
      */
     void runDoOnStackOverflow(short e){
         this.doOnStackOverflow.run(e);
+    }
+
+    /**
+     * Set the running thread.
+     * @param runningThread thread to set the running thread to.
+     */
+    void setRunningThread(Thread runningThread){
+        this.runingThread = runningThread;
+    }
+
+    /**
+     * Get the running thread.
+     * @return running thread.
+     */
+    Thread getRunningThread(){
+        return this.runingThread;
     }
 }
