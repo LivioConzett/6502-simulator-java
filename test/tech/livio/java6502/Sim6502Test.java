@@ -102,6 +102,36 @@ class Sim6502Test {
         sim.waitForProgramEnd();
 
         Assertions.assertEquals((short)0x03, sim.getProgramCounter());
+        Assertions.assertFalse(sim.getRunningThread().isAlive());
+
+
+    }
+
+    @Test
+    void stopTest() {
+
+        sim.hardReset();
+        Assertions.assertEquals((short) 0xfffc, sim.getProgramCounter());
+
+        // Make the program counter to go to address 0x0000
+        sim.loadFromString((short) 0xfffc,"00 00");
+        String code = "ea ea ea";
+        sim.loadFromString(code);
+
+        sim.setDoOnManualStop((e)->{
+            test = 300;
+        });
+
+        sim.run();
+
+        Assertions.assertTrue(sim.getRunningThread().isAlive());
+
+        sim.stop();
+
+        sim.waitForProgramEnd();
+
+        Assertions.assertEquals(300,test);
+        Assertions.assertFalse(sim.getRunningThread().isAlive());
 
     }
 

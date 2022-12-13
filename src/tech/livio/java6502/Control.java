@@ -9,6 +9,7 @@ public class Control {
     private boolean run;
     private CallBack doOnExt;
     private CallBack doOnStackOverflow;
+    private CallBack doOnManualStop;
 
     private Thread runingThread;
 
@@ -37,6 +38,12 @@ public class Control {
             @Override
             public void run(short e) {
                 System.err.println("StackOverflow. Program Counter: " + e);
+            }
+        });
+        this.doOnManualStop = (new CallBack() {
+            @Override
+            public void run(short e) {
+                System.err.println("Manual Stop Invoked. Program Counter: " + e);
             }
         });
     }
@@ -101,6 +108,7 @@ public class Control {
         this.doOnExt.run(s);
     }
 
+
     /**
      * Sets what should be done when the program encounters a stack overflow.<br>
      * The program will exit and then call the method.
@@ -115,6 +123,22 @@ public class Control {
      */
     void runDoOnStackOverflow(short e){
         this.doOnStackOverflow.run(e);
+    }
+
+    /**
+     * Sets what should be done when the user stops the program.<br>
+     * @param doOnManualStop CallBack object to run when the user stops the program.
+     */
+    void setDoOnManualStop(CallBack doOnManualStop){
+        this.doOnManualStop = doOnManualStop;
+    }
+
+    /**
+     * Runs the doOnManualStop method.
+     * @param e program counter
+     */
+    void runDoOnManualStop(short e){
+        this.doOnManualStop.run(e);
     }
 
     /**

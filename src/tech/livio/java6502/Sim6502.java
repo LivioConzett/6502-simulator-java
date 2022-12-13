@@ -345,6 +345,7 @@ public class Sim6502 {
             while(this.control.getRun()){
                 this.step();
             }
+            this.control.getRunningThread().interrupt();
         }));
         this.control.getRunningThread().start();
     }
@@ -353,7 +354,7 @@ public class Sim6502 {
      * Get the thread the 6502 programm is running in.
      * @return returns the thread the 6502 program is running in.
      */
-    public Thread getRunningThread(){
+    Thread getRunningThread(){
         return this.control.getRunningThread();
     }
 
@@ -375,11 +376,13 @@ public class Sim6502 {
         this.control.setRun(true);
     }
 
+
     /**
      * Sets the run control flag to false.
      */
     public void stop(){
         this.control.setRun(false);
+        this.control.runDoOnManualStop(this.memory.getProgramCounter());
     }
 
     /**
@@ -396,6 +399,14 @@ public class Sim6502 {
      */
     public void setDoOnStackOverflow(CallBack doOnStackOverflow){
         this.control.setDoOnStackOverflow(doOnStackOverflow);
+    }
+
+    /**
+     * Add a method that should be done when the program is stopped by user.<br>
+     * @param doOnManualStop CallBack interface with the method in it.
+     */
+    public void setDoOnManualStop(CallBack doOnManualStop){
+        this.control.setDoOnManualStop(doOnManualStop);
     }
 
 }
