@@ -396,11 +396,12 @@ public class Sim6502 {
 
 
     /**
-     * Sets the run control flag to false.
+     * Sets the run control flag to false. Then waits for the thread to stop.
      */
     public void stop(){
         this.control.setRun(false);
         this.control.runDoOnManualHalt(this.memory.getProgramCounter());
+        this.waitForProgramEnd();
     }
 
     /**
