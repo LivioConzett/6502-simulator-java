@@ -13,6 +13,7 @@ public class Sim6502 {
     private final InstructionSet is;
     private final AddressingMode am;
     private final Control control;
+    private final Printer printer;
 
     /**
      * Initialize the 6502 simulator
@@ -24,6 +25,7 @@ public class Sim6502 {
         this.flags = new Flags();
         this.is = new InstructionSet(this.memory, this.stack, this.flags, this.control);
         this.am = new AddressingMode(this.memory);
+        this.printer = new Printer(this.memory);
     }
 
     /**
@@ -427,5 +429,16 @@ public class Sim6502 {
     public void setDoOnManualHalt(CallBack doOnManualHalt){
         this.control.setDoOnManualHalt(doOnManualHalt);
     }
+
+    /**
+     * Returns a String of the hexdump of the entire memory.
+     * @return String of memory.
+     */
+    public String hexDump(){
+        return this.printer.hexDumpMem();
+    }
+
+
+    //TODO: Make a dump of the entire memory with registers and program counter and all. maybe as xml
 
 }

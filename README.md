@@ -26,23 +26,24 @@ class Main() {
 
 ## Methods of the Sim6502
 
-| method                                                | short description                                           |
-|-------------------------------------------------------|-------------------------------------------------------------|
-| [`hardReset()`](#hard-reset)                          | Resets the system including the loaded code and stack       |
-| [`reset()`](#reset)                                   | Resets the system, but leaves the code loaded               |
-| [`getByteAtAddress()`](#get-byte-at-address)          | Gets the value of a byte at an address                      |
-| [`getProgramCounter()`](#get-current-program-counter) | Gets the value of the program counter                       |
-| [`load()`](#load)                                     | Loads a program into memory                                 |
-| [`getMemoryInRange()`](#get-memory-in-range)          | Gets the memory bytes within a certain range                |
-| [`step()`](#step)                                     | Steps one instruction in the program                        |
-| [`run()`](#run)                                       | Runs the program loaded in memory                           |
-| [`getRunningThread()`](#get-running-thread)           | Gets the Thread the 6502 program is running in              |
-| [`waitForProgramEnd()`](#wait-for-program-end)        | Halts the main thread and waits for the 6502 thread to end  |
-| [`start()`](#start)                                   | Sets the run flag to true                                   |
-| [`stop()`](#stop)                                     | Manually halts the 6502 program end ends its thread         |
-| [`setDoOnExt()`](#doonext)                            | Sets the callback for the Ext operation                     |
-| [`setDoOnStackOverflow()`](#doonstackoverflow)        | Sets the callback for the stack overflow                    |
-| [`setDoOnManualHalt()`](#doonmanualhalt)              | Sets the callback for the manual halt                       |
+| method                                                | short description                                          |
+|-------------------------------------------------------|------------------------------------------------------------|
+| [`hardReset()`](#hard-reset)                          | Resets the system including the loaded code and stack      |
+| [`reset()`](#reset)                                   | Resets the system, but leaves the code loaded              |
+| [`getByteAtAddress()`](#get-byte-at-address)          | Gets the value of a byte at an address                     |
+| [`getProgramCounter()`](#get-current-program-counter) | Gets the value of the program counter                      |
+| [`load()`](#load)                                     | Loads a program into memory                                |
+| [`getMemoryInRange()`](#get-memory-in-range)          | Gets the memory bytes within a certain range               |
+| [`step()`](#step)                                     | Steps one instruction in the program                       |
+| [`run()`](#run)                                       | Runs the program loaded in memory                          |
+| [`getRunningThread()`](#get-running-thread)           | Gets the Thread the 6502 program is running in             |
+| [`waitForProgramEnd()`](#wait-for-program-end)        | Halts the main thread and waits for the 6502 thread to end |
+| [`start()`](#start)                                   | Sets the run flag to true                                  |
+| [`stop()`](#stop)                                     | Manually halts the 6502 program end ends its thread        |
+| [`hexDump()`](#hexdump)                               | Creates a String of the Memory                             |
+| [`setDoOnExt()`](#doonext)                            | Sets the callback for the Ext operation                    |
+| [`setDoOnStackOverflow()`](#doonstackoverflow)        | Sets the callback for the stack overflow                   |
+| [`setDoOnManualHalt()`](#doonmanualhalt)              | Sets the callback for the manual halt                      |
 
 ### Hard Reset
 
@@ -65,6 +66,8 @@ class Main() {
 ### Start
 
 ### Stop
+
+### Hexdump
 
 ### Wait For Program End
 **WARNING:** If this is called and the 6502 program is in an endless loop, then the main thread in which the 
