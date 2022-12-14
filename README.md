@@ -46,14 +46,37 @@ class Main() {
 | [`setDoOnManualHalt()`](#doonmanualhalt)              | Sets the callback for the manual halt                      |
 
 ### Hard Reset
+Resets the whole system. Clears the stack, memory and registers. Sets the program counter back to the
+[start vector](#vectors). Sets the stack pointer back to 0x01ff.  
+`void hardReset()`  
 
 ### Reset
+Resets the System. Does the same as the [Hard Reset](#hard-reset) apart from clearing the memory.  
+`void reset()`  
 
 ### Get Byte At Address
+Gets the value of a byte at the specified location in memory.    
+`byte getByteAtAddress(short address)`  
+`short address`: Address of the byte to get.  
+`return byte`: Byte at that address in memory.  
 
 ### Get Current Program Counter
+Gets the value of the Program Counter.  
+`short getProgramCounter()`  
+`return short`: Value of the Program counter. ie: What location of memory the program is executing.  
 
 ### Load
+Loads code into memory. Either from a byte array or a String.  
+If loading from a String make sure that the values are all hex codes separated by a space eg: `"00 85 12 ff 45""`.  
+`void load(String code)`  
+  
+`void load(short beginAddress, String code)`  
+  
+`void load(short beginAddress, byte[] code)`  
+  
+`void load(byte[] code)`  
+  
+
 
 ### Get Memory In Range
 
