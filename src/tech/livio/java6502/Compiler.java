@@ -10,7 +10,7 @@ public class Compiler {
 
     }
 
-
+    //TODO: Create a status object that changes. Add a callback that gets fired everytime the status canges.
 
 
 }
