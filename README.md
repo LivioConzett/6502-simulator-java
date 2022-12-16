@@ -69,32 +69,63 @@ Gets the value of the Program Counter.
 Loads code into memory. Either from a byte array or a String.  
 If loading from a String make sure that the values are all hex codes separated by a space eg: `"00 85 12 ff 45""`.  
 `void load(String code)`  
+`String code`: Code String to load into memory starting at address 0x0000.
   
 `void load(short beginAddress, String code)`  
-  
-`void load(short beginAddress, byte[] code)`  
+`short beginAddress`: Address where to begin loading code into.  
+`String code`: Code String to load into memory.
   
 `void load(byte[] code)`  
+`byte[] code`: Byte Array of code that will be loaded into memory starting at address 0x0000.
   
-
+`void load(short beginAddress, byte[] code)`  
+`short beginAddress`: Address where to begin loading code into.  
+`byte[] code`: Byte Array of code that will be loaded into memory starting at address 0x0000.
 
 ### Get Memory In Range
+Gets the bytes in memory within a specified range. If the lowAddress is higher than the highAddress an empty byte Array
+will be returned.  
+`byte[] getMemoryInRange(short lowAddress, short highAddress)`  
+`short lowAddress`: Lower bound of memory block to get (inclusive). 
+`short highAddress`: Higher bound of memory block to get (inclusive).
+`return byte[]`: Array of bytes within that range.  
 
 ### Step
+Steps one step in the program. Will execute one op-code, not just one clock cycle. A lot of op-codes consist of multiple
+clock cycles. Step will only run if the run flag is set. To set the run flag use the [`start()`](#start) method.   
+`void step()`  
 
 ### Run
+Will start a while loop with the [`step()`](#step) method in it. As long as the run flag is true the program will step
+through the program executing the op-codes.  
+The run flag can be set to false in three situations:  
+- The EXT op-code is encountered.
+- Stack overflow
+- Manual stop using the [`stop()`](#stop) method.
+`void run()`  
 
 ### Get Running Thread
+The [`run()`](#run) method will start a new thread where the 6502 program will run in. This is to allow the user to be able 
+to manually stop the program. This method will return the thread.
+`Thread getRunningThread()`  
+`return Thread`: Thread where the 6502 program is running in.  
 
-### Start
+### Wait For Program End
+**WARNING:** If this is called and the 6502 program is in an endless loop, then the main thread in which the
+program is running will effectively also be in an endless loop.  
+This will cause the main thread to wait for the 6502 thread to stop ie: for the 6502 program to finish.  
+`void waitForProgramEnd()`  
 
 ### Stop
 
+
+### Start
+Sets the run flag to true.  
+`start()`  
+
+
 ### Hexdump
 
-### Wait For Program End
-**WARNING:** If this is called and the 6502 program is in an endless loop, then the main thread in which the 
-program is running will then effectively also be in an endless loop.  
 
 ## Callbacks
 The system has three callbacks that can be set by the user.  
