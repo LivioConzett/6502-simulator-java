@@ -4,7 +4,6 @@ import java.util.Map;
 
 public class OpToHex {
 
-
     static final Map<OpCodes, Map<AddressingModes, Byte>> reference = Map.ofEntries(
             Map.entry(OpCodes.ADC, Map.of(
                     AddressingModes.INDEXED_INDIRECT, (byte)0x61,
@@ -75,7 +74,38 @@ public class OpToHex {
             )),
             Map.entry(OpCodes.CLV, Map.of(
                     AddressingModes.IMPLIED, (byte)0xb8
-            ))
+            )),
+            Map.entry(OpCodes.CMP, Map.of(
+                    AddressingModes.INDEXED_INDIRECT, (byte)0xc1,
+                    AddressingModes.ZERO_PAGE, (byte)0xc5,
+                    AddressingModes.IMMEDIATE, (byte)0xc9,
+                    AddressingModes.ABSOLUTE, (byte)0xcd,
+                    AddressingModes.INDIRECT_INDEXED, (byte)0xd1,
+                    AddressingModes.ZERO_PAGE_INDEXED_X, (byte)0xd5,
+                    AddressingModes.ABSOLUTE_INDEXED_Y, (byte)0xd9,
+                    AddressingModes.ABSOLUTE_INDEXED_X, (byte)0xdd
+            )),
+            Map.entry(
+                    OpCodes.CPX, Map.of(
+                            AddressingModes.IMMEDIATE, (byte)0xe0,
+                            AddressingModes.ZERO_PAGE, (byte)0xe4,
+                            AddressingModes.ABSOLUTE, (byte)0xec
+                    )
+            ),
+            Map.entry(
+                    OpCodes.CPY, Map.of(
+                            AddressingModes.IMMEDIATE, (byte)0xc0,
+                            AddressingModes.ZERO_PAGE, (byte)0xc4,
+                            AddressingModes.ABSOLUTE, (byte)0xcc
+                    )
+            ),
+            Map.entry(
+                    OpCodes.DEC, Map.of(
+                            AddressingModes.ZERO_PAGE, (byte)0xc6,
+                            AddressingModes.ABSOLUTE, (byte)0xce,
+                            AddressingModes.ABSOLUTE_INDEXED_X, (byte)0xde
+                    )
+            )
 
     );
 
