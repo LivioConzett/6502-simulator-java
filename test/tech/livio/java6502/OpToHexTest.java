@@ -3,13 +3,13 @@ package tech.livio.java6502;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class OpToHexTest {
+class OpToHexTest {
 
 
     @Test
     void noAddressingMode(){
 
-        Assertions.assertEquals(null, OpToHex.getHex(OpCodes.BCC, AddressingModes.ABSOLUTE));
+        Assertions.assertNull(OpToHex.getHex(OpCodes.BCC, AddressingModes.ABSOLUTE));
 
     }
 
