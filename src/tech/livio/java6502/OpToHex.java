@@ -212,8 +212,137 @@ public class OpToHex {
                             AddressingModes.ABSOLUTE_INDEXED_Y, (byte)0x19,
                             AddressingModes.ABSOLUTE_INDEXED_X, (byte)0x1d
                     )
+            ),
+            Map.entry(
+                    OpCodes.PHA, Map.of(
+                            AddressingModes.IMPLIED, (byte)0x48
+                    )
+            ),
+            Map.entry(
+                    OpCodes.PHP, Map.of(
+                            AddressingModes.IMPLIED, (byte)0x08
+                    )
+            ),
+            Map.entry(
+                    OpCodes.PLA, Map.of(
+                            AddressingModes.IMPLIED, (byte)0x68
+                    )
+            ),
+            Map.entry(
+                    OpCodes.PLP, Map.of(
+                            AddressingModes.IMPLIED, (byte)0x28
+                    )
+            ),
+            Map.entry(
+                    OpCodes.ROL, Map.of(
+                            AddressingModes.ZERO_PAGE, (byte)0x26,
+                            AddressingModes.ACCUMULATOR, (byte)0x2a,
+                            AddressingModes.ABSOLUTE, (byte)0x2e,
+                            AddressingModes.ZERO_PAGE_INDEXED_X, (byte)0x36,
+                            AddressingModes.ABSOLUTE_INDEXED_X, (byte)0x3e
+                    )
+            ),
+            Map.entry(
+                    OpCodes.ROR, Map.of(
+                            AddressingModes.ZERO_PAGE, (byte)0x66,
+                            AddressingModes.ACCUMULATOR, (byte)0x6a,
+                            AddressingModes.ABSOLUTE, (byte)0x6e,
+                            AddressingModes.ZERO_PAGE_INDEXED_X, (byte)0x76,
+                            AddressingModes.ABSOLUTE_INDEXED_X, (byte)0x7e
+                    )
+            ),
+            Map.entry(
+                    OpCodes.RTI, Map.of(
+                            AddressingModes.IMPLIED, (byte)0x40
+                    )
+            ),
+            Map.entry(
+                    OpCodes.RTS, Map.of(
+                            AddressingModes.IMPLIED, (byte)0x60
+                    )
+            ),
+            Map.entry(
+                    OpCodes.SBC, Map.of(
+                            AddressingModes.INDEXED_INDIRECT, (byte)0xe1,
+                            AddressingModes.ZERO_PAGE, (byte)0xe5,
+                            AddressingModes.IMMEDIATE, (byte)0xe9,
+                            AddressingModes.ABSOLUTE, (byte)0xed,
+                            AddressingModes.INDIRECT_INDEXED, (byte)0xf1,
+                            AddressingModes.ZERO_PAGE_INDEXED_X, (byte)0xf5,
+                            AddressingModes.ABSOLUTE_INDEXED_Y, (byte)0xf9,
+                            AddressingModes.ABSOLUTE_INDEXED_X, (byte)0xfd
+                    )
+            ),
+            Map.entry(
+                    OpCodes.SEC, Map.of(
+                            AddressingModes.IMPLIED, (byte)0x38
+                    )
+            ),
+            Map.entry(
+                    OpCodes.SED, Map.of(
+                            AddressingModes.IMPLIED, (byte)0xf8
+                    )
+            ),
+            Map.entry(
+                    OpCodes.SEI, Map.of(
+                            AddressingModes.IMPLIED, (byte)0x78
+                    )
+            ),
+            Map.entry(
+                    OpCodes.STA, Map.of(
+                            AddressingModes.INDEXED_INDIRECT, (byte)0x81,
+                            AddressingModes.ZERO_PAGE, (byte)0x85,
+                            AddressingModes.ABSOLUTE, (byte)0x8d,
+                            AddressingModes.INDIRECT_INDEXED, (byte)0x91,
+                            AddressingModes.ZERO_PAGE_INDEXED_X, (byte)0x95,
+                            AddressingModes.ABSOLUTE_INDEXED_Y, (byte)0x99,
+                            AddressingModes.ABSOLUTE_INDEXED_X, (byte)0x9d
+                    )
+            ),
+            Map.entry(
+                    OpCodes.STX, Map.of(
+                            AddressingModes.ZERO_PAGE, (byte)0x86,
+                            AddressingModes.ABSOLUTE, (byte)0x8e,
+                            AddressingModes.ZERO_PAGE_INDEXED_Y, (byte)0x96
+                    )
+            ),
+            Map.entry(
+                    OpCodes.STY, Map.of(
+                            AddressingModes.ZERO_PAGE, (byte)0x84,
+                            AddressingModes.ABSOLUTE, (byte)0x8c,
+                            AddressingModes.ZERO_PAGE_INDEXED_Y, (byte)0x94
+                    )
+            ),
+            Map.entry(
+                    OpCodes.TAX, Map.of(
+                            AddressingModes.IMPLIED, (byte)0xaa
+                    )
+            ),
+            Map.entry(
+                    OpCodes.TAY, Map.of(
+                            AddressingModes.IMPLIED, (byte)0xa8
+                    )
+            ),
+            Map.entry(
+                    OpCodes.TSX, Map.of(
+                            AddressingModes.IMPLIED, (byte)0xba
+                    )
+            ),
+            Map.entry(
+                    OpCodes.TXA, Map.of(
+                            AddressingModes.IMPLIED, (byte)0x8a
+                    )
+            ),
+            Map.entry(
+                    OpCodes.TXS, Map.of(
+                            AddressingModes.IMPLIED, (byte)0x9a
+                    )
+            ),
+            Map.entry(
+                    OpCodes.TYA, Map.of(
+                            AddressingModes.IMPLIED, (byte)0x98
+                    )
             )
-
     );
 
 
