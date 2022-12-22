@@ -2,7 +2,9 @@ package tech.livio.java6502;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -14,6 +16,7 @@ public class Compiler {
     private CompilerStatus status;
     private List<Byte> opList;
     private final String regComment = " *;.*";
+    private final String regVariable = "^[\\w\\d]+ *= *.+";
 
     public Compiler(){
         this.statusChangeCallback = c -> {
@@ -82,9 +85,10 @@ public class Compiler {
         String[] codeArray = code.split("\s");
 
         // remove the comments from the code
-        String[] noComments = removeComments(codeArray);
+        codeArray = removeComments(codeArray);
 
-
+        // replace the variables
+        codeArray = replaceVariables(codeArray);
 
 
 
@@ -106,6 +110,44 @@ public class Compiler {
 
         changeStatus(new CompilerStatus("done.\n"));
 
+        return code;
+    }
+
+    /**
+     * Removes the variables with the corresponding values
+     * @param code code to replace the variables in
+     * @return code with replaced variables
+     */
+    String[] replaceVariables(String[] code){
+
+        changeStatus(new CompilerStatus("Replacing variables..."));
+
+        Map<String,String> variables = new HashMap<>();
+
+        // create the map of variables and their value
+        for(String line: code){
+            // does the line have a variable declared
+            if(Pattern.matches(regVariable,line)){
+                String[] split = line.split("=");
+                variables.put(split[0].trim(),split[1].trim());
+            }
+        }
+
+        // go through the array again to remove the var declarations
+        // and put the value of the var into the instances of them
+        for(int i = 0; i < code.length; i++) {
+            // remove the
+            code[i] = code[i].replaceAll(regVariable,"");
+
+            // go through the variable map and see if one matches
+            for(Map.Entry<String,String> entry: variables.entrySet()){
+                // the stuff at the end ist to make sure the var is not replaced if it is in a string
+                String regex = "\\b"+entry.getKey()+"\\b(?=([^']*'[^']*')*[^']*$)";
+                code[i] = code[i].replaceAll(regex,entry.getValue());
+            }
+        }
+
+        changeStatus(new CompilerStatus("done.\n"));
         return code;
     }
 

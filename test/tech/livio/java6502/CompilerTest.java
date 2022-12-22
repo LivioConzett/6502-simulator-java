@@ -28,7 +28,37 @@ class CompilerTest {
         };
 
         Assertions.assertArrayEquals(output, compiler.removeComments(input));
+    }
+    @Test
+    void replaceVariables(){
 
+        Compiler compiler = new Compiler();
+
+        String[] input = {
+                "test=1",
+                "nothing = @34",
+                "and 123",
+                "nop",
+                "adc test",
+                "lda nothing",
+                "bbc   23",
+                "adc nothing",
+                ".word 'this is a test'"
+        };
+
+        String[] output = {
+                "",
+                "",
+                "and 123",
+                "nop",
+                "adc 1",
+                "lda @34",
+                "bbc   23",
+                "adc @34",
+                ".word 'this is a test'"
+        };
+
+        Assertions.assertArrayEquals(output, compiler.replaceVariables(input));
     }
 
 }
