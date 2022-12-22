@@ -19,6 +19,7 @@ public class Compiler {
     private final String regComment = " *;.*";
     private final String regVariable = "^[\\w\\d]+ *= *.+";
     private final String regHex = "\\$[a-fA-F\\d]+";
+    private final String regDec = "(?<![@%$])\\b\\d+\\b";
     private final String regOct = "@\\d+";
     private final String regBin = "%[01]+";
     private final String regAscii = "(\"((?!\").|\\n)*\")|('((?!').|\\n)*')";
@@ -176,19 +177,25 @@ public class Compiler {
             // hex code
             Matcher m = Pattern.compile(regHex).matcher(code[i]);
             if(m.find()){
-                code[i] = code[i].replaceAll(regHex,Util.codeNumberToDec(m.group(0),16));
+                code[i] = code[i].replaceAll(regHex,Util.codeNumberToHex(m.group(0),16));
+            }
+
+            // Dec code
+            m = Pattern.compile(regDec).matcher(code[i]);
+            if(m.find()){
+                code[i] = code[i].replaceAll(regDec,Util.codeNumberToHex(m.group(0),10));
             }
 
             // Oct Code
             m = Pattern.compile(regOct).matcher(code[i]);
             if(m.find()){
-                code[i] = code[i].replaceAll(regOct,Util.codeNumberToDec(m.group(0),8));
+                code[i] = code[i].replaceAll(regOct,Util.codeNumberToHex(m.group(0),8));
             }
 
-            // Oct Code
+            // Bin Code
             m = Pattern.compile(regBin).matcher(code[i]);
             if(m.find()){
-                code[i] = code[i].replaceAll(regBin,Util.codeNumberToDec(m.group(0),2));
+                code[i] = code[i].replaceAll(regBin,Util.codeNumberToHex(m.group(0),2));
             }
 
         }

@@ -67,7 +67,7 @@ class CompilerTest {
         Compiler compiler = new Compiler();
 
         String[] input = {
-                "test=1",
+                "test = 169",
                 "nothing = $a9",
                 "nothing = $A9",
                 "and @251",
@@ -76,11 +76,11 @@ class CompilerTest {
         };
 
         String[] output = {
-                "test=1",
-                "nothing = 169",
-                "nothing = 169",
-                "and 169",
-                "ldc 169",
+                "test = a9",
+                "nothing = a9",
+                "nothing = a9",
+                "and a9",
+                "ldc a9",
                 ".word 'this is a test'"
         };
 

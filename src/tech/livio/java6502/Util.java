@@ -155,14 +155,14 @@ public class Util {
     }
 
     /**
-     * Calculate the dec value of a given hex, oct, or bin number
+     * Calculate the Hex value of a given dec hex, oct, or bin number
      * @param number number to convert
-     * @param radix 16 for hex, 8 for oct, 2 for bin
+     * @param radix 16 for hex, 10 for dec, 8 for oct, 2 for bin
      * @return String of the number
      */
-    static String codeNumberToDec(String number, int radix){
+    static String codeNumberToHex(String number, int radix){
         number = number.replaceAll("[$@%]","");
-        return ""+Integer.parseInt(number, radix);
+        return Integer.toHexString(Integer.parseInt(number, radix));
     }
 
     /**
