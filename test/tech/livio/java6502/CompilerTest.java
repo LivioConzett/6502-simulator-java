@@ -3,7 +3,7 @@ package tech.livio.java6502;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class CompilerTest {
+class CompilerTest {
 
     @Test
     void removeComments(){
