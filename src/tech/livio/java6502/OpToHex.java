@@ -2,6 +2,9 @@ package tech.livio.java6502;
 
 import java.util.Map;
 
+/**
+ * Holds the reference map for what byte code the instructions have.
+ */
 public class OpToHex {
 
     static final Map<OpCodes, Map<AddressingModes, Byte>> reference =
