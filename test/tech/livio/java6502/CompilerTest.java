@@ -10,7 +10,7 @@ public class CompilerTest {
 
         Compiler compiler = new Compiler();
 
-        String input[] = {
+        String[] input = {
                 "  and ;this is a comment",
                 "  ;hello",
                 ";what are you doing",
@@ -18,7 +18,7 @@ public class CompilerTest {
                 "hello the     "
         };
 
-        String output[] = {
+        String[] output = {
                 "  and",
                 "",
                 "",
