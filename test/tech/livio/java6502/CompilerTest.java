@@ -61,4 +61,30 @@ class CompilerTest {
         Assertions.assertArrayEquals(output, compiler.replaceVariables(input));
     }
 
+    @Test
+    void convertNumbers(){
+
+        Compiler compiler = new Compiler();
+
+        String[] input = {
+                "test=1",
+                "nothing = $a9",
+                "nothing = $A9",
+                "and @251",
+                "ldc %10101001",
+                ".word 'this is a test'"
+        };
+
+        String[] output = {
+                "test=1",
+                "nothing = 169",
+                "nothing = 169",
+                "and 169",
+                "ldc 169",
+                ".word 'this is a test'"
+        };
+
+        Assertions.assertArrayEquals(output, compiler.convertNumbers(input));
+    }
+
 }

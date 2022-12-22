@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -17,6 +18,10 @@ public class Compiler {
     private List<Byte> opList;
     private final String regComment = " *;.*";
     private final String regVariable = "^[\\w\\d]+ *= *.+";
+    private final String regHex = "\\$[a-fA-F\\d]+";
+    private final String regOct = "@\\d+";
+    private final String regBin = "%[01]+";
+
 
     public Compiler(){
         this.statusChangeCallback = c -> {
@@ -87,6 +92,9 @@ public class Compiler {
         // remove the comments from the code
         codeArray = removeComments(codeArray);
 
+        // convert the numbers to dec
+        codeArray = convertNumbers(codeArray);
+
         // replace the variables
         codeArray = replaceVariables(codeArray);
 
@@ -145,6 +153,40 @@ public class Compiler {
                 String regex = "\\b"+entry.getKey()+"\\b(?=([^']*'[^']*')*[^']*$)";
                 code[i] = code[i].replaceAll(regex,entry.getValue());
             }
+        }
+
+        changeStatus(new CompilerStatus("done.\n"));
+        return code;
+    }
+
+    /**
+     * Convert the numbers from whatever to dec
+     * @param code code to convert numbers in
+     * @return code with the numbers converted
+     */
+    String[] convertNumbers(String[] code){
+        changeStatus(new CompilerStatus("Converting numbers..."));
+
+        for(int i = 0; i < code.length; i++){
+
+            // hex code
+            Matcher m = Pattern.compile(regHex).matcher(code[i]);
+            if(m.find()){
+                code[i] = code[i].replaceAll(regHex,Util.codeNumberToDec(m.group(0),16));
+            }
+
+            // Oct Code
+            m = Pattern.compile(regOct).matcher(code[i]);
+            if(m.find()){
+                code[i] = code[i].replaceAll(regOct,Util.codeNumberToDec(m.group(0),8));
+            }
+
+            // Oct Code
+            m = Pattern.compile(regBin).matcher(code[i]);
+            if(m.find()){
+                code[i] = code[i].replaceAll(regBin,Util.codeNumberToDec(m.group(0),2));
+            }
+
         }
 
         changeStatus(new CompilerStatus("done.\n"));

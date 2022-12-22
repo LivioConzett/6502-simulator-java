@@ -153,4 +153,15 @@ public class Util {
     static String sanitizeHexString(String hexString){
         return hexString.replaceAll("[^0-9a-fA-F ]+","").replaceAll(" +"," ");
     }
+
+    /**
+     * Calculate the dec value of a given hex, oct, or bin number
+     * @param number number to convert
+     * @param radix 16 for hex, 8 for oct, 2 for bin
+     * @return String of the number
+     */
+    static String codeNumberToDec(String number, int radix){
+        number = number.replaceAll("[$@%]","");
+        return ""+Integer.parseInt(number, radix);
+    }
 }
