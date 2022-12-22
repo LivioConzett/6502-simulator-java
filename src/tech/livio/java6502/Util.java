@@ -164,4 +164,24 @@ public class Util {
         number = number.replaceAll("[$@%]","");
         return ""+Integer.parseInt(number, radix);
     }
+
+    /**
+     * Converts a String of chars into a string of hex values
+     * @param ascii string to convert
+     * @return hex values of the string
+     */
+    static String asciiToHex(String ascii){
+
+        String hexString = "";
+
+        // remove the quotation marks
+        ascii = ascii.substring(1);
+        ascii = ascii.substring(0,ascii.length()-1);
+
+        for(int i = 0; i < ascii.length(); i++){
+            hexString += " "+Integer.toHexString(ascii.codePointAt(i));
+        }
+
+        return hexString.trim();
+    }
 }

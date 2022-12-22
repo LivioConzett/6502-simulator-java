@@ -87,4 +87,32 @@ class CompilerTest {
         Assertions.assertArrayEquals(output, compiler.convertNumbers(input));
     }
 
+    @Test
+    void convertStrings(){
+
+        Compiler compiler = new Compiler();
+
+        String[] input = {
+                "test=1",
+                "nothing = $a9",
+                "nothing = $A9",
+                "and @251",
+                "ldc %10101001",
+                ".word 'this is a test'",
+                ".word \"don't you\""
+        };
+
+        String[] output = {
+                "test=1",
+                "nothing = $a9",
+                "nothing = $A9",
+                "and @251",
+                "ldc %10101001",
+                ".word 74 68 69 73 20 69 73 20 61 20 74 65 73 74",
+                ".word 64 6f 6e 27 74 20 79 6f 75"
+        };
+
+        Assertions.assertArrayEquals(output, compiler.convertString(input));
+    }
+
 }

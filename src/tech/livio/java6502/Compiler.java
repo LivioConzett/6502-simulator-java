@@ -21,6 +21,7 @@ public class Compiler {
     private final String regHex = "\\$[a-fA-F\\d]+";
     private final String regOct = "@\\d+";
     private final String regBin = "%[01]+";
+    private final String regAscii = "(\"((?!\").|\\n)*\")|('((?!').|\\n)*')";
 
 
     public Compiler(){
@@ -97,6 +98,9 @@ public class Compiler {
 
         // replace the variables
         codeArray = replaceVariables(codeArray);
+
+        // convert the strings to hex codes
+        codeArray = convertString(codeArray);
 
 
 
@@ -187,6 +191,29 @@ public class Compiler {
                 code[i] = code[i].replaceAll(regBin,Util.codeNumberToDec(m.group(0),2));
             }
 
+        }
+
+        changeStatus(new CompilerStatus("done.\n"));
+        return code;
+    }
+
+    /**
+     * Convert all the Strings into hex numbers
+     * @return code with strings replaced with hex codes
+     */
+    String[] convertString(String[] code){
+        changeStatus(new CompilerStatus("Converting Strings..."));
+
+        Pattern p = Pattern.compile(regAscii);
+
+
+        for(int i = 0; i < code.length; i++){
+
+            Matcher m = p.matcher(code[i]);
+
+            if(m.find()){
+                code[i] = code[i].replaceAll(regAscii,Util.asciiToHex(m.group(0)));
+            }
         }
 
         changeStatus(new CompilerStatus("done.\n"));
