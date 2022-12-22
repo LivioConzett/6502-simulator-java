@@ -18,6 +18,7 @@ public enum CompErrType {
         this.errorString = errorString;
     }
 
+    @Override
     public String toString(){
         return this.errorString;
     }
