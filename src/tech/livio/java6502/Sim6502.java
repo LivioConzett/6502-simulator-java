@@ -410,7 +410,7 @@ public class Sim6502 {
      * Add a method that should be done when the program ends (encounters the ext instruction (0x80)).<br>
      * @param doOnExt CallBack interface with the method in it.
      */
-    public void setDoOnExt(CallBack doOnExt){
+    public void setDoOnExt(ProgramCallBack doOnExt){
         this.control.setDoOnExt(doOnExt);
     }
 
@@ -418,7 +418,7 @@ public class Sim6502 {
      * Add a method that should be done when the program encounters a stackoverflow.<br>
      * @param doOnStackOverflow CallBack interface with the method in it.
      */
-    public void setDoOnStackOverflow(CallBack doOnStackOverflow){
+    public void setDoOnStackOverflow(ProgramCallBack doOnStackOverflow){
         this.control.setDoOnStackOverflow(doOnStackOverflow);
     }
 
@@ -426,7 +426,7 @@ public class Sim6502 {
      * Add a method that should be done when the program is stopped by user.<br>
      * @param doOnManualHalt CallBack interface with the method in it.
      */
-    public void setDoOnManualHalt(CallBack doOnManualHalt){
+    public void setDoOnManualHalt(ProgramCallBack doOnManualHalt){
         this.control.setDoOnManualHalt(doOnManualHalt);
     }
 

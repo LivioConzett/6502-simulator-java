@@ -7,9 +7,9 @@ public class Control {
 
     private boolean skipIncrement;
     private boolean run;
-    private CallBack doOnExt;
-    private CallBack doOnStackOverflow;
-    private CallBack doOnManualHalt;
+    private ProgramCallBack doOnExt;
+    private ProgramCallBack doOnStackOverflow;
+    private ProgramCallBack doOnManualHalt;
     private Thread runningThread;
     private boolean doneOnStackOverFlow;
 
@@ -29,19 +29,19 @@ public class Control {
         this.run = false;
         this.runningThread = new Thread();
         this.doneOnStackOverFlow = false;
-        this.doOnExt = (new CallBack() {
+        this.doOnExt = (new ProgramCallBack() {
             @Override
             public void run(short e) {
                 System.out.println("Ended Program. Program Counter: " + e);
             }
         });
-        this.doOnStackOverflow = (new CallBack() {
+        this.doOnStackOverflow = (new ProgramCallBack() {
             @Override
             public void run(short e) {
                 System.err.println("StackOverflow. Program Counter: " + e);
             }
         });
-        this.doOnManualHalt = (new CallBack() {
+        this.doOnManualHalt = (new ProgramCallBack() {
             @Override
             public void run(short e) {
                 System.err.println("Manual Stop Invoked. Program Counter: " + e);
@@ -101,7 +101,7 @@ public class Control {
      * The ext instruction will also set the run flag to false.
      * @param doOnExt CallBack object to run on ext instruction.
      */
-    void setDoOnExt(CallBack doOnExt){
+    void setDoOnExt(ProgramCallBack doOnExt){
         this.doOnExt = doOnExt;
     }
 
@@ -118,7 +118,7 @@ public class Control {
      * The program will exit and then call the method.
      * @param doOnStackOverflow CallBack object to run when stackoverflow occurs.
      */
-    void setDoOnStackOverflow(CallBack doOnStackOverflow){
+    void setDoOnStackOverflow(ProgramCallBack doOnStackOverflow){
         this.doOnStackOverflow = doOnStackOverflow;
     }
 
@@ -135,7 +135,7 @@ public class Control {
      * Sets what should be done when the user stops the program.<br>
      * @param doOnManualStop CallBack object to run when the user stops the program.
      */
-    void setDoOnManualHalt(CallBack doOnManualStop){
+    void setDoOnManualHalt(ProgramCallBack doOnManualStop){
         this.doOnManualHalt = doOnManualStop;
     }
 
