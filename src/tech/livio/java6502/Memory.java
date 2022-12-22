@@ -1,5 +1,7 @@
 package tech.livio.java6502;
 
+import tech.livio.java6502.Util;
+
 import java.util.Arrays;
 
 /**

@@ -2,6 +2,7 @@ package tech.livio.java6502;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import tech.livio.java6502.AddressingModeReturn;
 
 class AddressingModeReturnTest {
 

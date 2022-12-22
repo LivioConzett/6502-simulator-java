@@ -3,6 +3,9 @@ package tech.livio.java6502;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tech.livio.java6502.Control;
+import tech.livio.java6502.Memory;
+import tech.livio.java6502.Stack;
 
 class StackTest{
 

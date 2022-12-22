@@ -3,6 +3,7 @@ package tech.livio.java6502;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+import tech.livio.java6502.Control;
 
 class ControlTest {
 

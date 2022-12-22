@@ -3,6 +3,9 @@ package tech.livio.java6502;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tech.livio.java6502.AddressingMode;
+import tech.livio.java6502.AddressingModeReturn;
+import tech.livio.java6502.Memory;
 
 class AddressingModeTest{
 
