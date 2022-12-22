@@ -7,19 +7,16 @@ package tech.livio.java6502;
 public class CompilerStatus {
 
     private final int line;
-    private final boolean error;
     private final CompErrType errorType;
     private final String text;
 
     /**
      * Constructor for the Compiler Status
-     * @param error Has an error occurred
      * @param line line that error occurred on. If no error just write 0
      * @param errorType type of error that occurred. If no error then just set it to CompErrType.NONE
      * @param text String describing. Status that the Compiler has.
      */
-    CompilerStatus(boolean error, int line, CompErrType errorType, String text){
-        this.error = error;
+    CompilerStatus(int line, CompErrType errorType, String text){
         this.line = line;
         this.errorType = errorType;
         this.text = text;
@@ -31,7 +28,7 @@ public class CompilerStatus {
      * @param text Stratus of the compiler.
      */
     CompilerStatus(String text){
-        this(false,0,CompErrType.NONE,text);
+        this(0,CompErrType.NONE,text);
     }
 
     /**
@@ -39,7 +36,7 @@ public class CompilerStatus {
      * @return true if error has occurred
      */
     public boolean hasError(){
-        return this.error;
+        return this.errorType != CompErrType.NONE;
     }
 
     /**
