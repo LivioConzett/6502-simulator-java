@@ -104,6 +104,7 @@ public class OpToHex {
                     OpCodes.DEC, Map.of(
                             AddressingModes.ZERO_PAGE, (byte) 0xc6,
                             AddressingModes.ABSOLUTE, (byte) 0xce,
+                            AddressingModes.ZERO_PAGE_INDEXED_X, (byte) 0xd6,
                             AddressingModes.ABSOLUTE_INDEXED_X, (byte) 0xde
                     )
             ),
@@ -311,7 +312,7 @@ public class OpToHex {
                     OpCodes.STY, Map.of(
                             AddressingModes.ZERO_PAGE, (byte) 0x84,
                             AddressingModes.ABSOLUTE, (byte) 0x8c,
-                            AddressingModes.ZERO_PAGE_INDEXED_Y, (byte) 0x94
+                            AddressingModes.ZERO_PAGE_INDEXED_X, (byte) 0x94
                     )
             ),
             Map.entry(
