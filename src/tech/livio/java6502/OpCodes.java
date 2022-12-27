@@ -59,5 +59,6 @@ public enum OpCodes {
     TSX,
     TXA,
     TXS,
-    TYA
+    TYA,
+    NONE
 }
