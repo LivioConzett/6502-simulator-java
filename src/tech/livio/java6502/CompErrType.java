@@ -9,6 +9,7 @@ public enum CompErrType {
     SYNTAX("--- SYNTAX ERROR ---"),
     SIZE("--- SIZE ERROR ---"),
     LOGIC("--- LOGIC ERROR ---"),
+    LABEL("--- LABEL ERROR ---"),
     INTERNAL("--- INTERNAL ERROR ---");
 
 
