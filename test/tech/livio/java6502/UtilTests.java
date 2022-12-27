@@ -226,4 +226,24 @@ class UtilTests{
 
     }
 
+    @Test
+    void formatFourTest(){
+
+        String input = "e";
+        String output = "0e";
+
+        Assertions.assertEquals(output,Util.formatFour(input));
+
+        input = "abc";
+        output = "0a bc";
+
+        Assertions.assertEquals(output,Util.formatFour(input));
+
+        input = "1dce";
+        output = "1d ce";
+
+        Assertions.assertEquals(output,Util.formatFour(input));
+
+    }
+
 }

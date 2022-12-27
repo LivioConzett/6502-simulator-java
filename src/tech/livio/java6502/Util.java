@@ -216,4 +216,23 @@ public class Util {
         return OpCodes.NONE;
     }
 
+    /**
+     * Formates f23 to 0f 23
+     * @param code code to format
+     * @return formated string
+     */
+    static String formatFour(String code){
+        if(code.length() == 1) {
+            return "0"+code;
+        }
+        if(code.length() == 3){
+            return "0" + code.substring(0,1) + " " + code.substring(1,3);
+        }
+        if(code.length() == 4){
+            return code.substring(0,2) + " " + code.substring(2,4);
+        }
+
+        return code;
+    }
+
 }
