@@ -14,8 +14,10 @@ import java.util.regex.Pattern;
 public class Compiler {
 
     private CompilerCallBack statusChangeCallback;
+    private int opArrayPointer;
     private CompilerStatus status;
     private List<Byte> opList;
+    private Map<String, String> labelToAddress;
     private final String regComment = " *;.*";
     private final String regVariable = "^[\\w\\d]+ *= *.+";
     private final String regHex = "\\$[a-fA-F\\d]+";
@@ -23,6 +25,7 @@ public class Compiler {
     private final String regOct = "@\\d+";
     private final String regBin = "%[01]+";
     private final String regAscii = "(\"((?!\").|\\n)*\")|('((?!').|\\n)*')";
+    private final String regLabel = "^[\\w\\d]+: *";
 
 
     public Compiler(){
@@ -37,6 +40,8 @@ public class Compiler {
 
         this.status = new CompilerStatus("Initialization of Compiler\n");
         this.opList = new ArrayList<>();
+        this.opArrayPointer = 0;
+        this.labelToAddress = new HashMap<>();
 
     }
 
@@ -63,6 +68,8 @@ public class Compiler {
      */
     private void reset(){
         this.opList.clear();
+        this.opArrayPointer = 0;
+        this.labelToAddress.clear();
 
     }
 
@@ -103,7 +110,23 @@ public class Compiler {
         // convert the strings to hex codes
         codeArray = convertString(codeArray);
 
+        this.changeStatus(new CompilerStatus("Compiling Op codes..."));
 
+        for(int line = 0;  line < codeArray.length; line++){
+
+            // handle the labels
+            Matcher m = Pattern.compile(regLabel).matcher(codeArray[line]);
+            if(m.find()){
+                this.saveLabel(m.group(0));
+            }
+
+
+
+
+        }
+
+
+        this.changeStatus(new CompilerStatus("done\nCompiler finished with no error."));
 
         return this.listToArray();
     }
@@ -226,5 +249,18 @@ public class Compiler {
         changeStatus(new CompilerStatus("done.\n"));
         return code;
     }
+
+    /**
+     * Saves the label in the LabelToAddress map. Will use the address from the opArrayPointer.
+     * @param label label to save
+     */
+    void saveLabel(String label){
+
+        this.labelToAddress.put(
+                label.replaceAll(":","").trim(),
+                Util.intToAddressString(this.opArrayPointer)
+                );
+    }
+
 
 }
