@@ -166,6 +166,23 @@ public class Util {
     }
 
     /**
+     * Converts integers to an address as a hex String in the little endian format with a space between the low and high
+     * byte.
+     * @param intAddress integer to convert
+     * @return String of the address
+     */
+    static String intToAddressString(int intAddress){
+        String address = Integer.toHexString(intAddress);
+
+        int amountOfLeading0 = 4 - address.length();
+        for(int i = 0; i < amountOfLeading0; i++){
+            address = "0" + address;
+        }
+
+        return address.substring(2,4) +" "+address.substring(0,2);
+    }
+
+    /**
      * Converts a String of chars into a string of hex values
      * @param ascii string to convert
      * @return hex values of the string

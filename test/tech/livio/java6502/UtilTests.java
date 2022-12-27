@@ -140,4 +140,40 @@ class UtilTests{
 
     }
 
+
+    @Test
+    void intToAddressStringTest(){
+
+        int input = 1;
+        String output = "01 00";
+
+        Assertions.assertEquals(output,Util.intToAddressString(input));
+
+        input = 15;
+        output = "0f 00";
+
+        Assertions.assertEquals(output,Util.intToAddressString(input));
+
+        input = 16;
+        output = "10 00";
+
+        Assertions.assertEquals(output,Util.intToAddressString(input));
+
+        input = 255;
+        output = "ff 00";
+
+        Assertions.assertEquals(output,Util.intToAddressString(input));
+
+        input = 256;
+        output = "00 01";
+
+        Assertions.assertEquals(output,Util.intToAddressString(input));
+
+        input = 65535;
+        output = "ff ff";
+
+        Assertions.assertEquals(output,Util.intToAddressString(input));
+
+    }
+
 }
