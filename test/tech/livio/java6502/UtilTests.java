@@ -176,4 +176,24 @@ class UtilTests{
 
     }
 
+    @Test
+    void stringToOpCodesTest(){
+
+        String input = "bcc";
+        OpCodes output = OpCodes.BCC;
+
+        Assertions.assertEquals(output,Util.stringToOpCodes(input));
+
+        input = "bbb";
+        output = OpCodes.NONE;
+
+        Assertions.assertEquals(output,Util.stringToOpCodes(input));
+
+        input = "AdC";
+        output = OpCodes.ADC;
+
+        Assertions.assertEquals(output,Util.stringToOpCodes(input));
+
+    }
+
 }

@@ -201,4 +201,19 @@ public class Util {
 
         return hexString.trim();
     }
+
+    /**
+     * Converts a string into an OpCodes type. Returns OpCodes.NONE if the string isn't an opCode.
+     * @param opCode String of the opcode to find.
+     * @return OpCodes of the String.
+     */
+    static OpCodes stringToOpCodes(String opCode){
+        for(OpCodes code: OpCodes.values()){
+            if(opCode.toUpperCase().equals(code.toString())){
+                return code;
+            }
+        }
+        return OpCodes.NONE;
+    }
+
 }
