@@ -16,5 +16,6 @@ public enum AddressingModes {
     INDEXED_INDIRECT,
     INDIRECT_INDEXED,
     RELATIVE,
-    ACCUMULATOR
+    ACCUMULATOR,
+    NONE
 }
