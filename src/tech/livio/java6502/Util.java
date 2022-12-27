@@ -161,8 +161,8 @@ public class Util {
      * @return String of the number
      */
     static String codeNumberToHex(String number, int radix){
-        number = number.replaceAll("[$@%]","");
-        return Integer.toHexString(Integer.parseInt(number, radix));
+        number = number.replaceAll("[$@%']","").trim();
+        return "$"+Integer.toHexString(Integer.parseInt(number, radix));
     }
 
     /**

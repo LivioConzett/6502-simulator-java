@@ -177,6 +177,36 @@ class UtilTests{
     }
 
     @Test
+    void codeNumberToHexTest(){
+
+        String number = "$fa";
+        String output = "$fa";
+
+        Assertions.assertEquals(output, Util.codeNumberToHex(number,16));
+
+        number = "14";
+        output = "$e";
+
+        Assertions.assertEquals(output, Util.codeNumberToHex(number,10));
+
+        number = "@115";
+        output = "$4d";
+
+        Assertions.assertEquals(output, Util.codeNumberToHex(number,8));
+
+        number = "%100110";
+        output = "$26";
+
+        Assertions.assertEquals(output, Util.codeNumberToHex(number,2));
+
+        number = "'(";
+        output = "$28";
+
+        Assertions.assertEquals(output, Util.codeNumberToHex(number,128));
+
+    }
+
+    @Test
     void stringToOpCodesTest(){
 
         String input = "bcc";
