@@ -15,17 +15,32 @@ public class Compiler {
 
     private CompilerCallBack statusChangeCallback;
     private int opArrayPointer;
+    private int line;
     private CompilerStatus status;
     private List<Byte> opList;
     private Map<String, String> labelToAddress;
     private final String regComment = " *;.*";
     private final String regVariable = "^[\\w\\d]+ *= *.+";
-    private final String regHex = "\\$[a-fA-F\\d]+";
-    private final String regDec = "(?<![@%$])\\b\\d+\\b";
-    private final String regOct = "@\\d+";
-    private final String regBin = "%[01]+";
+    private final String regHex = "(?<!')\\$[a-fA-F\\d]+";
+    private final String regDec = "(?<![@%$'])\\b\\d+\\b";
+    private final String regOct = "(?<!')@\\d+";
+    private final String regBin = "(?<!')%[01]+";
+    private final String regChar = "'.'";
     private final String regAscii = "(\"((?!\").|\\n)*\")|('((?!').|\\n)*')";
     private final String regLabel = "^[\\w\\d]+: *";
+    private final String regOpCode = "  [\\w]{3}\\b";
+    private final String regAmImmediate = "^#\\$[a-f\\d]{2}$";
+    private final String regAmAbsolute = "^\\$[a-f\\d]{4}$";
+    private final String regAmZeroPage = "^\\$[a-f\\d]{2}$";
+    private final String regAmIndirectAbsolute = "^\\(\\$[a-f\\d]{4}\\)$";
+    private final String regAmAbsoluteIndexedX = "^\\$[a-f\\d]{4},? *[Xx]$";
+    private final String regAmAbsoluteIndexedY = "^\\$[a-f\\d]{4},? *[Yy]$";
+    private final String regAmZeroPageIndexedX = "^\\$[a-f\\d]{2},? *[Xx]$";
+    private final String regAmZeroPageIndexedY = "^\\$[a-f\\d]{2},? *[Yy]$";
+    private final String regAmIndexedIndirect = "^\\(\\$[a-f\\d]{2},? *[Xx]\\)$";
+    private final String regAmIndirectIndexed = "^\\(\\$[a-f\\d]{2}\\),? *[Yy]";
+    private final String regAmAccumulator = "^[Aa]$";
+    private final String regAmImplied = "^[\\W\\n]*$";
 
 
     public Compiler(){
@@ -41,6 +56,7 @@ public class Compiler {
         this.status = new CompilerStatus("Initialization of Compiler\n");
         this.opList = new ArrayList<>();
         this.opArrayPointer = 0;
+        this.line = 0;
         this.labelToAddress = new HashMap<>();
 
     }
@@ -69,6 +85,7 @@ public class Compiler {
     private void reset(){
         this.opList.clear();
         this.opArrayPointer = 0;
+        this.line = 0;
         this.labelToAddress.clear();
 
     }
@@ -112,21 +129,32 @@ public class Compiler {
 
         this.changeStatus(new CompilerStatus("Compiling Op codes..."));
 
-        for(int line = 0;  line < codeArray.length; line++){
+        for(this.line = 0;  this.line < codeArray.length; this.line++){
 
             // handle the labels
-            Matcher m = Pattern.compile(regLabel).matcher(codeArray[line]);
+            Matcher m = Pattern.compile(regLabel).matcher(codeArray[this.line]);
             if(m.find()){
-                this.saveLabel(m.group(0));
+                if(!this.saveLabel(m.group(0))) return new byte[0];
+                codeArray[this.line] = codeArray[this.line].replaceAll(this.regLabel,"");
             }
+
+            // handle the opcodes
+            if(Pattern.matches(this.regOpCode,codeArray[this.line])){
+                String newLine = this.handelOpCode(codeArray[this.line]);
+                if(newLine.equals("")) return new byte[0];
+
+                codeArray[this.line] = newLine;
+            }
+
+
+
 
 
 
 
         }
 
-
-        this.changeStatus(new CompilerStatus("done\nCompiler finished with no error."));
+        this.changeStatus(new CompilerStatus("done\nCompiler finished with no errors."));
 
         return this.listToArray();
     }
@@ -197,30 +225,35 @@ public class Compiler {
 
         for(int i = 0; i < code.length; i++){
 
-            // hex code
+            // Hex code
             Matcher m = Pattern.compile(regHex).matcher(code[i]);
             if(m.find()){
-                code[i] = code[i].replaceAll(regHex,Util.codeNumberToHex(m.group(0),16));
+                code[i] = code[i].replace(m.group(0),Util.codeNumberToHex(m.group(0),16));
             }
 
             // Dec code
             m = Pattern.compile(regDec).matcher(code[i]);
             if(m.find()){
-                code[i] = code[i].replaceAll(regDec,Util.codeNumberToHex(m.group(0),10));
+                code[i] = code[i].replace(m.group(0),Util.codeNumberToHex(m.group(0),10));
             }
 
             // Oct Code
             m = Pattern.compile(regOct).matcher(code[i]);
             if(m.find()){
-                code[i] = code[i].replaceAll(regOct,Util.codeNumberToHex(m.group(0),8));
+                code[i] = code[i].replace(m.group(0),Util.codeNumberToHex(m.group(0),8));
             }
 
             // Bin Code
             m = Pattern.compile(regBin).matcher(code[i]);
             if(m.find()){
-                code[i] = code[i].replaceAll(regBin,Util.codeNumberToHex(m.group(0),2));
+                code[i] = code[i].replace(m.group(0),Util.codeNumberToHex(m.group(0),2));
             }
 
+            // char Code
+            m = Pattern.compile(regChar).matcher(code[i]);
+            if(m.find()){
+                code[i] = code[i].replace(m.group(0),"$"+Util.asciiToHex(m.group(0)));
+            }
         }
 
         changeStatus(new CompilerStatus("done.\n"));
@@ -254,13 +287,97 @@ public class Compiler {
      * Saves the label in the LabelToAddress map. Will use the address from the opArrayPointer.
      * @param label label to save
      */
-    void saveLabel(String label){
+    boolean saveLabel(String label){
+        label = label.replace(":","").trim();
+
+        // check if the label already exists.
+        if(this.labelToAddress.get(label) == null){
+            this.changeStatus(new CompilerStatus(
+                    this.line,
+                    CompErrType.LABEL,
+                    "Label '"+label+"' already exists."
+            ));
+        }
 
         this.labelToAddress.put(
-                label.replaceAll(":","").trim(),
+                label,
                 Util.intToAddressString(this.opArrayPointer)
                 );
+
+        return true;
     }
 
+    /**
+     * Convert the code into the correct hex code.
+     * @param line line of code to convert
+     * @return String of the hex codes
+     */
+    String handelOpCode(String line){
+        String[] lineArray = line.trim().split(" ");
+        String opCode = lineArray[0];
+        String values = lineArray[1];
+
+        // check if the op code exists
+        if(!OpToHex.opCodeExists(opCode)){
+            this.changeStatus(new CompilerStatus(
+                    this.line,
+                    CompErrType.SYNTAX,
+                    "Op Code: '" + opCode + "' doesn't exist."
+            ));
+            return "";
+        }
+
+        AddressingModes mode = getAddressingMode(values);
+
+        if(mode.equals(AddressingModes.NONE)){
+            changeStatus(new CompilerStatus(
+                    this.line,
+                    CompErrType.SYNTAX,
+                    values + "not a valid addressing mode."
+            ));
+            return "";
+        }
+
+        Byte byteOpCode = OpToHex.getHex(Util.stringToOpCodes(opCode),mode);
+
+        if(byteOpCode == null){
+             changeStatus(new CompilerStatus(
+                     this.line,
+                     CompErrType.SYNTAX,
+                     "Op Code: '" + opCode + "' does not have this addressing mode."
+             ));
+             return "";
+        }
+
+        // remove all the unused stuff from the values
+        values = values.replaceAll("[$#(),YyXxAa ]","").trim();
+
+        return "" + Util.hexToString(byteOpCode) + " " + Util.formatFour(values);
+    }
+
+    /**
+     * Get the addressing mode from a value
+     * @param value value to check wha kind of addressing mode it is
+     * @return addressing mode for the value
+     */
+    AddressingModes getAddressingMode(String value){
+
+        value = value.trim().toLowerCase();
+
+        if(Pattern.matches(regAmImmediate,value)) return AddressingModes.IMMEDIATE;
+        if(Pattern.matches(regAmAbsolute,value)) return AddressingModes.ABSOLUTE;
+        if(Pattern.matches(regAmZeroPage,value)) return AddressingModes.ZERO_PAGE;
+        if(Pattern.matches(regAmIndirectAbsolute,value)) return AddressingModes.INDIRECT_ABSOLUTE;
+        if(Pattern.matches(regAmAbsoluteIndexedX,value)) return AddressingModes.ABSOLUTE_INDEXED_X;
+        if(Pattern.matches(regAmAbsoluteIndexedY,value)) return AddressingModes.ABSOLUTE_INDEXED_Y;
+        if(Pattern.matches(regAmZeroPageIndexedX,value)) return AddressingModes.ZERO_PAGE_INDEXED_X;
+        if(Pattern.matches(regAmZeroPageIndexedY,value)) return AddressingModes.ZERO_PAGE_INDEXED_Y;
+        if(Pattern.matches(regAmIndexedIndirect,value)) return AddressingModes.INDEXED_INDIRECT;
+        if(Pattern.matches(regAmIndirectIndexed,value)) return AddressingModes.INDIRECT_INDEXED;
+        if(Pattern.matches(regAmAccumulator,value)) return AddressingModes.ACCUMULATOR;
+        if(Pattern.matches(regAmImplied,value)) return AddressingModes.IMPLIED;
+
+        return AddressingModes.NONE;
+    }
 
 }

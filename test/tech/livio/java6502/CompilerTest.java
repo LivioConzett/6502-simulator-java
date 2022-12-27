@@ -72,15 +72,17 @@ class CompilerTest {
                 "nothing = $A9",
                 "and @251",
                 "ldc %10101001",
+                "char = 'P'",
                 ".word 'this is a test'"
         };
 
         String[] output = {
-                "test = a9",
-                "nothing = a9",
-                "nothing = a9",
-                "and a9",
-                "ldc a9",
+                "test = $a9",
+                "nothing = $a9",
+                "nothing = $a9",
+                "and $a9",
+                "ldc $a9",
+                "char = $50",
                 ".word 'this is a test'"
         };
 
@@ -113,6 +115,52 @@ class CompilerTest {
         };
 
         Assertions.assertArrayEquals(output, compiler.convertString(input));
+    }
+
+    @Test
+    void handelOpCodeTest(){
+        Compiler compiler = new Compiler();
+
+        String input = "  adc #$69";
+        String output = "69 69";
+
+        Assertions.assertEquals(output, compiler.handelOpCode(input));
+
+        input = "  adc $69";
+        output = "65 69";
+
+        Assertions.assertEquals(output, compiler.handelOpCode(input));
+
+        input = "  adc $69,X";
+        output = "75 69";
+
+        Assertions.assertEquals(output, compiler.handelOpCode(input));
+
+        input = "  adc $6969";
+        output = "6d 69 69";
+
+        Assertions.assertEquals(output, compiler.handelOpCode(input));
+
+        input = "  adc $6969,X";
+        output = "7d 69 69";
+
+        Assertions.assertEquals(output, compiler.handelOpCode(input));
+
+        input = "  adc $6969,Y";
+        output = "79 69 69";
+
+        Assertions.assertEquals(output, compiler.handelOpCode(input));
+
+        input = "  adc ($69,X)";
+        output = "61 69";
+
+        Assertions.assertEquals(output, compiler.handelOpCode(input));
+
+        input = "  adc ($69),Y";
+        output = "71 69";
+
+        Assertions.assertEquals(output, compiler.handelOpCode(input));
+
     }
 
 }
