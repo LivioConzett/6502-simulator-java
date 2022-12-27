@@ -352,7 +352,6 @@ class OpToHex {
 
     private OpToHex(){}
 
-
     /**
      * Get the byte value for the corresponding opcode and Addressing mode
      * @param opCode opcode
@@ -361,6 +360,15 @@ class OpToHex {
      */
     static Byte getHex(OpCodes opCode, AddressingModes addressingMode){
         return reference.get(opCode).get(addressingMode);
+    }
+
+    /**
+     * Checks if the opcode even exists.
+     * @param opCode String of the opCode
+     * @return true if the opCode exists.
+     */
+    static boolean opCodeExists(String opCode){
+        return reference.get(Util.stringToOpCodes(opCode)) != null;
     }
 }
 
