@@ -201,4 +201,36 @@ class CompilerTest {
         Assertions.assertEquals(CompErrType.SIZE, compiler.getCompilerStatus().errorType());
     }
 
+    @Test
+    void byteWordTest(){
+
+        Compiler compiler = new Compiler();
+
+        String input = ".byte ";
+        compiler.handelDotWords(input);
+
+        Assertions.assertEquals(CompErrType.SYNTAX, compiler.getCompilerStatus().errorType());
+
+        input = ".byte 1234";
+        compiler.handelDotWords(input);
+
+        Assertions.assertEquals(CompErrType.SYNTAX, compiler.getCompilerStatus().errorType());
+
+        input = ".byte sldfkjwoi skj f";
+        compiler.handelDotWords(input);
+
+        Assertions.assertEquals(CompErrType.SYNTAX, compiler.getCompilerStatus().errorType());
+
+        input = ".byte $100";
+        compiler.handelDotWords(input);
+
+        Assertions.assertEquals(CompErrType.LOGIC, compiler.getCompilerStatus().errorType());
+
+        input = ".byte $10";
+        compiler.handelDotWords(input);
+
+        Assertions.assertEquals(0x01, compiler.getOpArrayPointer());
+
+    }
+
 }

@@ -172,8 +172,7 @@ public class Compiler {
                 codeArray[this.line] = newLine;
 
                 for(String hexString: newLine.split(" ")) {
-                    this.opList[this.opArrayPointer] = Util.hexStringToByte(hexString);
-                    this.opArrayPointer ++;
+                    if(!this.addToOpArray(hexString)) return new byte[0];
                 }
             }
 
@@ -198,6 +197,26 @@ public class Compiler {
         this.changeStatus(new CompilerStatus("done\nCompiler finished with no errors.\n"));
 
         return this.listToArray();
+    }
+
+    /**
+     * Add a value to the opArray
+     * @param value String of the value to add
+     */
+    private boolean addToOpArray(String value){
+
+        if(Util.hexStringToInt(value) > 0xff){
+            this.changeStatus(new CompilerStatus(
+                    this.line,
+                    CompErrType.LOGIC,
+                    "'" + value + "' is larger than one byte."
+            ));
+            return false;
+        }
+
+        this.opList[this.opArrayPointer] = Util.hexStringToByte(value);
+        this.opArrayPointer ++;
+        return true;
     }
 
     /**
@@ -434,8 +453,20 @@ public class Compiler {
         String value = line.replace(dotWord,"").trim();
 
         // handle the .org word
-        if(dotWord.equals(".org")){
-            if(!this.orgWord(value)) return false;
+        switch (dotWord){
+            case ".org" -> {
+                if(!this.orgWord(value)) return false;
+            }
+            case ".byte" -> {
+                if(!this.byteWord(value)) return false;
+            }
+            default -> {
+                this.changeStatus(new CompilerStatus(
+                        this.line,
+                        CompErrType.SYNTAX,
+                        "'" + dotWord + "' is not a valid command word.\n"
+                ));
+            }
         }
 
         return true;
@@ -479,6 +510,37 @@ public class Compiler {
 
         this.opArrayPointer = origin;
         return true;
+    }
+
+    /**
+     * Handle the .BYTE code word
+     * @param value value following the .BYTE command
+     * @return false if error occurred
+     */
+    boolean byteWord(String value){
+
+        Matcher hex = Pattern.compile(regHex).matcher(value);
+        if(!hex.find()) {
+            this.changeStatus(new CompilerStatus(
+                    this.line,
+                    CompErrType.SYNTAX,
+                    "'" + value + "' not a correct value for the .byte command.\n"
+            ));
+            return false;
+        }
+
+        int data = Util.hexStringToInt(value);
+
+        if(data > 0xff){
+            this.changeStatus(new CompilerStatus(
+                    this.line,
+                    CompErrType.LOGIC,
+                    "'" + value + "' too large for one byte.\n"
+            ));
+            return false;
+        }
+
+        return this.addToOpArray(value);
     }
 
 }
