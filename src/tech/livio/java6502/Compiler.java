@@ -166,28 +166,13 @@ public class Compiler {
 
             // handle the opcodes
             if(Pattern.matches(this.regOpCode,codeArray[this.line])){
-                String newLine = this.handelOpCode(codeArray[this.line]);
-                if(newLine.equals("")) return new byte[0];
-
-                codeArray[this.line] = newLine;
-
-                for(String hexString: newLine.split(" ")) {
-                    if(!this.addToOpArray(hexString)) return new byte[0];
-                }
+                if(!this.handelOpCode(codeArray[this.line])) return new byte[0];
             }
 
             // handel the dot words
             if(Pattern.matches(this.regDotWord,codeArray[this.line])){
                 if(!this.handelDotWords(codeArray[this.line])) return new byte[0];
             }
-
-
-
-
-
-
-
-
 
 
 
@@ -370,9 +355,9 @@ public class Compiler {
     /**
      * Convert the code into the correct hex code.
      * @param line line of code to convert
-     * @return String of the hex codes
+     * @return false if error occurred
      */
-    String handelOpCode(String line){
+    boolean handelOpCode(String line){
         String[] lineArray = line.trim().split(" ");
         String opCode = lineArray[0];
         String values = lineArray[1];
@@ -384,7 +369,7 @@ public class Compiler {
                     CompErrType.SYNTAX,
                     "Op Code: '" + opCode + "' doesn't exist.\n"
             ));
-            return "";
+            return false;
         }
 
         AddressingModes mode = getAddressingMode(values);
@@ -395,7 +380,7 @@ public class Compiler {
                     CompErrType.SYNTAX,
                     values + "not a valid addressing mode.\n"
             ));
-            return "";
+            return false;
         }
 
         Byte byteOpCode = OpToHex.getHex(Util.stringToOpCodes(opCode),mode);
@@ -406,13 +391,19 @@ public class Compiler {
                      CompErrType.SYNTAX,
                      "Op Code: '" + opCode + "' does not have this addressing mode.\n"
              ));
-             return "";
+             return false;
         }
 
         // remove all the unused stuff from the values
         values = values.replaceAll("[$#(),YyXxAa ]","").trim();
 
-        return "" + Util.hexToString(byteOpCode) + " " + Util.formatFour(values);
+        String code = "" + Util.hexToString(byteOpCode) + " " + Util.formatFour(values);
+
+        for(String hexString: code.split(" ")) {
+            if(!this.addToOpArray(hexString)) return false;
+        }
+
+        return true;
     }
 
     /**
@@ -471,7 +462,6 @@ public class Compiler {
 
         return true;
     }
-
 
     /**
      * Handel the .ORG code word
