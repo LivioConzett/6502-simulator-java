@@ -112,7 +112,7 @@ public class Util {
      * @return byte of the hex-code
      */
     static byte hexStringToByte(String hexString){
-        return (byte) Integer.parseInt(hexString, 16);
+        return (byte) Integer.parseInt(hexString.replace("$","").replace(" ",""), 16);
     }
 
     /**
