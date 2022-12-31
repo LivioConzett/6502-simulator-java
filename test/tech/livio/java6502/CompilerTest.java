@@ -163,4 +163,42 @@ class CompilerTest {
 
     }
 
+    @Test
+    void orgWordTest(){
+
+        Compiler compiler = new Compiler();
+
+        String input = ".org $0f";
+        compiler.handelDotWords(input);
+
+        Assertions.assertEquals(15, compiler.getOpArrayPointer());
+
+        input = ".org ";
+        compiler.handelDotWords(input);
+
+        Assertions.assertEquals(CompErrType.SYNTAX, compiler.getCompilerStatus().errorType());
+
+        input = ".org 1234";
+        compiler.handelDotWords(input);
+
+        Assertions.assertEquals(CompErrType.SYNTAX, compiler.getCompilerStatus().errorType());
+
+        input = ".org sldfkjwoi skj f";
+        compiler.handelDotWords(input);
+
+        Assertions.assertEquals(CompErrType.SYNTAX, compiler.getCompilerStatus().errorType());
+
+        input = ".org $0e";
+        compiler.handelDotWords(input);
+
+        Assertions.assertEquals(CompErrType.SIZE, compiler.getCompilerStatus().errorType());
+
+        compiler.reset();
+
+        input = ".org $10000";
+        compiler.handelDotWords(input);
+
+        Assertions.assertEquals(CompErrType.SIZE, compiler.getCompilerStatus().errorType());
+    }
+
 }

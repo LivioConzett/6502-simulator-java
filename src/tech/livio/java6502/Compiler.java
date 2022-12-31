@@ -17,7 +17,8 @@ public class Compiler {
     private int opArrayPointer;
     private int line;
     private CompilerStatus status;
-    private List<Byte> opList;
+    private byte[] opList;
+    private final int memSize = 0xffff;
     private Map<String, String> labelToAddress;
     private final String regComment = " *;.*";
     private final String regVariable = "^[\\w\\d]+ *= *.+";
@@ -41,6 +42,7 @@ public class Compiler {
     private final String regAmIndirectIndexed = "^\\(\\$[a-f\\d]{2}\\),? *[Yy]";
     private final String regAmAccumulator = "^[Aa]$";
     private final String regAmImplied = "^[\\W\\n]*$";
+    private final String regDotWord = "\\.\\w+";
 
 
     public Compiler(){
@@ -54,7 +56,7 @@ public class Compiler {
         };
 
         this.status = new CompilerStatus("Initialization of Compiler\n");
-        this.opList = new ArrayList<>();
+        this.opList = new byte[this.memSize];
         this.opArrayPointer = 0;
         this.line = 0;
         this.labelToAddress = new HashMap<>();
@@ -82,12 +84,27 @@ public class Compiler {
     /**
      * Resets the compiler
      */
-    private void reset(){
-        this.opList.clear();
+    void reset(){
+        this.opList = new byte[this.memSize];
         this.opArrayPointer = 0;
         this.line = 0;
         this.labelToAddress.clear();
+    }
 
+    /**
+     * Get the opArraypointer
+     * @return opArray Pointer
+     */
+    int getOpArrayPointer(){
+        return this.opArrayPointer;
+    }
+
+    /**
+     * Gets the compiler status.
+     * @return status of the compiler
+     */
+    CompilerStatus getCompilerStatus(){
+        return this.status;
     }
 
     /**
@@ -95,11 +112,10 @@ public class Compiler {
      * @return Array of bytes
      */
     private byte[] listToArray(){
-        int length = this.opList.size();
-        byte[] opArray = new byte[length];
+        byte[] opArray = new byte[this.memSize];
 
-        for(int i = 0; i < length; i++){
-            opArray[i] = this.opList.get(i);
+        for(int i = 0; i < this.memSize; i++){
+            opArray[i] = this.opList[i];
         }
         return opArray;
     }
@@ -111,7 +127,7 @@ public class Compiler {
     byte[] compile(String code){
         this.reset();
 
-        changeStatus(new CompilerStatus("-- Compiler starting --"));
+        changeStatus(new CompilerStatus("-- Compiler starting --\n"));
 
         String[] codeArray = code.split("\s");
 
@@ -131,6 +147,16 @@ public class Compiler {
 
         for(this.line = 0;  this.line < codeArray.length; this.line++){
 
+            // check if the pointer is still within the memory size
+            if(this.opArrayPointer < this.memSize){
+                this.changeStatus(new CompilerStatus(
+                        this.line,
+                        CompErrType.SIZE,
+                        "Trying to write outside the " + this.memSize + " bytes of available size.\n"
+                ));
+                return new byte[0];
+            }
+
             // handle the labels
             Matcher m = Pattern.compile(regLabel).matcher(codeArray[this.line]);
             if(m.find()){
@@ -144,7 +170,22 @@ public class Compiler {
                 if(newLine.equals("")) return new byte[0];
 
                 codeArray[this.line] = newLine;
+
+                for(String hexString: newLine.split(" ")) {
+                    this.opList[this.opArrayPointer] = Util.hexStringToByte(hexString);
+                    this.opArrayPointer ++;
+                }
             }
+
+            // handel the dot words
+            if(Pattern.matches(this.regDotWord,codeArray[this.line])){
+                if(!this.handelDotWords(codeArray[this.line])) return new byte[0];
+            }
+
+
+
+
+
 
 
 
@@ -154,7 +195,7 @@ public class Compiler {
 
         }
 
-        this.changeStatus(new CompilerStatus("done\nCompiler finished with no errors."));
+        this.changeStatus(new CompilerStatus("done\nCompiler finished with no errors.\n"));
 
         return this.listToArray();
     }
@@ -322,7 +363,7 @@ public class Compiler {
             this.changeStatus(new CompilerStatus(
                     this.line,
                     CompErrType.SYNTAX,
-                    "Op Code: '" + opCode + "' doesn't exist."
+                    "Op Code: '" + opCode + "' doesn't exist.\n"
             ));
             return "";
         }
@@ -333,7 +374,7 @@ public class Compiler {
             changeStatus(new CompilerStatus(
                     this.line,
                     CompErrType.SYNTAX,
-                    values + "not a valid addressing mode."
+                    values + "not a valid addressing mode.\n"
             ));
             return "";
         }
@@ -344,7 +385,7 @@ public class Compiler {
              changeStatus(new CompilerStatus(
                      this.line,
                      CompErrType.SYNTAX,
-                     "Op Code: '" + opCode + "' does not have this addressing mode."
+                     "Op Code: '" + opCode + "' does not have this addressing mode.\n"
              ));
              return "";
         }
@@ -378,6 +419,66 @@ public class Compiler {
         if(Pattern.matches(regAmImplied,value)) return AddressingModes.IMPLIED;
 
         return AddressingModes.NONE;
+    }
+
+    /**
+     * Handle the dot words
+     * @param line line where the dot word occurred
+     * @return true if no error has occurred
+     */
+    boolean handelDotWords(String line){
+        Matcher m = Pattern.compile(regDotWord).matcher(line);
+        m.find();
+        String dotWord = m.group(0).toLowerCase();
+
+        String value = line.replace(dotWord,"").trim();
+
+        // handle the .org word
+        if(dotWord.equals(".org")){
+            if(!this.orgWord(value)) return false;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * Handel the .ORG code word
+     * @param value value following the .ORG command
+     * @return false if error occurred
+     */
+    boolean orgWord(String value) {
+        Matcher hex = Pattern.compile(regHex).matcher(value);
+        if(!hex.find()) {
+            this.changeStatus(new CompilerStatus(
+                    this.line,
+                    CompErrType.SYNTAX,
+                    "'" + value + "' not a correct value for the .org command.\n"
+            ));
+            return false;
+        }
+
+        int origin = Util.hexStringToInt(value);
+
+        if(origin < this.opArrayPointer) {
+            this.changeStatus(new CompilerStatus(
+                    this.line,
+                    CompErrType.SIZE,
+                    "'.org " + value + "' is smaller than memory already written: " + this.opArrayPointer + "\n"
+            ));
+            return false;
+        }
+
+        if(origin >= this.memSize) {
+            this.changeStatus(new CompilerStatus(
+                    this.line,
+                    CompErrType.SIZE,
+                    "'.org " + value + "' is greater than total memory: " + this.memSize + "\n"
+            ));
+        }
+
+        this.opArrayPointer = origin;
+        return true;
     }
 
 }
