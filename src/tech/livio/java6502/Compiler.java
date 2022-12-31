@@ -488,11 +488,11 @@ public class Compiler {
             return false;
         }
 
-        if(origin >= this.MEM_SIZE) {
+        if(origin >= MEM_SIZE) {
             this.changeStatus(new CompilerStatus(
                     this.line,
                     CompErrType.SIZE,
-                    "'.org " + value + "' is greater than total memory: " + this.MEM_SIZE + "\n"
+                    "'.org " + value + "' is greater than total memory: " + MEM_SIZE + "\n"
             ));
         }
 
