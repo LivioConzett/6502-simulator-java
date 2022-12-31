@@ -246,4 +246,31 @@ class UtilTests{
 
     }
 
+    @Test
+    void hexStringToIntTest(){
+
+        String input = "f";
+        int output = 15;
+
+        Assertions.assertEquals(output, Util.hexStringToInt(input));
+
+        input = "aabb";
+        output = 43707;
+
+        Assertions.assertEquals(output, Util.hexStringToInt(input));
+
+        input = "aa bb";
+
+        Assertions.assertEquals(output, Util.hexStringToInt(input));
+
+        input = " $aa bb";
+
+        Assertions.assertEquals(output, Util.hexStringToInt(input));
+
+        input = " $aa $bb";
+
+        Assertions.assertEquals(output, Util.hexStringToInt(input));
+
+    }
+
 }

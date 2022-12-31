@@ -235,4 +235,13 @@ public class Util {
         return code;
     }
 
+    /**
+     * Convert a hex String to an int
+     * @param hexString string to turn to hex
+     * @return int of the hex string
+     */
+    static int hexStringToInt(String hexString){
+        return Integer.parseInt(hexString.replace("$","").replace(" ",""),16);
+    }
+
 }
