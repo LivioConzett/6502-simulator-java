@@ -1,9 +1,7 @@
 package tech.livio.java6502;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,31 +16,31 @@ public class Compiler {
     private int line;
     private CompilerStatus status;
     private byte[] opList;
-    private final int memSize = 0xffff;
-    private Map<String, String> labelToAddress;
-    private final String regComment = " *;.*";
-    private final String regVariable = "^[\\w\\d]+ *= *.+";
-    private final String regHex = "(?<!')\\$[a-fA-F\\d]+";
-    private final String regDec = "(?<![@%$'])\\b\\d+\\b";
-    private final String regOct = "(?<!')@\\d+";
-    private final String regBin = "(?<!')%[01]+";
-    private final String regChar = "'.'";
-    private final String regAscii = "(\"((?!\").|\\n)*\")|('((?!').|\\n)*')";
-    private final String regLabel = "^[\\w\\d]+: *";
-    private final String regOpCode = "  [\\w]{3}\\b";
-    private final String regAmImmediate = "^#\\$[a-f\\d]{2}$";
-    private final String regAmAbsolute = "^\\$[a-f\\d]{4}$";
-    private final String regAmZeroPage = "^\\$[a-f\\d]{2}$";
-    private final String regAmIndirectAbsolute = "^\\(\\$[a-f\\d]{4}\\)$";
-    private final String regAmAbsoluteIndexedX = "^\\$[a-f\\d]{4},? *[Xx]$";
-    private final String regAmAbsoluteIndexedY = "^\\$[a-f\\d]{4},? *[Yy]$";
-    private final String regAmZeroPageIndexedX = "^\\$[a-f\\d]{2},? *[Xx]$";
-    private final String regAmZeroPageIndexedY = "^\\$[a-f\\d]{2},? *[Yy]$";
-    private final String regAmIndexedIndirect = "^\\(\\$[a-f\\d]{2},? *[Xx]\\)$";
-    private final String regAmIndirectIndexed = "^\\(\\$[a-f\\d]{2}\\),? *[Yy]";
-    private final String regAmAccumulator = "^[Aa]$";
-    private final String regAmImplied = "^[\\W\\n]*$";
-    private final String regDotWord = "\\.\\w+";
+    private static final int MEM_SIZE = 0xffff;
+    private final Map<String, String> labelToAddress;
+    private static final String REG_COMMENT = " *;.*";
+    private static final String REG_VARIABLE = "^[\\w\\d]+ *= *.+";
+    private static final String REG_HEX = "(?<!')\\$[a-fA-F\\d]+";
+    private static final String REG_DEC = "(?<![@%$'])\\b\\d+\\b";
+    private static final String REG_OCT = "(?<!')@\\d+";
+    private static final String REG_BIN = "(?<!')%[01]+";
+    private static final String REG_CHAR = "'.'";
+    private static final String REG_ASCII = "(\"((?!\").|\\n)*\")|('((?!').|\\n)*')";
+    private static final String REG_LABEL = "^[\\w\\d]+: *";
+    private static final String REG_OP_CODE = "  [\\w]{3}\\b";
+    private static final String REG_AM_IMMEDIATE = "^#\\$[a-f\\d]{2}$";
+    private static final String REG_AM_ABSOLUTE = "^\\$[a-f\\d]{4}$";
+    private static final String REG_AM_ZERO_PAGE = "^\\$[a-f\\d]{2}$";
+    private static final String REG_AM_INDIRECT_ABSOLUTE = "^\\(\\$[a-f\\d]{4}\\)$";
+    private static final String REG_AM_ABSOLUTE_INDEXED_X = "^\\$[a-f\\d]{4},? *[Xx]$";
+    private static final String REG_AM_ABSOLUTE_INDEXED_Y = "^\\$[a-f\\d]{4},? *[Yy]$";
+    private static final String REG_AM_ZERO_PAGE_INDEXED_X = "^\\$[a-f\\d]{2},? *[Xx]$";
+    private static final String REG_AM_ZERO_PAGE_INDEXED_Y = "^\\$[a-f\\d]{2},? *[Yy]$";
+    private static final String REG_AM_INDEXED_INDIRECT = "^\\(\\$[a-f\\d]{2},? *[Xx]\\)$";
+    private static final String REG_AM_INDIRECT_INDEXED = "^\\(\\$[a-f\\d]{2}\\),? *[Yy]";
+    private static final String REG_AM_ACCUMULATOR = "^[Aa]$";
+    private static final String REG_AM_IMPLIED = "^[\\W\\n]*$";
+    private static final String REG_DOT_WORD = "\\.\\w+";
 
 
     public Compiler(){
@@ -56,7 +54,7 @@ public class Compiler {
         };
 
         this.status = new CompilerStatus("Initialization of Compiler\n");
-        this.opList = new byte[this.memSize];
+        this.opList = new byte[MEM_SIZE];
         this.opArrayPointer = 0;
         this.line = 0;
         this.labelToAddress = new HashMap<>();
@@ -85,7 +83,7 @@ public class Compiler {
      * Resets the compiler
      */
     void reset(){
-        this.opList = new byte[this.memSize];
+        this.opList = new byte[MEM_SIZE];
         this.opArrayPointer = 0;
         this.line = 0;
         this.labelToAddress.clear();
@@ -112,9 +110,9 @@ public class Compiler {
      * @return Array of bytes
      */
     private byte[] listToArray(){
-        byte[] opArray = new byte[this.memSize];
+        byte[] opArray = new byte[MEM_SIZE];
 
-        for(int i = 0; i < this.memSize; i++){
+        for(int i = 0; i < MEM_SIZE; i++){
             opArray[i] = this.opList[i];
         }
         return opArray;
@@ -148,29 +146,29 @@ public class Compiler {
         for(this.line = 0;  this.line < codeArray.length; this.line++){
 
             // check if the pointer is still within the memory size
-            if(this.opArrayPointer < this.memSize){
+            if(this.opArrayPointer < MEM_SIZE){
                 this.changeStatus(new CompilerStatus(
                         this.line,
                         CompErrType.SIZE,
-                        "Trying to write outside the " + this.memSize + " bytes of available size.\n"
+                        "Trying to write outside the " + MEM_SIZE + " bytes of available size.\n"
                 ));
                 return new byte[0];
             }
 
             // handle the labels
-            Matcher m = Pattern.compile(regLabel).matcher(codeArray[this.line]);
+            Matcher m = Pattern.compile(REG_LABEL).matcher(codeArray[this.line]);
             if(m.find()){
                 if(!this.saveLabel(m.group(0))) return new byte[0];
-                codeArray[this.line] = codeArray[this.line].replaceAll(this.regLabel,"");
+                codeArray[this.line] = codeArray[this.line].replaceAll(REG_LABEL,"");
             }
 
             // handle the opcodes
-            if(Pattern.matches(this.regOpCode,codeArray[this.line])){
+            if(Pattern.matches(REG_OP_CODE,codeArray[this.line])){
                 if(!this.handelOpCode(codeArray[this.line])) return new byte[0];
             }
 
             // handel the dot words
-            if(Pattern.matches(this.regDotWord,codeArray[this.line])){
+            if(Pattern.matches(REG_DOT_WORD,codeArray[this.line])){
                 if(!this.handelDotWords(codeArray[this.line])) return new byte[0];
             }
 
@@ -214,7 +212,7 @@ public class Compiler {
         changeStatus(new CompilerStatus("Removing comments..."));
 
         for(int lineNumber = 0; lineNumber < code.length; lineNumber++){
-            code[lineNumber] = code[lineNumber].replaceAll(regComment,"");
+            code[lineNumber] = code[lineNumber].replaceAll(REG_COMMENT,"");
         }
 
         changeStatus(new CompilerStatus("done.\n"));
@@ -236,7 +234,7 @@ public class Compiler {
         // create the map of variables and their value
         for(String line: code){
             // does the line have a variable declared
-            if(Pattern.matches(regVariable,line)){
+            if(Pattern.matches(REG_VARIABLE,line)){
                 String[] split = line.split("=");
                 variables.put(split[0].trim(),split[1].trim());
             }
@@ -246,7 +244,7 @@ public class Compiler {
         // and put the value of the var into the instances of them
         for(int i = 0; i < code.length; i++) {
             // remove the
-            code[i] = code[i].replaceAll(regVariable,"");
+            code[i] = code[i].replaceAll(REG_VARIABLE,"");
 
             // go through the variable map and see if one matches
             for(Map.Entry<String,String> entry: variables.entrySet()){
@@ -271,31 +269,31 @@ public class Compiler {
         for(int i = 0; i < code.length; i++){
 
             // Hex code
-            Matcher m = Pattern.compile(regHex).matcher(code[i]);
+            Matcher m = Pattern.compile(REG_HEX).matcher(code[i]);
             if(m.find()){
                 code[i] = code[i].replace(m.group(0),Util.codeNumberToHex(m.group(0),16));
             }
 
             // Dec code
-            m = Pattern.compile(regDec).matcher(code[i]);
+            m = Pattern.compile(REG_DEC).matcher(code[i]);
             if(m.find()){
                 code[i] = code[i].replace(m.group(0),Util.codeNumberToHex(m.group(0),10));
             }
 
             // Oct Code
-            m = Pattern.compile(regOct).matcher(code[i]);
+            m = Pattern.compile(REG_OCT).matcher(code[i]);
             if(m.find()){
                 code[i] = code[i].replace(m.group(0),Util.codeNumberToHex(m.group(0),8));
             }
 
             // Bin Code
-            m = Pattern.compile(regBin).matcher(code[i]);
+            m = Pattern.compile(REG_BIN).matcher(code[i]);
             if(m.find()){
                 code[i] = code[i].replace(m.group(0),Util.codeNumberToHex(m.group(0),2));
             }
 
             // char Code
-            m = Pattern.compile(regChar).matcher(code[i]);
+            m = Pattern.compile(REG_CHAR).matcher(code[i]);
             if(m.find()){
                 code[i] = code[i].replace(m.group(0),"$"+Util.asciiToHex(m.group(0)));
             }
@@ -312,7 +310,7 @@ public class Compiler {
     String[] convertString(String[] code){
         changeStatus(new CompilerStatus("Converting Strings..."));
 
-        Pattern p = Pattern.compile(regAscii);
+        Pattern p = Pattern.compile(REG_ASCII);
 
 
         for(int i = 0; i < code.length; i++){
@@ -320,7 +318,7 @@ public class Compiler {
             Matcher m = p.matcher(code[i]);
 
             if(m.find()){
-                code[i] = code[i].replaceAll(regAscii,Util.asciiToHex(m.group(0)));
+                code[i] = code[i].replaceAll(REG_ASCII,Util.asciiToHex(m.group(0)));
             }
         }
 
@@ -415,18 +413,18 @@ public class Compiler {
 
         value = value.trim().toLowerCase();
 
-        if(Pattern.matches(regAmImmediate,value)) return AddressingModes.IMMEDIATE;
-        if(Pattern.matches(regAmAbsolute,value)) return AddressingModes.ABSOLUTE;
-        if(Pattern.matches(regAmZeroPage,value)) return AddressingModes.ZERO_PAGE;
-        if(Pattern.matches(regAmIndirectAbsolute,value)) return AddressingModes.INDIRECT_ABSOLUTE;
-        if(Pattern.matches(regAmAbsoluteIndexedX,value)) return AddressingModes.ABSOLUTE_INDEXED_X;
-        if(Pattern.matches(regAmAbsoluteIndexedY,value)) return AddressingModes.ABSOLUTE_INDEXED_Y;
-        if(Pattern.matches(regAmZeroPageIndexedX,value)) return AddressingModes.ZERO_PAGE_INDEXED_X;
-        if(Pattern.matches(regAmZeroPageIndexedY,value)) return AddressingModes.ZERO_PAGE_INDEXED_Y;
-        if(Pattern.matches(regAmIndexedIndirect,value)) return AddressingModes.INDEXED_INDIRECT;
-        if(Pattern.matches(regAmIndirectIndexed,value)) return AddressingModes.INDIRECT_INDEXED;
-        if(Pattern.matches(regAmAccumulator,value)) return AddressingModes.ACCUMULATOR;
-        if(Pattern.matches(regAmImplied,value)) return AddressingModes.IMPLIED;
+        if(Pattern.matches(REG_AM_IMMEDIATE,value)) return AddressingModes.IMMEDIATE;
+        if(Pattern.matches(REG_AM_ABSOLUTE,value)) return AddressingModes.ABSOLUTE;
+        if(Pattern.matches(REG_AM_ZERO_PAGE,value)) return AddressingModes.ZERO_PAGE;
+        if(Pattern.matches(REG_AM_INDIRECT_ABSOLUTE,value)) return AddressingModes.INDIRECT_ABSOLUTE;
+        if(Pattern.matches(REG_AM_ABSOLUTE_INDEXED_X,value)) return AddressingModes.ABSOLUTE_INDEXED_X;
+        if(Pattern.matches(REG_AM_ABSOLUTE_INDEXED_Y,value)) return AddressingModes.ABSOLUTE_INDEXED_Y;
+        if(Pattern.matches(REG_AM_ZERO_PAGE_INDEXED_X,value)) return AddressingModes.ZERO_PAGE_INDEXED_X;
+        if(Pattern.matches(REG_AM_ZERO_PAGE_INDEXED_Y,value)) return AddressingModes.ZERO_PAGE_INDEXED_Y;
+        if(Pattern.matches(REG_AM_INDEXED_INDIRECT,value)) return AddressingModes.INDEXED_INDIRECT;
+        if(Pattern.matches(REG_AM_INDIRECT_INDEXED,value)) return AddressingModes.INDIRECT_INDEXED;
+        if(Pattern.matches(REG_AM_ACCUMULATOR,value)) return AddressingModes.ACCUMULATOR;
+        if(Pattern.matches(REG_AM_IMPLIED,value)) return AddressingModes.IMPLIED;
 
         return AddressingModes.NONE;
     }
@@ -437,7 +435,7 @@ public class Compiler {
      * @return true if no error has occurred
      */
     boolean handelDotWords(String line){
-        Matcher m = Pattern.compile(regDotWord).matcher(line);
+        Matcher m = Pattern.compile(REG_DOT_WORD).matcher(line);
         m.find();
         String dotWord = m.group(0).toLowerCase();
 
@@ -469,7 +467,7 @@ public class Compiler {
      * @return false if error occurred
      */
     boolean orgWord(String value) {
-        Matcher hex = Pattern.compile(regHex).matcher(value);
+        Matcher hex = Pattern.compile(REG_HEX).matcher(value);
         if(!hex.find()) {
             this.changeStatus(new CompilerStatus(
                     this.line,
@@ -490,11 +488,11 @@ public class Compiler {
             return false;
         }
 
-        if(origin >= this.memSize) {
+        if(origin >= this.MEM_SIZE) {
             this.changeStatus(new CompilerStatus(
                     this.line,
                     CompErrType.SIZE,
-                    "'.org " + value + "' is greater than total memory: " + this.memSize + "\n"
+                    "'.org " + value + "' is greater than total memory: " + this.MEM_SIZE + "\n"
             ));
         }
 
@@ -509,7 +507,7 @@ public class Compiler {
      */
     boolean byteWord(String value){
 
-        Matcher hex = Pattern.compile(regHex).matcher(value);
+        Matcher hex = Pattern.compile(REG_HEX).matcher(value);
         if(!hex.find()) {
             this.changeStatus(new CompilerStatus(
                     this.line,
