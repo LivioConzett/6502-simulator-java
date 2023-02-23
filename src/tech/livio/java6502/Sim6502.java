@@ -161,10 +161,24 @@ public class Sim6502 {
     }
 
     /**
-     * Sets the run control flag to true;
+     * Sets the run control flag to true.
      */
     public void start(){
         this.control.setRun(true);
+    }
+
+    /**
+     * Call a interrupt.
+     */
+    public void interrupt(){
+        this.programRunner.irq();
+    }
+
+    /**
+     * Call a Non-Maskable interrupt.
+     */
+    public void nonMaskableInterrupt(){
+        this.programRunner.nmi();
     }
 
     /**

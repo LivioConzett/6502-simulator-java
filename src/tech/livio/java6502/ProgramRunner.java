@@ -267,6 +267,19 @@ public class ProgramRunner extends Thread {
         this.control.setRun(false);
     }
 
+    /**
+     * Call an interrupt
+     */
+    void irq(){
+        this.control.setInterrupt();
+    }
+
+    /**
+     * Call a non-maskable interrupt
+     */
+    void nmi(){
+        this.control.setNonMaskableInterrupt();
+    }
 
     /**
      * Runs the program until it encounters the ext instruction (0x80) or the run control flag is set to false.
@@ -274,9 +287,25 @@ public class ProgramRunner extends Thread {
     @Override
     public void run(){
         while(this.control.getRun()){
+
+            // if the interrupt has been called, go to the address specified in the break vector
+            if(this.control.getInterrupt()){
+                if(!this.flags.getInterruptDisable()){
+                    this.control.clearInterrupt();
+                    this.control.setSkipNextIncrement();
+                    this.memory.setProgramCounter(this.memory.getBreakAddress());
+                }
+            }
+
+            // if the non-maskable interrupt has been called, go to the address in teh nmi vector
+            if(this.control.getNonMaskableInterrupt()){
+                this.control.clearNonMaskableInterrupt();
+                this.control.setSkipNextIncrement();
+                this.memory.setProgramCounter(this.memory.getNMIAddress());
+            }
+
             this.step();
         }
-        this.control.getRunningThread().interrupt();
     }
 
 }

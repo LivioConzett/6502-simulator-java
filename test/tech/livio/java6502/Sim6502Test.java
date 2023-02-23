@@ -108,7 +108,7 @@ class Sim6502Test {
 
     }
 
-    @Disabled
+    //@Disabled
     @Test
     void stopTest() {
 
@@ -146,6 +146,133 @@ class Sim6502Test {
         Assertions.assertFalse(sim.getRunningThread().isAlive());
     }
 
+    @Test
+    void interruptTest() {
 
+        sim.hardReset();
+        Assertions.assertEquals((short) 0xfffc, sim.getProgramCounter());
+
+        String code = "";
+
+        // create string with nothing but ea commands
+        for(int i = 0; i < Math.pow(2,16); i++){
+            code += "ea ";
+        }
+
+        // load whole memory with ea commands
+        sim.load(code);
+
+        //   NMI vector: 0x0000
+        // start vector: 0x0000
+        //   brk vector: 0xff00
+        sim.load((short) 0xfffa,"00 00 00 00 00 ff");
+
+        // add jump before the vectors
+        sim.load((short) 0xf000, "4c 00 00");
+
+        // end the program at program-counter 0xff00
+        sim.load((short) 0xff00, "80");
+
+        // clear the interrupt disable bit
+        sim.load((short) 0x0000, "58");
+
+        sim.run();
+
+        Assertions.assertTrue(sim.getRunningThread().isAlive());
+
+        sim.interrupt();
+
+        sim.waitForProgramEnd();
+
+        Assertions.assertFalse(sim.getRunningThread().isAlive());
+
+        Assertions.assertEquals((short)0xff00, sim.getProgramCounter());
+    }
+
+    @Test
+    void NMITestNoInterruptBit() {
+
+        sim.hardReset();
+        Assertions.assertEquals((short) 0xfffc, sim.getProgramCounter());
+
+        String code = "";
+
+        // create string with nothing but ea commands
+        for(int i = 0; i < Math.pow(2,16); i++){
+            code += "ea ";
+        }
+
+        // load whole memory with ea commands
+        sim.load(code);
+
+        //   NMI vector: 0xff00
+        // start vector: 0x0000
+        //   brk vector: 0x0000
+        sim.load((short) 0xfffa,"00 ff 00 00 00 00");
+
+        // add jump before the vectors
+        sim.load((short) 0xf000, "4c 00 00");
+
+        // end the program at program-counter 0xff00
+        sim.load((short) 0xff00, "80");
+
+        // clear the interrupt disable bit
+        sim.load((short) 0x0000, "58");
+
+        sim.run();
+
+        Assertions.assertTrue(sim.getRunningThread().isAlive());
+
+        sim.nonMaskableInterrupt();
+
+        sim.waitForProgramEnd();
+
+        Assertions.assertFalse(sim.getRunningThread().isAlive());
+
+        Assertions.assertEquals((short)0xff00, sim.getProgramCounter());
+    }
+
+    @Test
+    void NMITestInterruptBit() {
+
+        sim.hardReset();
+        Assertions.assertEquals((short) 0xfffc, sim.getProgramCounter());
+
+        String code = "";
+
+        // create string with nothing but ea commands
+        for(int i = 0; i < Math.pow(2,16); i++){
+            code += "ea ";
+        }
+
+        // load whole memory with ea commands
+        sim.load(code);
+
+        //   NMI vector: 0xff00
+        // start vector: 0x0000
+        //   brk vector: 0x0000
+        sim.load((short) 0xfffa,"00 ff 00 00 00 00");
+
+        // add jump before the vectors
+        sim.load((short) 0xf000, "4c 00 00");
+
+        // end the program at program-counter 0xff00
+        sim.load((short) 0xff00, "80");
+
+        // set the interrupt disable bit
+        sim.load((short) 0x0000, "78");
+
+        sim.run();
+
+        Assertions.assertTrue(sim.getRunningThread().isAlive());
+
+        sim.nonMaskableInterrupt();
+
+        sim.waitForProgramEnd();
+
+        Assertions.assertFalse(sim.getRunningThread().isAlive());
+
+        Assertions.assertEquals((short)0xff00, sim.getProgramCounter());
+    }
 
 }
