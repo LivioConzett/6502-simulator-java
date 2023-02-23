@@ -1,4 +1,4 @@
-// addressingmode test
+// addressingmode test 1
 package tech.livio.java6502;
 
 import org.junit.jupiter.api.Assertions;
