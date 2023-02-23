@@ -267,6 +267,7 @@ public class ProgramRunner extends Thread {
         this.control.setRun(false);
     }
 
+
     /**
      * Runs the program until it encounters the ext instruction (0x80) or the run control flag is set to false.
      */
