@@ -43,6 +43,8 @@ class Main() {
 | [`setDoOnExt()`](#doonext)                            | Sets the callback for the Ext operation                    |
 | [`setDoOnStackOverflow()`](#doonstackoverflow)        | Sets the callback for the stack overflow                   |
 | [`setDoOnManualHalt()`](#doonmanualhalt)              | Sets the callback for the manual halt                      |
+| [`interrupt()`](#interrupt)                           | Calls the external interrupt                               |
+| [`nonMaskableInterrupt()`](#nonMaskableInterrupt)     | Calls the external non-maskable interrupt                  |
 
 ### Hard Reset
 Resets the whole system. Clears the stack, memory and registers. Sets the program counter back to the
@@ -95,7 +97,7 @@ clock cycles. Step will only run if the run flag is set. To set the run flag use
 `void step()`  
 
 ### Run
-Will start a while loop with the [`step()`](#step) method in it. As long as the run flag is true the program will step
+Will start a while-loop with the [`step()`](#step) method in it. As long as the run flag is true the program will step
 through the program executing the op-codes.  
 The run flag can be set to false in three situations:  
 - The EXT op-code is encountered.
@@ -116,11 +118,12 @@ This will cause the main thread to wait for the 6502 thread to stop ie: for the 
 `void waitForProgramEnd()`  
 
 ### Stop
-
+Will halt the 6502 program.  
+`void stop()`
 
 ### Start
 Sets the run flag to true.  
-`start()`  
+`void start()`  
 
 
 ### Hexdump
@@ -154,10 +157,12 @@ class Main() {
     }
 }
 ```
+
 ### doOnStackOverflow
 This method is called when the system encounters a Stack over- or underflow. ie: when the stack counter goes under 0x00 or
 over 0xff.  
 The method can be overridden using the `setDoOnStackOverflow()` method.
+
 ```java
 
 class Main() {
@@ -182,6 +187,7 @@ class Main() {
 ### doOnManualHalt
 This method is called when the system encounters a manual halt from the user via the `stop()` method.  
 The method can be overridden using the `setDoOnManualHalt()` method.
+
 ```java
 
 class Main() {
@@ -203,6 +209,13 @@ class Main() {
 }
 ```
 
+### interrupt
+Will call the external interrupt. Causes the program-counter to jump to the address specified in the [Break Vector](#vectors).  
+`void interrupt()`
+
+### nonMaskableInterrupt
+Will call the external non-maskable interrupt. Causes the program-counter to jump to the address specified in the [NMI Vector](#vectors).  
+`void nonMaskableInterrupt()`
 
 ## Instruction Set
 The package simulates the full 56 instructions (without the illegal op-codes) plus one extra one specific to this package.  
@@ -211,7 +224,6 @@ On a real 6502 chip 0x80 is an illegal op-code that defaults to the NOP (0xEA) o
 For a description of the full instruction set got to:  
 [6502.livio.tech/instructionset/](https://6502.livio.tech/instructionset/)
 
-
 ## Memory
 The package simulates 2<sup>16</sup> bytes of memory. Everything is basically looked at as RAM. Every address can be read
 from and written too. One can access by simply reading / writing to that address space. This means, that the user has to
@@ -219,7 +231,7 @@ safeguard themselves from accidentally writing into that space.
 
 | Address Range   | What                        |
 |-----------------|-----------------------------|
-| 0x0000 - 0x00ff | Frist Page                  |
+| 0x0000 - 0x00ff | First Page                  |
 | 0x0100 - 0x01ff | Stack                       |
 | 0x0200 - 0xfff9 | Memory                      |
 | 0xfffa - 0xfffb | [NMI Vector](#vectors)      |
@@ -228,17 +240,18 @@ safeguard themselves from accidentally writing into that space.
 
 
 ### Vectors
-There are three special memory addresses at the tail end of the memory range wich are jumped to in special cases. Each
+There are three special memory addresses at the tail end of the memory range witch are jumped to in special cases. Each
 of these hold the address to go to when they get called.  
   
 **NMI Vector**  
-*None Maskable Interrupt*
+*None Maskable Interrupt*  
   
 **Start Up Vector**  
 The address stored here is where the Program jumps too on start up and after a reset. This is where you put the address 
-of the first instruction of your program.
+of the first instruction of your program.  
   
 **Break Vector**  
+*Interrupt*
 
 ## TODO
 What still needs to be done.  
