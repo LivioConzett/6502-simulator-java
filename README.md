@@ -256,4 +256,4 @@ of the first instruction of your program.
 ## TODO
 What still needs to be done.  
 
-1) Handle the external interrupts
+1) compiler
