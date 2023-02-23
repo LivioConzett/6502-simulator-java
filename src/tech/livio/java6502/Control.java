@@ -7,10 +7,11 @@ public class Control {
 
     private boolean skipIncrement;
     private boolean run;
+    private boolean interrupt;
+    private boolean nonMaskableInterrupt;
     private ProgramCallBack doOnExt;
     private ProgramCallBack doOnStackOverflow;
     private ProgramCallBack doOnManualHalt;
-    private Thread runningThread;
     private boolean doneOnStackOverFlow;
 
     /**
@@ -27,8 +28,9 @@ public class Control {
         // set to true in the beginning since the program counter is on the begin vector
         this.skipIncrement = true;
         this.run = false;
-        this.runningThread = new Thread();
         this.doneOnStackOverFlow = false;
+        this.interrupt = false;
+        this.nonMaskableInterrupt = false;
         this.doOnExt = (new ProgramCallBack() {
             @Override
             public void run(short e) {
@@ -148,18 +150,47 @@ public class Control {
     }
 
     /**
-     * Set the running thread.
-     * @param runningThread thread to set the running thread to.
+     * Set the interrupt
      */
-    void setRunningThread(Thread runningThread){
-        this.runningThread = runningThread;
+    void setInterrupt(){
+        this.interrupt = true;
     }
 
     /**
-     * Get the running thread.
-     * @return running thread.
+     * Reset the interrupt
      */
-    Thread getRunningThread(){
-        return this.runningThread;
+    void clearInterrupt(){
+        this.interrupt = false;
     }
+
+    /**
+     * Get the interrupt flag
+     * @return value of flag
+     */
+    boolean getInterrupt(){
+        return this.interrupt;
+    }
+
+    /**
+     * Set the NMI
+     */
+    void setNonMaskableInterrupt(){
+        this.nonMaskableInterrupt = true;
+    }
+
+    /**
+     * Reset the NMI
+     */
+    void clearNonMaskableInterrupt(){
+        this.nonMaskableInterrupt = false;
+    }
+
+    /**
+     * Get the non maskable interrupt flag
+     * @return value of flag
+     */
+    boolean getNonMaskableInterrupt(){
+        return this.nonMaskableInterrupt;
+    }
+
 }
