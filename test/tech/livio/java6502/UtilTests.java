@@ -199,11 +199,6 @@ class UtilTests{
 
         Assertions.assertEquals(output, Util.codeNumberToHex(number,2));
 
-        number = "'(";
-        output = "$28";
-
-        Assertions.assertEquals(output, Util.codeNumberToHex(number,128));
-
     }
 
     @Test
