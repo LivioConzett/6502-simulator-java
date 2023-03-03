@@ -5,7 +5,6 @@ Author: Livio Conzett
 ## About
 The package simulates a 6502 chip with 2<sup>16</sup> bytes of memory.  
 
-
 ## How to Start
 
 ```java
