@@ -127,7 +127,6 @@ Sets the run flag to true.
 
 ### Hexdump
 
-
 ## Callbacks
 The system has three callbacks that can be set by the user.  
 All the three callbacks default to printing out the program counter when they get called.  
