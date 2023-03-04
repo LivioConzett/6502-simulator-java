@@ -124,7 +124,6 @@ Will halt the 6502 program.
 Sets the run flag to true.  
 `void start()`  
 
-
 ### Hexdump
 
 ## Callbacks
